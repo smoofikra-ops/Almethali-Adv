@@ -4,7 +4,7 @@ import { contactConfig } from '../../config/contact';
 import { servicesConfig } from '../../config/services';
 
 const SocialIconWrapper = ({ children, href }: { children: React.ReactNode, href: string }) => (
-  <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-surface rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm hover:shadow-md text-text-primary">
+  <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm hover:shadow-md text-white hover:bg-white/10">
     {children}
   </a>
 );
@@ -12,13 +12,13 @@ const SocialIconWrapper = ({ children, href }: { children: React.ReactNode, href
 // Helper for Mobile Accordion
 const FooterAccordion = ({ title, children, isOpen, onToggle }: { title: string, children: React.ReactNode, isOpen: boolean, onToggle: () => void }) => {
   return (
-    <div className="border-b border-border md:border-none md:pb-0 pb-3">
+    <div className="border-b border-white/10 md:border-none md:pb-0 pb-3">
       <button 
         onClick={onToggle} 
         className="w-full flex items-center justify-between md:cursor-default py-3 md:py-0 text-right focus:outline-none"
       >
-        <h4 className="text-text-primary font-bold text-lg">{title}</h4>
-        <ChevronDown className={`w-5 h-5 text-text-secondary md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <h4 className="text-white font-bold text-lg">{title}</h4>
+        <ChevronDown className={`w-5 h-5 text-white/50 md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <div className={`overflow-hidden transition-all duration-300 ease-in-out md:max-h-none md:opacity-100 ${isOpen ? 'max-h-96 opacity-100 mt-2' : 'max-h-0 opacity-0 md:mt-4'}`}>
         {children}
@@ -35,7 +35,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative z-10 text-text-secondary bg-background-alt border-t border-border">
+    <footer className="relative z-10 text-white/70 bg-transparent border-t border-white/10">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-lg z-0"></div>
       <div className="pt-16 pb-10 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 mb-16">
@@ -43,10 +44,10 @@ export default function Footer() {
             {/* Brand Col */}
             <div className="lg:col-span-4 md:col-span-2">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center font-display font-bold text-xl text-primary-foreground shadow-sm">م</div>
-                <span className="text-2xl font-display font-bold text-text-primary">{contactConfig.tradeNameAr}</span>
+                <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">م</div>
+                <span className="text-2xl font-display font-bold text-white">{contactConfig.tradeNameAr}</span>
               </div>
-              <p className="text-sm leading-relaxed mb-6 text-text-secondary">
+              <p className="text-sm leading-relaxed mb-6 text-white/70">
                 {contactConfig.description}
               </p>
               
@@ -90,10 +91,11 @@ export default function Footer() {
                 onToggle={() => toggleAccordion('links')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#about" className="hover:text-primary transition-colors text-sm">من نحن</a></li>
-                  <li><a href="#services" className="hover:text-primary transition-colors text-sm">خدماتنا</a></li>
-                  <li><a href="#portfolio" className="hover:text-primary transition-colors text-sm">أعمالنا</a></li>
-                  <li><a href="#quote" className="hover:text-primary transition-colors text-sm">طلب عرض سعر</a></li>
+                  <li><a href="#about" className="hover:text-white transition-colors text-sm">من نحن</a></li>
+                  <li><a href="#services" className="hover:text-white transition-colors text-sm">خدماتنا</a></li>
+                  <li><a href="#portfolio" className="hover:text-white transition-colors text-sm">أعمالنا</a></li>
+                  <li><a href="#quote" className="hover:text-white transition-colors text-sm">طلب عرض سعر</a></li>
+                  <li><a href="#careers" className="hover:text-[#10B981] transition-colors text-sm font-bold">التوظيف</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -108,7 +110,7 @@ export default function Footer() {
                 <ul className="space-y-3 pt-2 md:pt-0">
                   {servicesConfig.categories.slice(0, 4).map((cat, idx) => (
                     <li key={idx}>
-                      <a href="#services" className="hover:text-primary transition-colors text-sm">{cat.arTitle}</a>
+                      <a href="#services" className="hover:text-white transition-colors text-sm">{cat.arTitle}</a>
                     </li>
                   ))}
                 </ul>
@@ -123,11 +125,10 @@ export default function Footer() {
                 onToggle={() => toggleAccordion('policies')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#/policies/privacy" className="hover:text-primary transition-colors text-sm">سياسة الخصوصية</a></li>
-                  <li><a href="#/policies/terms" className="hover:text-primary transition-colors text-sm">الشروط والأحكام</a></li>
-                  <li><a href="#/policies/warranty" className="hover:text-primary transition-colors text-sm">سياسة الضمان</a></li>
-                  <li><a href="#/policies/refund" className="hover:text-primary transition-colors text-sm">سياسة الاسترجاع</a></li>
-                  <li><a href="#/policies/delivery" className="hover:text-primary transition-colors text-sm">سياسة التوصيل والتركيب</a></li>
+                  <li><a href="#/policies/privacy" className="hover:text-white transition-colors text-sm">سياسة الخصوصية</a></li>
+                  <li><a href="#/policies/terms" className="hover:text-white transition-colors text-sm">الشروط والأحكام</a></li>
+                  <li><a href="#/policies/usage" className="hover:text-white transition-colors text-sm">سياسة الاستخدام</a></li>
+                  <li><a href="#/policies/warranty" className="hover:text-white transition-colors text-sm">الضمان</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -141,26 +142,26 @@ export default function Footer() {
               >
                 <ul className="space-y-4 pt-2 md:pt-0">
                   <li className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <span className="text-sm leading-relaxed text-text-secondary">{contactConfig.address}<br/>{contactConfig.city}</span>
+                    <MapPin className="w-5 h-5 text-[#10B981] shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed text-white/70">{contactConfig.address}<br/>{contactConfig.city}</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 text-accent shrink-0" />
-                    <a href={`tel:${contactConfig.phone}`} className="text-sm text-text-secondary hover:text-primary" dir="ltr">{contactConfig.phone}</a>
+                    <Phone className="w-5 h-5 text-[#10B981] shrink-0" />
+                    <a href={`tel:${contactConfig.phone}`} className="text-sm text-white/70 hover:text-white" dir="ltr">{contactConfig.phone}</a>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Mail className="w-5 h-5 text-accent shrink-0" />
-                    <a href={`mailto:${contactConfig.email}`} className="text-sm text-text-secondary hover:text-primary">{contactConfig.email}</a>
+                    <Mail className="w-5 h-5 text-[#10B981] shrink-0" />
+                    <a href={`mailto:${contactConfig.email}`} className="text-sm text-white/70 hover:text-white">{contactConfig.email}</a>
                   </li>
                 </ul>
               </FooterAccordion>
             </div>
           </div>
 
-          <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-text-muted">جميع الحقوق محفوظة &copy; {new Date().getFullYear()} {contactConfig.tradeNameAr}.</p>
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-white/50">جميع الحقوق محفوظة &copy; {new Date().getFullYear()} {contactConfig.tradeNameAr}.</p>
             <div className="flex gap-4 items-center">
-               <span className="text-xs text-text-muted">{contactConfig.tradeNameEn}</span>
+               <span className="text-xs text-white/50">{contactConfig.tradeNameEn}</span>
             </div>
           </div>
         </div>

@@ -9,90 +9,87 @@ export default function Header() {
   const { scrollY } = useScroll();
   const { language, toggleLanguage } = useLanguage();
   
-  const navBackground = useTransform(scrollY, [0, 50], ["var(--background)", "var(--surface)"]);
-  const navShadow = useTransform(scrollY, [0, 50], ["none", "0 1px 2px 0 var(--shadow)"]);
-  const navBorder = useTransform(scrollY, [0, 50], ["transparent", "var(--border)"]);
+  const navBackground = useTransform(scrollY, [0, 50], ["rgba(0,0,0,0)", "rgba(0,0,0,0.4)"]);
+  const navBorder = useTransform(scrollY, [0, 50], ["rgba(255,255,255,0)", "rgba(255,255,255,0.05)"]);
+  const navBackdrop = useTransform(scrollY, [0, 50], ["blur(0px)", "blur(12px)"]);
 
-  // Set html attribute for theme
   const toggleTheme = () => {
     const current = document.documentElement.getAttribute('data-theme') || 'light';
     const next = current === 'light' ? 'dark' : current === 'dark' ? 'corporate' : 'light';
     document.documentElement.setAttribute('data-theme', next);
   };
 
+  const isRtl = language === 'ar';
+
   return (
     <motion.nav 
       style={{
         backgroundColor: navBackground,
-        boxShadow: navShadow,
         borderBottomColor: navBorder,
+        backdropFilter: navBackdrop,
       }}
-      className="sticky top-0 w-full z-40 border-b transition-colors duration-300"
+      className="fixed top-0 w-full z-40 border-b transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Layout */}
-        <div className="hidden md:flex justify-between items-center h-20">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center font-display font-bold text-2xl text-primary-foreground shadow-lg">
+        <div className="hidden md:flex justify-between items-center h-20 relative">
+          
+          {/* Logo (Centered) */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">
               م
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-display font-bold text-text-primary tracking-tight leading-tight">{contactConfig.tradeNameAr}</span>
-              <span className="text-xs text-text-secondary font-medium tracking-wide">{contactConfig.tradeNameEn}</span>
+              <span className="text-lg font-display font-bold text-white tracking-tight leading-tight">{contactConfig.tradeNameAr}</span>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#services" className="text-sm font-bold text-text-secondary hover:text-accent transition-colors">
+          {/* Navigation (Right in RTL, Left in LTR) */}
+          <div className={`flex items-center gap-8 ${isRtl ? 'order-1' : 'order-2'}`}>
+            <a href="#services" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
               {language === 'ar' ? 'الخدمات' : 'Services'}
             </a>
-            <a href="#about" className="text-sm font-bold text-text-secondary hover:text-accent transition-colors">
+            <a href="#about" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
               {language === 'ar' ? 'من نحن' : 'About'}
             </a>
-            <a href="#portfolio" className="text-sm font-bold text-text-secondary hover:text-accent transition-colors">
+            <a href="#portfolio" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
               {language === 'ar' ? 'أعمالنا' : 'Portfolio'}
             </a>
-            <a href="#quote" className="text-sm font-bold bg-primary text-primary-foreground px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity shadow-md hover:shadow-lg flex items-center gap-2">
+            <a href="#quote" className="text-sm font-bold bg-[#10B981] text-white px-6 py-2.5 rounded-full hover:bg-[#059669] transition-colors shadow-md hover:shadow-lg flex items-center gap-2">
               {language === 'ar' ? 'طلب عرض سعر' : 'Get Quote'}
-              <ArrowLeft className={`w-4 h-4 ${language === 'en' ? 'rotate-180' : ''}`} />
+              <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
             </a>
-            
-            <div className="flex items-center gap-2 border-r border-border pr-4">
-              <button onClick={toggleLanguage} className="flex items-center gap-1 text-text-secondary hover:text-text-primary transition-colors p-1" title="Language">
-                <Globe className="w-5 h-5" />
-                <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
-              </button>
-              <button onClick={toggleTheme} className="text-text-secondary hover:text-text-primary transition-colors p-1" title="Theme">
-                <Moon className="w-5 h-5" />
-              </button>
-            </div>
+          </div>
+          
+          {/* Controls (Left in RTL, Right in LTR) */}
+          <div className={`flex items-center gap-3 ${isRtl ? 'order-2' : 'order-1'}`}>
+            <button onClick={toggleLanguage} className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10" title="Language">
+              <Globe className="w-4 h-4" />
+              <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
+            </button>
+            <button onClick={toggleTheme} className="text-white/80 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full border border-white/10" title="Theme">
+              <Moon className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
         {/* Mobile Layout */}
         <div className="md:hidden flex justify-between items-center h-20 relative">
-          {/* Left Side: Theme & Lang (RTL: Left side of screen) */}
-          <div className="flex items-center gap-3">
-            <button onClick={toggleLanguage} className="flex items-center gap-1 text-text-secondary hover:text-text-primary p-1">
+          <div className={`flex items-center gap-2 ${isRtl ? 'order-2' : 'order-1'}`}>
+            <button onClick={toggleLanguage} className="flex items-center gap-1 text-white/80 hover:text-white p-1">
               <Globe className="w-5 h-5" />
               <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
             </button>
-            <button onClick={toggleTheme} className="text-text-secondary hover:text-text-primary p-1">
-              <Moon className="w-5 h-5" />
-            </button>
           </div>
           
-          {/* Center: Logo */}
           <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2 rtl:translate-x-1/2">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center font-display font-bold text-xl text-primary-foreground shadow-sm">
+            <div className="w-8 h-8 bg-white/10 border border-white/20 rounded-md flex items-center justify-center font-display font-bold text-lg text-white shadow-sm">
               م
             </div>
-            <span className="text-lg font-display font-bold text-text-primary tracking-tight">{contactConfig.tradeNameAr}</span>
           </div>
 
-          {/* Right Side: Hamburger (RTL: Right side of screen) */}
           <button 
-            className="p-2 text-text-primary -mr-2"
+            className={`p-2 text-white ${isRtl ? 'order-1 -mr-2' : 'order-2 -ml-2'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -100,13 +97,12 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-surface border-b border-border px-4 pt-2 pb-4 space-y-2 shadow-lg absolute w-full left-0 top-full">
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#services" className="block px-3 py-2 rounded-md text-base font-bold text-text-secondary hover:bg-background-alt hover:text-text-primary">{language === 'ar' ? 'الخدمات' : 'Services'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#about" className="block px-3 py-2 rounded-md text-base font-bold text-text-secondary hover:bg-background-alt hover:text-text-primary">{language === 'ar' ? 'من نحن' : 'About'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#portfolio" className="block px-3 py-2 rounded-md text-base font-bold text-text-secondary hover:bg-background-alt hover:text-text-primary">{language === 'ar' ? 'أعمالنا' : 'Portfolio'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-3 py-2 text-center mt-4 rounded-md text-base font-bold bg-primary text-primary-foreground hover:opacity-90">{language === 'ar' ? 'طلب عرض سعر' : 'Get Quote'}</a>
+        <div className="md:hidden bg-black/90 backdrop-blur-xl border-b border-white/10 px-4 pt-2 pb-6 space-y-2 absolute w-full left-0 top-full shadow-2xl">
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#services" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'الخدمات' : 'Services'}</a>
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#about" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'من نحن' : 'About'}</a>
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#portfolio" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'أعمالنا' : 'Portfolio'}</a>
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-4 py-3 text-center mt-6 rounded-xl text-base font-bold bg-[#10B981] text-white hover:bg-[#059669]">{language === 'ar' ? 'طلب عرض سعر' : 'Get Quote'}</a>
         </div>
       )}
     </motion.nav>

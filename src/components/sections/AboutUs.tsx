@@ -1,18 +1,17 @@
 import { motion } from 'motion/react';
 import { contentConfig } from '../../config/content';
-import { Target, Lightbulb, ShieldCheck, HeartHandshake, Zap, Star } from 'lucide-react';
+import { Target, Lightbulb, HeartHandshake, Star, Sparkles } from 'lucide-react';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
-
-const valueIcons = [ShieldCheck, Zap, HeartHandshake, Star];
 
 export default function AboutUs({ id, theme, className }: SectionComponentProps) {
   const containerVariants = animationRegistry.staggerCards;
   const itemVariants = animationRegistry.fadeUp;
-
+  
   const values = contentConfig.about.values;
-  const mainValue = values[0]; // Or we can just use a general description for the big card
-  const smallValues = values.slice(1, 4);
+  const creativityValue = values.find(v => v.title.includes('الإبداع')) || values[1];
+  const commitmentValue = values.find(v => v.title.includes('الالتزام')) || values[2];
+  const satisfactionValue = values.find(v => v.title.includes('رضا')) || values[3];
 
   return (
     <motion.section 
@@ -21,67 +20,63 @@ export default function AboutUs({ id, theme, className }: SectionComponentProps)
       whileInView="visible" 
       viewport={{ once: true, margin: "-100px" }}
       variants={containerVariants}
-      className={`py-24 bg-background text-text-primary ${className || ''}`}
+      className={`py-24 bg-transparent text-white ${className || ''}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div variants={itemVariants} className="max-w-3xl mb-16">
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6">{contentConfig.about.title}</h2>
-          <p className="text-lg md:text-xl text-text-secondary leading-relaxed">{contentConfig.about.description}</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div variants={itemVariants} className="max-w-3xl mb-16 text-center mx-auto">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6 drop-shadow-md">{contentConfig.about.title}</h2>
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed drop-shadow-sm">{contentConfig.about.description}</p>
         </motion.div>
         
-        {/* Row 1: Vision & Mission (Split Layout) */}
-        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 md:gap-8 mb-8">
-          <motion.div variants={itemVariants} className="bg-surface p-4 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-border flex flex-col justify-center text-center md:text-right">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-background-alt rounded-xl md:rounded-2xl flex items-center justify-center mb-3 md:mb-8 border border-border mx-auto md:mx-0">
-              <Target className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+        {/* Row 1: Vision & Mission */}
+        <div className="grid grid-cols-2 gap-3 md:gap-8 mb-3 md:mb-8">
+          <motion.div variants={itemVariants} className="bg-white/5 backdrop-blur-md p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-white/10 flex flex-col justify-center text-center">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-white/10">
+              <Target className="w-6 h-6 md:w-8 md:h-8 text-[#10B981]" />
             </div>
-            <h3 className="text-base md:text-2xl font-bold text-text-primary mb-2 md:mb-4">رؤيتنا</h3>
-            <p className="text-xs md:text-lg text-text-secondary leading-relaxed">{contentConfig.about.vision}</p>
+            <h3 className="text-sm md:text-2xl font-bold text-white mb-2 md:mb-4">{contentConfig.about.vision ? 'رؤيتنا' : 'الرؤية'}</h3>
+            <p className="text-[11px] md:text-lg text-white/70 leading-relaxed">{contentConfig.about.vision}</p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="bg-surface p-4 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-border flex flex-col justify-center text-center md:text-right">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-background-alt rounded-xl md:rounded-2xl flex items-center justify-center mb-3 md:mb-8 border border-border mx-auto md:mx-0">
-              <Lightbulb className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+          <motion.div variants={itemVariants} className="bg-white/5 backdrop-blur-md p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-white/10 flex flex-col justify-center text-center">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-white/10">
+              <Lightbulb className="w-6 h-6 md:w-8 md:h-8 text-[#10B981]" />
             </div>
-            <h3 className="text-base md:text-2xl font-bold text-text-primary mb-2 md:mb-4">رسالتنا</h3>
-            <p className="text-xs md:text-lg text-text-secondary leading-relaxed">{contentConfig.about.mission}</p>
+            <h3 className="text-sm md:text-2xl font-bold text-white mb-2 md:mb-4">{contentConfig.about.mission ? 'رسالتنا' : 'الرسالة'}</h3>
+            <p className="text-[11px] md:text-lg text-white/70 leading-relaxed">{contentConfig.about.mission}</p>
           </motion.div>
         </div>
 
-        {/* Row 2: Large Featured Card "Our Values" */}
-        <motion.div variants={itemVariants} className="bg-primary text-primary-foreground p-10 md:p-16 rounded-3xl shadow-lg mb-8 relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl">
-            <h3 className="text-3xl md:text-4xl font-display font-bold mb-6">قيمنا المؤسسية</h3>
-            <p className="text-xl opacity-90 leading-relaxed mb-0">
-              في المثالي، نؤمن بأن نجاحنا ينبع من التزامنا الراسخ بمجموعة من القيم الأساسية التي توجه كل تفاعل مع عملائنا وكل مشروع نقوم بتنفيذه.
-            </p>
-          </div>
-          {/* Decorative element */}
-          <div className="absolute left-0 bottom-0 opacity-10 pointer-events-none transform -translate-x-1/4 translate-y-1/4">
-            <Star className="w-96 h-96" />
+        {/* Row 2: الإبداع والابتكار */}
+        <motion.div variants={itemVariants} className="mb-3 md:mb-8">
+          <div className="bg-white/5 backdrop-blur-md p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-white/10 flex flex-col items-center text-center">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 border border-white/10 text-[#10B981]">
+              <Sparkles className="w-6 h-6 md:w-8 md:h-8" />
+            </div>
+            <h3 className="text-base md:text-2xl font-bold text-white mb-2 md:mb-4">{creativityValue?.title}</h3>
+            <p className="text-xs md:text-lg text-white/70 leading-relaxed max-w-2xl">{creativityValue?.desc}</p>
           </div>
         </motion.div>
 
-        {/* Row 3: Three smaller value cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-          {smallValues.map((val, idx) => {
-            const Icon = valueIcons[idx + 1] || ShieldCheck;
-            const isFirst = idx === 0;
-            return (
-              <motion.div 
-                key={idx} 
-                variants={itemVariants} 
-                className={`bg-surface p-4 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border border-border hover:shadow-md transition-shadow group flex flex-col items-center md:items-start text-center md:text-right ${isFirst ? 'col-span-2 md:col-span-1' : 'col-span-1'}`}
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 bg-background-alt rounded-xl md:rounded-2xl flex items-center justify-center mb-3 md:mb-6 text-accent group-hover:scale-110 transition-transform">
-                  <Icon className="w-6 h-6 md:w-7 md:h-7" />
-                </div>
-                <h4 className="text-sm md:text-xl font-bold text-text-primary mb-2 md:mb-3">{val.title}</h4>
-                <p className="text-xs md:text-base text-text-secondary leading-relaxed">{val.desc}</p>
-              </motion.div>
-            );
-          })}
+        {/* Row 3: الالتزام والمصداقية + رضا العميل */}
+        <div className="grid grid-cols-2 gap-3 md:gap-8">
+          <motion.div variants={itemVariants} className="bg-white/5 backdrop-blur-md p-5 md:p-10 rounded-2xl md:rounded-3xl shadow-sm border border-white/10 flex flex-col items-center text-center">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 border border-white/10 text-[#10B981]">
+              <HeartHandshake className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <h4 className="text-sm md:text-xl font-bold text-white mb-2">{commitmentValue?.title}</h4>
+            <p className="text-[11px] md:text-base text-white/70 leading-relaxed">{commitmentValue?.desc}</p>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="bg-white/5 backdrop-blur-md p-5 md:p-10 rounded-2xl md:rounded-3xl shadow-sm border border-white/10 flex flex-col items-center text-center">
+            <div className="w-10 h-10 md:w-14 md:h-14 bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 border border-white/10 text-[#10B981]">
+              <Star className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <h4 className="text-sm md:text-xl font-bold text-white mb-2">{satisfactionValue?.title}</h4>
+            <p className="text-[11px] md:text-base text-white/70 leading-relaxed">{satisfactionValue?.desc}</p>
+          </motion.div>
         </div>
+
       </div>
     </motion.section>
   );

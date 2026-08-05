@@ -16,6 +16,7 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --color-text-inverse: var(--text-inverse);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
@@ -23,59 +24,29 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: #10B981;
 }
 
 @layer base {
-  :root, [data-theme="light"] {
-    --background: #ffffff;
-    --background-alt: #f8fafc;
-    --surface: #ffffff;
-    --surface-elevated: #ffffff;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-inverse: #ffffff;
-    --border: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --primary: #0f172a;
-    --primary-foreground: #ffffff;
-    --accent: #2563eb;
-    --accent-foreground: #ffffff;
-  }
-  
-  [data-theme="dark"] {
-    --background: #020617;
-    --background-alt: #0f172a;
-    --surface: #0f172a;
-    --surface-elevated: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-inverse: #020617;
-    --border: #1e293b;
-    --border-strong: #334155;
-    --primary: #ffffff;
-    --primary-foreground: #0f172a;
-    --accent: #3b82f6;
-    --accent-foreground: #ffffff;
-  }
-  
-  [data-theme="corporate"] {
-    --background: #0f172a;
-    --background-alt: #1e293b;
-    --surface: #1e293b;
-    --surface-elevated: #334155;
+  :root, [data-theme="light"], [data-theme="dark"], [data-theme="corporate"] {
+    --background: transparent;
+    --background-alt: rgba(0, 0, 0, 0.2);
+    --surface: rgba(255, 255, 255, 0.05);
+    --surface-elevated: rgba(255, 255, 255, 0.1);
     --text-primary: #ffffff;
-    --text-secondary: #cbd5e1;
-    --text-inverse: #0f172a;
-    --border: #334155;
-    --border-strong: #475569;
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
-    --accent: #0ea5e9;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --text-inverse: #020617;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --primary: #ffffff;
+    --primary-foreground: #020617;
+    --accent: #10B981;
     --accent-foreground: #ffffff;
   }
-
+  
   body {
-    @apply bg-white text-slate-800 font-sans antialiased selection:bg-corporate-accent/20 selection:text-corporate-navy;
+    @apply bg-black text-white font-sans antialiased selection:bg-white/20 selection:text-white;
     direction: rtl;
   }
   
@@ -85,40 +56,20 @@
 
   @media (max-width: 768px) {
     #root > div > main > section {
-      padding-top: 2rem !important;
-      padding-bottom: 2rem !important;
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
       position: relative;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+    }
+    
+    #root > div > main > section::after {
+      display: none !important;
     }
 
-    /* Decorative visual separator at the bottom of sections */
-    #root > div > main > section:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, theme('colors.slate.200'), transparent);
-    }
-
-    /* Add rounded-3xl to sections with colored backgrounds */
-    #root > div > main > section.bg-slate-50,
-    #root > div > main > section.bg-corporate-navy {
-      border-radius: 1.5rem;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.02);
-    }
-
-    /* Hide separator for rounded card-like sections */
-    #root > div > main > section.bg-slate-50::after,
-    #root > div > main > section.bg-corporate-navy::after {
-      display: none;
-    }
-
-    /* Fade-in scroll animation for mobile */
     @supports (animation-timeline: view()) {
       #root > div > main > section {
         animation: mobileFadeIn linear both;
@@ -142,11 +93,11 @@
 
 @layer utilities {
   .glass-header {
-    @apply bg-white border-b border-slate-200 shadow-sm;
+    @apply bg-black/40 backdrop-blur-xl border-b border-white/10 shadow-sm;
   }
   
   .premium-card {
-    @apply bg-white rounded-2xl border border-slate-100 shadow-lg shadow-slate-200/50 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200 hover:-translate-y-1;
+    @apply bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg shadow-black/20 transition-all duration-500 hover:shadow-2xl hover:shadow-black/40 hover:bg-white/10 hover:-translate-y-1;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -157,19 +108,4 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
-  .animate-marquee {
-    animation: marquee 35s linear infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-marquee {
-      animation-play-state: paused;
-    }
-  }
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
