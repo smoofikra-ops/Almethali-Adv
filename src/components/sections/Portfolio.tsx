@@ -49,7 +49,7 @@ export default function Portfolio({ id, theme, className = '' }: SectionComponen
                 <h3 className="text-xl font-bold text-text-primary mb-2">
                   {(item as any).titleEn && !isRtl ? (item as any).titleEn : item.title}
                 </h3>
-                <p className="text-text-secondary line-clamp-2 rtl:text-right ltr:text-left">
+                <p className="text-text-secondary line-clamp-2 text-start">
                   {(item as any).descriptionEn && !isRtl ? (item as any).descriptionEn : item.description}
                 </p>
               </div>

@@ -4,8 +4,10 @@ import { contactConfig } from '../../config/contact';
 import { servicesConfig } from '../../config/services';
 import { useLanguage } from '../../context/LanguageContext';
 
+import { images } from '../../config/images';
+
 const SocialIconWrapper = ({ children, href }: { children: React.ReactNode, href: string }) => (
-  <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm hover:shadow-md text-white hover:bg-white/10">
+  <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-surface-elevated/20 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm hover:shadow-md text-text-primary hover:bg-surface-elevated/40 border border-border">
     {children}
   </a>
 );
@@ -13,13 +15,13 @@ const SocialIconWrapper = ({ children, href }: { children: React.ReactNode, href
 // Helper for Mobile Accordion
 const FooterAccordion = ({ title, children, isOpen, onToggle }: { title: string, children: React.ReactNode, isOpen: boolean, onToggle: () => void }) => {
   return (
-    <div className="border-b border-white/10 md:border-none md:pb-0 pb-3">
+    <div className="border-b border-border md:border-none md:pb-0 pb-3">
       <button 
         onClick={onToggle} 
-        className="w-full flex items-center justify-between md:cursor-default py-3 md:py-0 rtl:text-right ltr:text-left focus:outline-none"
+        className="w-full flex items-center justify-between md:cursor-default py-3 md:py-0 text-start focus:outline-none"
       >
-        <h4 className="text-white font-bold text-lg">{title}</h4>
-        <ChevronDown className={`w-5 h-5 text-white/50 md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <h4 className="text-text-primary font-bold text-lg">{title}</h4>
+        <ChevronDown className={`w-5 h-5 text-text-muted md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <div className={`overflow-hidden transition-all duration-300 ease-in-out md:max-h-none md:opacity-100 ${isOpen ? 'max-h-96 opacity-100 mt-2' : 'max-h-0 opacity-0 md:mt-4'}`}>
         {children}
@@ -38,23 +40,29 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative z-10 text-white/70 bg-transparent border-t border-white/10">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-lg z-0"></div>
+    <footer className="relative z-10 text-text-secondary bg-background border-t border-border">
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-lg z-0"></div>
       <div className="pt-16 pb-10 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 mb-16">
           
             {/* Brand Col */}
             <div className="lg:col-span-4 md:col-span-2">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">
-                  {isRtl ? "م" : "M"}
-                </div>
-                <span className="text-2xl font-display font-bold text-white">
-                  {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}
-                </span>
+              <div className="mb-6 flex items-center justify-start">
+                {images.brand.logoFooter ? (
+                   <img src={images.brand.logoFooter} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
+                ) : (
+                   <div className="flex items-center gap-2">
+                     <div className="w-10 h-10 bg-surface-elevated/20 border border-border rounded-lg flex items-center justify-center font-display font-bold text-xl text-text-primary shadow-sm">
+                       {isRtl ? "م" : "M"}
+                     </div>
+                     <span className="text-2xl font-display font-bold text-text-primary">
+                       {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}
+                     </span>
+                   </div>
+                )}
               </div>
-              <p className="text-sm leading-relaxed mb-6 text-white/70">
+              <p className="text-sm leading-relaxed mb-6 text-text-secondary">
                 {isRtl ? contactConfig.description : contactConfig.descriptionEn || "Integrated advertising solutions."}
               </p>
               
@@ -98,11 +106,11 @@ export default function Footer() {
                 onToggle={() => toggleAccordion('links')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#about" className="hover:text-white transition-colors text-sm">{t.nav.about}</a></li>
-                  <li><a href="#services" className="hover:text-white transition-colors text-sm">{t.nav.services}</a></li>
-                  <li><a href="#portfolio" className="hover:text-white transition-colors text-sm">{t.nav.portfolio}</a></li>
-                  <li><a href="#quote" className="hover:text-white transition-colors text-sm">{t.nav.quote}</a></li>
-                  <li><a href="#careers" className="hover:text-[#10B981] transition-colors text-sm font-bold">{t.nav.careers}</a></li>
+                  <li><a href="#about" className="hover:text-text-primary transition-colors text-sm">{t.nav.about}</a></li>
+                  <li><a href="#services" className="hover:text-text-primary transition-colors text-sm">{t.nav.services}</a></li>
+                  <li><a href="#portfolio" className="hover:text-text-primary transition-colors text-sm">{t.nav.portfolio}</a></li>
+                  <li><a href="#quote" className="hover:text-text-primary transition-colors text-sm">{t.nav.quote}</a></li>
+                  <li><a href="#careers" className="hover:text-accent transition-colors text-sm font-bold">{t.nav.careers}</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -117,7 +125,7 @@ export default function Footer() {
                 <ul className="space-y-3 pt-2 md:pt-0">
                   {servicesConfig.categories.slice(0, 4).map((cat, idx) => (
                     <li key={idx}>
-                      <a href="#services" className="hover:text-white transition-colors text-sm">
+                      <a href="#services" className="hover:text-text-primary transition-colors text-sm">
                         {isRtl ? cat.arTitle : cat.enTitle}
                       </a>
                     </li>
@@ -134,10 +142,10 @@ export default function Footer() {
                 onToggle={() => toggleAccordion('policies')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#/policies/privacy" className="hover:text-white transition-colors text-sm">{t.footer.privacy}</a></li>
-                  <li><a href="#/policies/terms" className="hover:text-white transition-colors text-sm">{t.footer.terms}</a></li>
-                  <li><a href="#/policies/usage" className="hover:text-white transition-colors text-sm">{t.footer.usage}</a></li>
-                  <li><a href="#/policies/warranty" className="hover:text-white transition-colors text-sm">{t.footer.warranty}</a></li>
+                  <li><a href="#/policies/privacy" className="hover:text-text-primary transition-colors text-sm">{t.footer.privacy}</a></li>
+                  <li><a href="#/policies/terms" className="hover:text-text-primary transition-colors text-sm">{t.footer.terms}</a></li>
+                  <li><a href="#/policies/usage" className="hover:text-text-primary transition-colors text-sm">{t.footer.usage}</a></li>
+                  <li><a href="#/policies/warranty" className="hover:text-text-primary transition-colors text-sm">{t.footer.warranty}</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -151,34 +159,47 @@ export default function Footer() {
               >
                 <ul className="space-y-4 pt-2 md:pt-0">
                   <li className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-[#10B981] shrink-0 mt-0.5" />
-                    <span className="text-sm leading-relaxed text-white/70">
+                    <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                    <span className="text-sm leading-relaxed text-text-secondary">
                       {isRtl ? contactConfig.address : contactConfig.addressEn || contactConfig.address}<br/>
                       {isRtl ? contactConfig.city : contactConfig.cityEn || contactConfig.city}
                     </span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 text-[#10B981] shrink-0" />
-                    <a href={`tel:${contactConfig.phone}`} className="text-sm text-white/70 hover:text-white" dir="ltr">{contactConfig.phone}</a>
+                    <Phone className="w-5 h-5 text-accent shrink-0" />
+                    <a href={`tel:${contactConfig.phone}`} className="text-sm text-text-secondary hover:text-text-primary" dir="ltr">{contactConfig.phone}</a>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Mail className="w-5 h-5 text-[#10B981] shrink-0" />
-                    <a href={`mailto:${contactConfig.email}`} className="text-sm text-white/70 hover:text-white">{contactConfig.email}</a>
+                    <Mail className="w-5 h-5 text-accent shrink-0" />
+                    <a href={`mailto:${contactConfig.email}`} className="text-sm text-text-secondary hover:text-text-primary">{contactConfig.email}</a>
+                  </li>
+                  <li className="pt-2">
+                    <a 
+                      href={`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(isRtl ? contactConfig.whatsappMessages.ar : contactConfig.whatsappMessages.en)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#128C7E] transition-colors text-sm font-bold"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="currentColor" d="M12.012 2c5.506 0 9.99 4.475 9.99 9.972 0 2.753-1.121 5.342-3.064 7.288A9.92 9.92 0 0111.996 22c-1.745 0-3.46-.453-5.01-1.312L2 22l1.34-4.885A9.878 9.878 0 012.02 11.972c0-5.497 4.484-9.972 9.992-9.972zm0 1.66c-4.593 0-8.332 3.731-8.332 8.312 0 1.543.418 3.036 1.196 4.341l.24.404-.793 2.894 2.964-.777.394.234c1.28.761 2.775 1.163 4.316 1.163 4.594 0 8.332-3.73 8.332-8.312 0-2.22-.865-4.307-2.435-5.877-1.57-1.571-3.657-2.436-5.882-2.436v.054zm4.498 10.978c-.247-.123-1.46-.72-1.687-.803-.227-.083-.393-.123-.558.124-.165.247-.64 .802-.784.966-.145.164-.29.185-.536.061-.248-.123-1.043-.385-1.988-1.23-.736-.657-1.232-1.47-1.377-1.716-.144-.247-.015-.38.108-.503.111-.11.247-.287.371-.432.124-.144.165-.246.248-.411.082-.164.041-.308-.02-.431-.062-.123-.557-1.346-.763-1.84-.2-.482-.403-.418-.557-.425-.145-.008-.31-.01-.475-.01-.165 0-.433.061-.66.308-.227.246-.867.846-.867 2.062 0 1.216.888 2.392 1.011 2.556.124.164 1.745 2.664 4.225 3.735.59.255 1.05.408 1.408.523.593.188 1.134.162 1.56.098.476-.071 1.46-.597 1.666-1.173.206-.576.206-1.07.145-1.173-.062-.103-.227-.164-.474-.287z"/>
+                      </svg>
+                      {isRtl ? 'تواصل معنا عبر واتساب' : 'Contact Us on WhatsApp'}
+                    </a>
                   </li>
                 </ul>
               </FooterAccordion>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-white/50">{t.footer.rights} &copy; {new Date().getFullYear()} {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}.</p>
+          <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-text-primary/50">{t.footer.rights} &copy; {new Date().getFullYear()} {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}.</p>
             
             <div className="flex gap-4 items-center">
                <a 
                  href="https://nmolabs.com" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 className="text-xs text-white/40 hover:text-white/60 transition-colors flex items-center gap-1"
+                 className="text-xs text-text-primary/40 hover:text-text-primary/60 transition-colors flex items-center gap-1"
                >
                  {t.footer.madeWith} <span className="text-red-500/70">❤</span> NmoLabs
                </a>

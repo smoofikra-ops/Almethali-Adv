@@ -10,7 +10,7 @@ const announcements = [
 
 export default function AnnouncementBar() {
   return (
-    <div className="bg-primary text-primary-foreground py-2 overflow-hidden flex whitespace-nowrap relative z-50 h-10 items-center border-b border-white/10">
+    <div className="bg-primary text-primary-foreground py-2 overflow-hidden flex whitespace-nowrap relative z-50 items-center border-b border-border" style={{ height: 'var(--announcement-height)' }}>
       <motion.div
         className="flex gap-12 px-4"
         animate={{

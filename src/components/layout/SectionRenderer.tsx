@@ -53,7 +53,7 @@ export function SectionRenderer({ layout }: SectionRendererProps) {
         }
 
         return (
-          <div key={config.id} data-theme={config.theme} data-section={config.id}>
+          <div key={config.id} data-section={config.id}>
             <Component id={config.id} theme={config.theme} />
           </div>
         );

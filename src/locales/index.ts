@@ -10,7 +10,7 @@ export const translations = {
     hero: {
       trustLabel: "نحن شريكك الموثوق",
       solutions: "حلول إعلانية",
-      words: ['تصنع', 'تُبرز', 'تعزّز', 'تلهم', 'ترتقي بـ', 'تقود', 'تحوّل'],
+      words: ['تصنع', 'تُبرز', 'تعزز', 'تلهم', 'ترتقي بـ', 'تحول', 'تقود'],
       presence: "حضورًا يسبقك إلى جمهورك",
       desc: "من التصميم والطباعة إلى التصنيع والتركيب، نقدم حلولًا متكاملة تمنح علامتك حضورًا واضحًا ومؤثرًا.",
       quoteBtn: "طلب عرض سعر",
@@ -91,7 +91,7 @@ export const translations = {
     hero: {
       trustLabel: "Your Trusted Partner",
       solutions: "Advertising Solutions",
-      words: ['Create', 'Highlight', 'Enhance', 'Inspire', 'Elevate', 'Lead', 'Transform'],
+      words: ['Create', 'Highlight', 'Enhance', 'Inspire', 'Elevate', 'Transform', 'Lead'],
       presence: "A presence that precedes you",
       desc: "From design and printing to manufacturing and installation, we provide integrated solutions that give your brand a clear and impactful presence.",
       quoteBtn: "Get a Quote",

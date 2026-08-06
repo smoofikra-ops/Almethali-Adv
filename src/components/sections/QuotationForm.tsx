@@ -157,7 +157,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
           {/* Text Side */}
           <motion.div variants={itemVariants} className="lg:col-span-5 lg:sticky top-32">
             <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6 leading-tight">{t.quote.title}</h2>
-            <p className="text-lg text-text-secondary mb-10 leading-relaxed rtl:text-right ltr:text-left">
+            <p className="text-lg text-text-secondary mb-10 leading-relaxed text-start">
               {t.quote.desc}
             </p>
             
@@ -208,7 +208,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'الاسم الكامل *' : 'Full Name *'}</label>
-                      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={isRtl ? "اكتب اسمك الكامل" : "Enter your full name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm ${isRtl ? 'text-right' : 'text-left'}`} required />
+                      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={isRtl ? "اكتب اسمك الكامل" : "Enter your full name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} required />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'نوع العميل *' : 'Client Type *'}</label>
@@ -222,18 +222,18 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   {formData.clientType && formData.clientType !== 'فرد' && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
                       <label className="block text-sm font-bold text-text-primary mb-1.5 mt-2">{isRtl ? 'اسم الجهة أو الشركة *' : 'Entity or Company Name *'}</label>
-                      <input type="text" name="entityName" value={formData.entityName} onChange={handleChange} placeholder={isRtl ? "اكتب اسم الجهة أو الشركة" : "Enter entity or company name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm ${isRtl ? 'text-right' : 'text-left'}`} required />
+                      <input type="text" name="entityName" value={formData.entityName} onChange={handleChange} placeholder={isRtl ? "اكتب اسم الجهة أو الشركة" : "Enter entity or company name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} required />
                     </motion.div>
                   )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'رقم الجوال *' : 'Phone Number *'}</label>
-                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-left text-sm" dir="ltr" placeholder="05xxxxxxxx" required pattern="^(05)[0-9]{8}$" title={isRtl ? "يجب أن يبدأ بـ 05 ويتكون من 10 أرقام" : "Must start with 05 and contain 10 digits"} />
+                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-start text-sm" dir="ltr" placeholder="05xxxxxxxx" required pattern="^(05)[0-9]{8}$" title={isRtl ? "يجب أن يبدأ بـ 05 ويتكون من 10 أرقام" : "Must start with 05 and contain 10 digits"} />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'البريد الإلكتروني' : 'Email Address'}</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-left text-sm" dir="ltr" placeholder="example@email.com" />
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-start text-sm" dir="ltr" placeholder="example@email.com" />
                     </div>
                   </div>
 
@@ -305,7 +305,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'الكمية المطلوبة' : 'Required Quantity'}</label>
-                      <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder={isRtl ? "مثال: 10 قطع أو 200 متر" : "Example: 10 pieces or 200 meters"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm ${isRtl ? 'text-right' : 'text-left'}`} />
+                      <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder={isRtl ? "مثال: 10 قطع أو 200 متر" : "Example: 10 pieces or 200 meters"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'موعد التنفيذ *' : 'Execution Time *'}</label>
@@ -335,12 +335,12 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
 
                   <div>
                     <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'تفاصيل الطلب *' : 'Request Details *'}</label>
-                    <textarea name="details" value={formData.details} onChange={handleChange} rows={4} placeholder={isRtl ? "اكتب المقاسات، الخامات، الكمية، موقع التركيب وأي تفاصيل تساعدنا في إعداد عرض السعر." : "Write sizes, materials, quantity, installation location, and any details that help us prepare the quote."} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all resize-none text-sm ${isRtl ? 'text-right' : 'text-left'}`} required></textarea>
+                    <textarea name="details" value={formData.details} onChange={handleChange} rows={4} placeholder={isRtl ? "اكتب المقاسات، الخامات، الكمية، موقع التركيب وأي تفاصيل تساعدنا في إعداد عرض السعر." : "Write sizes, materials, quantity, installation location, and any details that help us prepare the quote."} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all resize-none text-sm text-start`} required></textarea>
                   </div>
 
                   <div className="bg-background-alt border border-border rounded-xl p-4 flex gap-3 items-start">
                     <FileUp className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <p className="text-sm text-text-secondary leading-relaxed rtl:text-right ltr:text-left">
+                    <p className="text-sm text-text-secondary leading-relaxed text-start">
                       <strong className="text-text-primary">{isRtl ? 'إرفاق الملفات:' : 'Attach Files:'}</strong> {isRtl ? 'يمكنك إرسال التصاميم أو الملفات (JPG, PNG, PDF, AI) مباشرة إلى فريقنا عبر الواتساب بعد إرسال هذا الطلب.' : 'You can send designs or files (JPG, PNG, PDF, AI) directly to our team via WhatsApp after submitting this request.'}
                     </p>
                   </div>

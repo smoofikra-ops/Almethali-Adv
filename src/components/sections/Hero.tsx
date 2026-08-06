@@ -12,51 +12,57 @@ function TypewriterText({ words, isRtl }: { words: string[], isRtl: boolean }) {
   const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting' | 'waiting_to_type'>('typing');
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   
+  // Safe bounds check
+  const safeIndex = wordIndex % words.length;
+  const currentWord = words[safeIndex] || '';
+
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
-    
     const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener('change', listener);
     return () => mediaQuery.removeEventListener('change', listener);
   }, []);
 
-  // Reset text if words change (language change)
+  // When language changes, start over
   useEffect(() => {
-    setText('');
     setWordIndex(0);
+    setText('');
     setPhase('typing');
   }, [words]);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setText(words[0]);
+    if (prefersReducedMotion || !currentWord) {
+      setText(words[0] || '');
       return;
     }
 
     let timeout: NodeJS.Timeout;
-    const currentWord = words[wordIndex] || words[0];
 
     if (phase === 'typing') {
       if (text.length < currentWord.length) {
         timeout = setTimeout(() => {
-          setText(currentWord.substring(0, text.length + 1));
-        }, 85); 
+          setText(currentWord.slice(0, text.length + 1));
+        }, 80); 
       } else {
-        setPhase('pausing');
+        timeout = setTimeout(() => {
+          setPhase('pausing');
+        }, 150);
       }
     } else if (phase === 'pausing') {
       timeout = setTimeout(() => {
         setPhase('deleting');
-      }, 1600);
+      }, 1500);
     } else if (phase === 'deleting') {
       if (text.length > 0) {
         timeout = setTimeout(() => {
-          setText(currentWord.substring(0, text.length - 1));
-        }, 55); 
+          setText(currentWord.slice(0, text.length - 1));
+        }, 40); 
       } else {
-        setWordIndex((prev) => (prev + 1) % words.length);
-        setPhase('waiting_to_type');
+        timeout = setTimeout(() => {
+          setWordIndex((prev) => (prev + 1) % words.length);
+          setPhase('waiting_to_type');
+        }, 100);
       }
     } else if (phase === 'waiting_to_type') {
       timeout = setTimeout(() => {
@@ -65,17 +71,19 @@ function TypewriterText({ words, isRtl }: { words: string[], isRtl: boolean }) {
     }
 
     return () => clearTimeout(timeout);
-  }, [text, phase, wordIndex, prefersReducedMotion, words]);
+  }, [text, phase, currentWord, prefersReducedMotion, words]);
 
-  const longestWord = [...words].sort((a, b) => b.length - a.length)[0];
+  const longestWord = [...words].sort((a, b) => b.length - a.length)[0] || '';
 
   return (
     <span className="inline-block relative text-accent">
-      <span className="invisible whitespace-nowrap">{longestWord}</span>
-      <span className={`absolute top-0 ${isRtl ? 'right-0' : 'left-0'} whitespace-nowrap`} dir={isRtl ? 'rtl' : 'ltr'}>
+      <span className="invisible whitespace-nowrap min-w-[3ch] block w-full text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+        {longestWord}
+      </span>
+      <span className={`absolute top-0 start-0 whitespace-nowrap`} dir={isRtl ? 'rtl' : 'ltr'}>
         {text}
         {!prefersReducedMotion && (
-          <span className={`inline-block w-[3px] h-[0.9em] bg-accent align-baseline opacity-80 animate-pulse ${isRtl ? 'mr-1' : 'ml-1'}`}></span>
+          <span className={`inline-block w-[3px] h-[0.9em] bg-accent align-baseline opacity-80 animate-pulse ms-1`}></span>
         )}
       </span>
     </span>
@@ -92,7 +100,7 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
   return (
     <section 
       id={id}
-      className={`relative w-full overflow-hidden bg-transparent text-white ${className || ''}`} 
+      className={`relative w-full overflow-hidden bg-transparent text-text-primary ${className || ''}`} 
       style={{ height: '100svh', minHeight: '620px', maxHeight: '1000px' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center mt-10">
@@ -102,14 +110,14 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           variants={containerVariants}
           className="text-center max-w-4xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 mb-8 shadow-sm">
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-surface-elevated/20 backdrop-blur-md border border-border rounded-full px-5 py-2 mb-8 shadow-sm">
             <ShieldCheck className="w-4 h-4 text-accent" />
-            <span className="text-sm font-bold text-white/90">{t.hero.trustLabel}</span>
+            <span className="text-sm font-bold text-text-primary">{t.hero.trustLabel}</span>
           </motion.div>
           
           <motion.h1 
             variants={titleVariants}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white mb-6 leading-tight tracking-tight drop-shadow-lg"
+            className="text-4xl md:text-5xl lg:text-7xl font-display font-black text-text-primary mb-6 leading-tight tracking-tight drop-shadow-lg"
           >
             {t.hero.solutions} <TypewriterText words={t.hero.words} isRtl={isRtl} /> <br/>
             {t.hero.presence}
@@ -117,18 +125,64 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           
           <motion.p 
             variants={itemVariants} 
-            className="text-lg md:text-2xl text-white/80 leading-relaxed mx-auto mb-8 max-w-3xl drop-shadow"
+            className="text-lg md:text-2xl text-text-secondary leading-relaxed mx-auto mb-8 max-w-3xl drop-shadow"
           >
             {t.hero.desc}
           </motion.p>
           
           {/* Trust Indicators */}
-          <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 mb-12">
+          <motion.div variants={itemVariants} className="flex flex-wrap sm:flex-nowrap justify-center items-center gap-2 mb-12 w-full max-w-5xl mx-auto relative px-2">
              {t.hero.trustIndicators.map((item, idx) => (
-               <div key={idx} className="flex items-center gap-1.5 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10 shadow-sm">
-                 <CheckCircle2 className="w-4 h-4 text-accent" />
-                 <span className="text-sm font-bold text-white/90">{item}</span>
-               </div>
+               <React.Fragment key={idx}>
+                 <motion.div 
+                   animate={{
+                     scale: [1, 1.05, 1, 1, 1],
+                     boxShadow: [
+                       "0px 0px 0px rgba(0,0,0,0)",
+                       "0px 4px 20px rgba(0, 180, 216, 0.2)",
+                       "0px 0px 0px rgba(0,0,0,0)",
+                       "0px 0px 0px rgba(0,0,0,0)",
+                       "0px 0px 0px rgba(0,0,0,0)"
+                     ],
+                     borderColor: [
+                       "var(--border)",
+                       "var(--accent)",
+                       "var(--border)",
+                       "var(--border)",
+                       "var(--border)"
+                     ]
+                   }}
+                   transition={{
+                     duration: 4,
+                     repeat: Infinity,
+                     repeatDelay: 0,
+                     times: [0, 0.1, 0.2, 0.25, 1],
+                     delay: idx * 1
+                   }}
+                   className="flex-1 sm:flex-none flex justify-center items-center gap-1.5 bg-surface-elevated/10 backdrop-blur-sm px-2 sm:px-4 py-2 rounded-lg border border-border shadow-sm relative z-10 min-w-[140px] sm:min-w-0"
+                 >
+                   <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-accent shrink-0" />
+                   <span className="text-[11px] sm:text-sm font-bold text-text-primary whitespace-nowrap">{item}</span>
+                 </motion.div>
+                 
+                 {idx < t.hero.trustIndicators.length - 1 && (
+                   <div className="hidden sm:block w-4 md:w-12 h-[2px] bg-border relative overflow-hidden shrink-0">
+                     <motion.div 
+                       animate={{
+                         x: isRtl ? ['100%', '-100%', '-100%', '-100%'] : ['-100%', '100%', '100%', '100%']
+                       }}
+                       transition={{
+                         duration: 4,
+                         repeat: Infinity,
+                         repeatDelay: 0,
+                         times: [0.2, 0.35, 1, 1],
+                         delay: idx * 1
+                       }}
+                       className="absolute inset-0 bg-accent"
+                     />
+                   </div>
+                 )}
+               </React.Fragment>
              ))}
           </motion.div>
 
@@ -137,11 +191,11 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
               {t.hero.quoteBtn}
               <ArrowLeft className={`w-5 h-5 ${!isRtl ? 'rotate-180' : ''}`} />
             </a>
-            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-base hover:bg-white/20 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-surface-elevated/20 backdrop-blur-md text-text-primary border border-border px-8 py-4 rounded-xl font-bold text-base hover:bg-surface-elevated/30 transition-colors shadow-sm flex items-center justify-center gap-2">
               <Phone className="w-5 h-5 text-accent" />
               {t.hero.whatsappBtn}
             </a>
-            <a href="#careers" className="w-full sm:w-auto bg-white/5 backdrop-blur-md text-white border border-white/10 px-8 py-4 rounded-xl font-bold text-base hover:bg-white/10 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-text-primary border border-border/50 px-8 py-4 rounded-xl font-bold text-base hover:bg-surface-elevated/20 transition-colors shadow-sm flex items-center justify-center gap-2">
               {t.hero.careersBtn}
             </a>
           </motion.div>

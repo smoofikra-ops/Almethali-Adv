@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Menu, X, ArrowLeft, Moon, Globe } from 'lucide-react';
+import { Menu, X, ArrowLeft, Moon, Sun, Globe } from 'lucide-react';
 import { contactConfig } from '../../config/contact';
 import { images } from '../../config/images';
 import { useLanguage } from '../../context/LanguageContext';
@@ -10,90 +10,111 @@ export default function Header() {
   const { scrollY } = useScroll();
   const { language, toggleLanguage } = useLanguage();
   
-  const navBackground = useTransform(scrollY, [0, 50], ["rgba(0,0,0,0)", "rgba(0,0,0,0.4)"]);
-  const navBorder = useTransform(scrollY, [0, 50], ["rgba(255,255,255,0)", "rgba(255,255,255,0.05)"]);
-  const navBackdrop = useTransform(scrollY, [0, 50], ["blur(0px)", "blur(12px)"]);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'light');
 
   const toggleTheme = () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'light' ? 'dark' : current === 'dark' ? 'corporate' : 'light';
+    const next = theme === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
+    setTheme(next);
   };
 
   const isRtl = language === 'ar';
+  
+  const logoSrc = theme === 'dark' ? (images.brand.logoDark || images.brand.logoMain) : (images.brand.logoLight || images.brand.logoMain);
+
+  const navItems = [
+    { id: 'hero', ar: 'الرئيسية', en: 'Home' },
+    { id: 'about', ar: 'من نحن', en: 'About Us' },
+    { id: 'services', ar: 'خدماتنا', en: 'Services' },
+  ];
 
   return (
-    <motion.nav 
-      style={{
-        backgroundColor: navBackground,
-        borderBottomColor: navBorder,
-        backdropFilter: navBackdrop,
-      }}
-      className="w-full z-40 border-b transition-all duration-300 relative"
+    <nav 
+      className={`w-full z-40 transition-all duration-300 relative ${
+        isScrolled 
+          ? 'bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm' 
+          : 'bg-transparent border-b border-transparent'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Layout */}
-        <div className="hidden lg:flex justify-between items-center h-20 relative">
+        <div className="hidden lg:grid grid-cols-3 items-center" style={{ height: 'var(--header-height)' }}>
           
-          {/* Logo (Right in RTL, Left in LTR) */}
-          <div className="flex items-center gap-3 w-48 justify-start">
-            {images.brand.logoMain ? (
-               <img src={images.brand.logoMain} alt={contactConfig.tradeNameAr} className="h-10 w-auto" />
-            ) : (
-               <div className="flex items-center gap-2">
-                 <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">م</div>
-                 <span className="text-lg font-display font-bold text-white tracking-tight leading-tight">{contactConfig.tradeNameAr}</span>
-               </div>
-            )}
+          {/* Logo */}
+          <div className="flex items-center justify-start">
+            <a href="/" className="flex items-center transition-opacity hover:opacity-80">
+              {logoSrc ? (
+                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="h-10 w-auto object-contain" />
+              ) : (
+                 <div className="flex items-center gap-2">
+                   <div className="w-8 h-8 bg-surface-elevated/20 border border-border rounded-lg flex items-center justify-center font-display font-bold text-lg text-text-primary shadow-sm">م</div>
+                   <span className="text-sm font-display font-bold text-text-primary tracking-tight leading-tight whitespace-nowrap">{contactConfig.tradeNameAr}</span>
+                 </div>
+              )}
+            </a>
           </div>
 
           {/* Navigation (Mathematically Centered) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-8 whitespace-nowrap">
-            <a href="#services" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
-              {language === 'ar' ? 'الخدمات' : 'Services'}
-            </a>
-            <a href="#about" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
-              {language === 'ar' ? 'من نحن' : 'About'}
-            </a>
-            <a href="#portfolio" className="text-sm font-bold text-white/80 hover:text-white transition-colors">
-              {language === 'ar' ? 'أعمالنا' : 'Portfolio'}
-            </a>
-            <a href="#quote" className="text-sm font-bold bg-[#10B981] text-white px-6 py-2.5 rounded-full hover:bg-[#059669] transition-colors shadow-md hover:shadow-lg flex items-center gap-2">
-              {language === 'ar' ? 'طلب عرض سعر' : 'Get Quote'}
-              <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
-            </a>
+          <div className="flex items-center justify-center gap-2">
+            {navItems.map((item) => (
+              <a 
+                key={item.id}
+                href={`#${item.id}`} 
+                className="group relative text-sm font-bold text-text-secondary hover:text-accent transition-colors px-4 py-2 rounded-full hover:bg-surface-elevated/30"
+              >
+                <span className="relative z-10">{isRtl ? item.ar : item.en}</span>
+                <span className="absolute inset-0 rounded-full border border-accent/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="nav-item-highlight"></span>
+              </a>
+            ))}
           </div>
           
           {/* Controls (Left in RTL, Right in LTR) */}
-          <div className="flex items-center gap-3 w-48 justify-end">
-            <button onClick={toggleLanguage} className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10" title="Language">
+          <div className="flex items-center gap-2 justify-end">
+            <a href="#quote" className="text-sm font-bold bg-accent text-accent-foreground px-4 py-2 rounded-full hover:opacity-90 transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+              {language === 'ar' ? 'اطلب عرض سعر' : 'Request a Quote'}
+              <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
+            </a>
+            <button onClick={toggleLanguage} className="flex items-center gap-1.5 text-text-secondary hover:text-text-primary transition-colors bg-surface-elevated/10 hover:bg-surface-elevated/20 px-3 py-1.5 rounded-full border border-border" title="Language">
               <Globe className="w-4 h-4" />
               <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
             </button>
-            <button onClick={toggleTheme} className="text-white/80 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full border border-white/10" title="Theme">
-              <Moon className="w-4 h-4" />
+            <button onClick={toggleTheme} className="text-text-secondary hover:text-text-primary transition-colors bg-surface-elevated/10 hover:bg-surface-elevated/20 p-2 rounded-full border border-border" title="Theme">
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Layout */}
-        <div className="lg:hidden flex justify-between items-center h-20 relative">
+        <div className="lg:hidden flex justify-between items-center relative" style={{ height: 'var(--header-height)' }}>
           
           <div className="flex items-center justify-start gap-2">
-            {images.brand.logoMain ? (
-               <img src={images.brand.logoMain} alt={contactConfig.tradeNameAr} className="h-8 w-auto" />
-            ) : (
-               <div className="w-8 h-8 bg-white/10 border border-white/20 rounded-md flex items-center justify-center font-display font-bold text-lg text-white shadow-sm">م</div>
-            )}
+            <a href="/" className="flex items-center transition-opacity hover:opacity-80">
+              {logoSrc ? (
+                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="h-8 w-auto object-contain" />
+              ) : (
+                 <div className="w-8 h-8 bg-surface-elevated/20 border border-border rounded-md flex items-center justify-center font-display font-bold text-lg text-text-primary shadow-sm">م</div>
+              )}
+            </a>
           </div>
 
           <div className="flex items-center justify-end gap-2">
-            <button onClick={toggleLanguage} className="flex items-center gap-1 text-white/80 hover:text-white p-1">
+            <button onClick={toggleLanguage} className="flex items-center gap-1 text-text-secondary hover:text-text-primary p-1">
               <Globe className="w-5 h-5" />
               <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
             </button>
             <button 
-              className="p-2 text-white"
+              className="p-2 text-text-primary"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X /> : <Menu />}
@@ -103,13 +124,17 @@ export default function Header() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-black/90 backdrop-blur-xl border-b border-white/10 px-4 pt-2 pb-6 space-y-2 absolute w-full left-0 top-full shadow-2xl">
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#services" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'الخدمات' : 'Services'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#about" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'من نحن' : 'About'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#portfolio" className="block px-4 py-3 rounded-xl text-base font-bold text-white/80 hover:bg-white/10 hover:text-white">{language === 'ar' ? 'أعمالنا' : 'Portfolio'}</a>
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-4 py-3 text-center mt-6 rounded-xl text-base font-bold bg-[#10B981] text-white hover:bg-[#059669]">{language === 'ar' ? 'طلب عرض سعر' : 'Get Quote'}</a>
+        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border px-4 pt-2 pb-6 space-y-2 absolute w-full left-0 top-full shadow-2xl">
+          {navItems.map((item) => (
+            <a key={item.id} onClick={() => setIsMobileMenuOpen(false)} href={`#${item.id}`} className="block px-4 py-3 rounded-xl text-base font-bold text-text-secondary hover:bg-surface-elevated/20 hover:text-text-primary">
+              {isRtl ? item.ar : item.en}
+            </a>
+          ))}
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-4 py-3 text-center mt-6 rounded-xl text-base font-bold bg-accent text-accent-foreground hover:opacity-90">
+            {language === 'ar' ? 'اطلب عرض سعر' : 'Request a Quote'}
+          </a>
         </div>
       )}
-    </motion.nav>
+    </nav>
   );
 }

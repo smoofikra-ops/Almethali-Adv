@@ -38,7 +38,7 @@ export default function Testimonials({ id, theme, className = '' }: SectionCompo
               variants={animationRegistry.fadeUp}
               className="bg-surface p-8 rounded-3xl shadow-sm border border-border relative group"
             >
-              <Quote className={`w-10 h-10 text-primary opacity-20 absolute top-6 ${isRtl ? 'right-6' : 'left-6'} group-hover:scale-110 transition-transform`} />
+              <Quote className={`w-10 h-10 text-primary opacity-20 absolute top-6 start-6 group-hover:scale-110 transition-transform`} />
               <p className="text-text-secondary mb-8 relative z-10 leading-relaxed text-lg">
                 "{(testimonial as any).contentEn && !isRtl ? (testimonial as any).contentEn : testimonial.content}"
               </p>

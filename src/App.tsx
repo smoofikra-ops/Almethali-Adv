@@ -8,6 +8,7 @@ import AnnouncementBar from './components/layout/AnnouncementBar';
 import Footer from './components/sections/Footer';
 import PolicyPage from './pages/PolicyPage';
 import CinematicBackground from './components/layout/CinematicBackground';
+import FloatingContact from './components/ui/FloatingContact';
 
 export default function App() {
   const [currentHash, setCurrentHash] = useState(window.location.hash);
@@ -29,7 +30,7 @@ export default function App() {
   };
 
   return (
-    <div className="text-white min-h-screen font-sans overflow-x-hidden transition-colors duration-300">
+    <div className="text-text-primary min-h-screen font-sans overflow-x-hidden transition-colors duration-300">
       <Helmet>
         <title>{contactConfig.tradeNameAr} | شريكك الإستراتيجي</title>
         <meta name="description" content={contactConfig.description} />
@@ -38,15 +39,16 @@ export default function App() {
       
       <CinematicBackground />
 
-      <div className="fixed top-0 w-full z-50 flex flex-col">
+      <div className="sticky top-0 z-50 flex flex-col w-full">
         <AnnouncementBar />
         <Header />
       </div>
 
-      <main className="pt-[120px]">
+      <main className="relative z-10">
         {renderContent()}
       </main>
       
+      <FloatingContact />
       <Footer />
     </div>
   );

@@ -11,7 +11,13 @@ export const contactConfig = {
   workingHours: "من التاسعة صباحًا إلى السادسة مساءً",
   workingHoursEn: "9:00 AM to 6:00 PM",
   phone: "+966509020257",
+  phoneDisplay: "+966 50 902 0257",
+  phoneLink: "+966509020257",
   whatsappNumber: "966509020257",
+  whatsappMessages: {
+    ar: "مرحبًا فريق المثالي للدعاية والإعلان،\nتواصلت معكم من خلال الموقع الإلكتروني وأرغب في معرفة المزيد عن خدماتكم.",
+    en: "Hello Al-Mithali Advertising team,\nI contacted you through the website and would like to learn more about your services."
+  },
   email: "almethali.adv@gmail.com",
   socials: {
     facebook: "#",

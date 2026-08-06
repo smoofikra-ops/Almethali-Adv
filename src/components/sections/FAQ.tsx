@@ -42,7 +42,7 @@ export default function FAQ({ id, theme, className }: SectionComponentProps) {
             >
               <button
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full rtl:text-right ltr:text-left px-5 py-4 md:px-6 md:py-5 flex items-center justify-between font-bold text-base md:text-lg text-text-primary focus:outline-none"
+                className="w-full text-start px-5 py-4 md:px-6 md:py-5 flex items-center justify-between font-bold text-base md:text-lg text-text-primary focus:outline-none"
               >
                 {isRtl ? faq.question : faq.questionEn}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${activeFaq === idx ? 'bg-primary text-primary-foreground' : 'bg-background-alt text-text-secondary'}`}>
@@ -52,7 +52,7 @@ export default function FAQ({ id, theme, className }: SectionComponentProps) {
               <div 
                 className={`px-5 md:px-6 overflow-hidden transition-all duration-300 ease-in-out ${activeFaq === idx ? 'max-h-96 pb-5 opacity-100' : 'max-h-0 opacity-0'}`}
               >
-                <p className="text-text-secondary leading-relaxed text-sm md:text-base rtl:text-right ltr:text-left">
+                <p className="text-text-secondary leading-relaxed text-sm md:text-base text-start">
                   {isRtl ? faq.answer : faq.answerEn}
                 </p>
               </div>

@@ -34,7 +34,7 @@ export default function CinematicBackground() {
   }, [currentIndex]);
 
   return (
-    <div className="fixed inset-0 z-[-1] bg-black overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 z-[-1] bg-background overflow-hidden pointer-events-none">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={currentIndex}
@@ -51,7 +51,7 @@ export default function CinematicBackground() {
           />
         </motion.div>
       </AnimatePresence>
-      <div className="absolute inset-0 bg-black/75"></div>
+      <div className="absolute inset-0 bg-background/90 backdrop-blur-[2px] transition-colors duration-300"></div>
     </div>
   );
 }
