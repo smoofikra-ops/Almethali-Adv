@@ -3,8 +3,12 @@ import { motion } from 'motion/react';
 import { contentConfig } from '../../config/content';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function WhyChooseUs({ id, theme, className = '' }: SectionComponentProps) {
+  const { language } = useLanguage();
+  const isRtl = language === 'ar';
+  
   return (
     <section id={id} className={`py-24 bg-background text-text-primary ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,13 +23,13 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
             className="w-full lg:w-1/2 order-2 lg:order-1"
           >
             <div className="inline-block px-4 py-1.5 rounded-full bg-surface text-primary text-sm font-bold mb-6 border border-border shadow-sm">
-              نقاط القوة
+              {isRtl ? "نقاط القوة" : "Our Strengths"}
             </div>
             <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6 leading-tight">
-              {contentConfig.strengths.title}
+              {isRtl ? contentConfig.strengths.title : contentConfig.strengths.titleEn}
             </h2>
             <p className="text-lg text-text-secondary mb-10 leading-relaxed max-w-xl">
-              {contentConfig.strengths.description}
+              {isRtl ? contentConfig.strengths.description : contentConfig.strengths.descriptionEn}
             </p>
             
             {/* Dynamic Pills Layout */}
@@ -36,7 +40,7 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
               viewport={{ once: true }}
               className="flex flex-wrap gap-3"
             >
-              {contentConfig.strengths.points.map((point, idx) => (
+              {(isRtl ? contentConfig.strengths.points : contentConfig.strengths.pointsEn).map((point, idx) => (
                 <motion.div 
                   key={idx} 
                   variants={animationRegistry.fadeUp}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Globe2, Phone, Mail, MapPin, ChevronDown } from 'lucide-react';
 import { contactConfig } from '../../config/contact';
 import { servicesConfig } from '../../config/services';
+import { useLanguage } from '../../context/LanguageContext';
 
 const SocialIconWrapper = ({ children, href }: { children: React.ReactNode, href: string }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-sm hover:shadow-md text-white hover:bg-white/10">
@@ -15,7 +16,7 @@ const FooterAccordion = ({ title, children, isOpen, onToggle }: { title: string,
     <div className="border-b border-white/10 md:border-none md:pb-0 pb-3">
       <button 
         onClick={onToggle} 
-        className="w-full flex items-center justify-between md:cursor-default py-3 md:py-0 text-right focus:outline-none"
+        className="w-full flex items-center justify-between md:cursor-default py-3 md:py-0 rtl:text-right ltr:text-left focus:outline-none"
       >
         <h4 className="text-white font-bold text-lg">{title}</h4>
         <ChevronDown className={`w-5 h-5 text-white/50 md:hidden transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
@@ -29,6 +30,8 @@ const FooterAccordion = ({ title, children, isOpen, onToggle }: { title: string,
 
 export default function Footer() {
   const [openAccordion, setOpenAccordion] = useState<string | null>('contact');
+  const { language, t } = useLanguage();
+  const isRtl = language === 'ar';
 
   const toggleAccordion = (id: string) => {
     setOpenAccordion(prev => prev === id ? null : id);
@@ -44,11 +47,15 @@ export default function Footer() {
             {/* Brand Col */}
             <div className="lg:col-span-4 md:col-span-2">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">م</div>
-                <span className="text-2xl font-display font-bold text-white">{contactConfig.tradeNameAr}</span>
+                <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">
+                  {isRtl ? "م" : "M"}
+                </div>
+                <span className="text-2xl font-display font-bold text-white">
+                  {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}
+                </span>
               </div>
               <p className="text-sm leading-relaxed mb-6 text-white/70">
-                {contactConfig.description}
+                {isRtl ? contactConfig.description : contactConfig.descriptionEn || "Integrated advertising solutions."}
               </p>
               
               {/* Social Icons */}
@@ -86,16 +93,16 @@ export default function Footer() {
             {/* Quick Links Col */}
             <div className="lg:col-span-2">
               <FooterAccordion 
-                title="روابط سريعة"
+                title={t.footer.quickLinks}
                 isOpen={openAccordion === 'links'}
                 onToggle={() => toggleAccordion('links')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#about" className="hover:text-white transition-colors text-sm">من نحن</a></li>
-                  <li><a href="#services" className="hover:text-white transition-colors text-sm">خدماتنا</a></li>
-                  <li><a href="#portfolio" className="hover:text-white transition-colors text-sm">أعمالنا</a></li>
-                  <li><a href="#quote" className="hover:text-white transition-colors text-sm">طلب عرض سعر</a></li>
-                  <li><a href="#careers" className="hover:text-[#10B981] transition-colors text-sm font-bold">التوظيف</a></li>
+                  <li><a href="#about" className="hover:text-white transition-colors text-sm">{t.nav.about}</a></li>
+                  <li><a href="#services" className="hover:text-white transition-colors text-sm">{t.nav.services}</a></li>
+                  <li><a href="#portfolio" className="hover:text-white transition-colors text-sm">{t.nav.portfolio}</a></li>
+                  <li><a href="#quote" className="hover:text-white transition-colors text-sm">{t.nav.quote}</a></li>
+                  <li><a href="#careers" className="hover:text-[#10B981] transition-colors text-sm font-bold">{t.nav.careers}</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -103,14 +110,16 @@ export default function Footer() {
             {/* Services Col */}
             <div className="lg:col-span-2">
               <FooterAccordion 
-                title="خدماتنا الرئيسية"
+                title={t.footer.mainServices}
                 isOpen={openAccordion === 'services'}
                 onToggle={() => toggleAccordion('services')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
                   {servicesConfig.categories.slice(0, 4).map((cat, idx) => (
                     <li key={idx}>
-                      <a href="#services" className="hover:text-white transition-colors text-sm">{cat.arTitle}</a>
+                      <a href="#services" className="hover:text-white transition-colors text-sm">
+                        {isRtl ? cat.arTitle : cat.enTitle}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -120,15 +129,15 @@ export default function Footer() {
             {/* Policies Col */}
             <div className="lg:col-span-2">
               <FooterAccordion 
-                title="السياسات"
+                title={t.footer.policies}
                 isOpen={openAccordion === 'policies'}
                 onToggle={() => toggleAccordion('policies')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  <li><a href="#/policies/privacy" className="hover:text-white transition-colors text-sm">سياسة الخصوصية</a></li>
-                  <li><a href="#/policies/terms" className="hover:text-white transition-colors text-sm">الشروط والأحكام</a></li>
-                  <li><a href="#/policies/usage" className="hover:text-white transition-colors text-sm">سياسة الاستخدام</a></li>
-                  <li><a href="#/policies/warranty" className="hover:text-white transition-colors text-sm">الضمان</a></li>
+                  <li><a href="#/policies/privacy" className="hover:text-white transition-colors text-sm">{t.footer.privacy}</a></li>
+                  <li><a href="#/policies/terms" className="hover:text-white transition-colors text-sm">{t.footer.terms}</a></li>
+                  <li><a href="#/policies/usage" className="hover:text-white transition-colors text-sm">{t.footer.usage}</a></li>
+                  <li><a href="#/policies/warranty" className="hover:text-white transition-colors text-sm">{t.footer.warranty}</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -136,14 +145,17 @@ export default function Footer() {
             {/* Contact Col */}
             <div className="lg:col-span-2">
               <FooterAccordion 
-                title="تواصل معنا" 
+                title={t.footer.contact} 
                 isOpen={openAccordion === 'contact'}
                 onToggle={() => toggleAccordion('contact')}
               >
                 <ul className="space-y-4 pt-2 md:pt-0">
                   <li className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-[#10B981] shrink-0 mt-0.5" />
-                    <span className="text-sm leading-relaxed text-white/70">{contactConfig.address}<br/>{contactConfig.city}</span>
+                    <span className="text-sm leading-relaxed text-white/70">
+                      {isRtl ? contactConfig.address : contactConfig.addressEn || contactConfig.address}<br/>
+                      {isRtl ? contactConfig.city : contactConfig.cityEn || contactConfig.city}
+                    </span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-[#10B981] shrink-0" />
@@ -159,9 +171,17 @@ export default function Footer() {
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-white/50">جميع الحقوق محفوظة &copy; {new Date().getFullYear()} {contactConfig.tradeNameAr}.</p>
+            <p className="text-sm text-white/50">{t.footer.rights} &copy; {new Date().getFullYear()} {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}.</p>
+            
             <div className="flex gap-4 items-center">
-               <span className="text-xs text-white/50">{contactConfig.tradeNameEn}</span>
+               <a 
+                 href="https://nmolabs.com" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="text-xs text-white/40 hover:text-white/60 transition-colors flex items-center gap-1"
+               >
+                 {t.footer.madeWith} <span className="text-red-500/70">❤</span> NmoLabs
+               </a>
             </div>
           </div>
         </div>

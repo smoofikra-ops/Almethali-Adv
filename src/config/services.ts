@@ -1,118 +1,146 @@
+export interface ServiceCategory {
+  id: string;
+  slug: string;
+  arTitle: string;
+  enTitle: string;
+  arDesc: string;
+  enDesc: string;
+  coverImage: string;
+  altTextAr: string;
+  altTextEn: string;
+  internalServices: string[];
+  gallery: string[];
+  enabled: boolean;
+  order: number;
+}
+
 export const servicesConfig = {
-  featured: [
-    { id: 'hoarding', title: 'لوحات المشاريع', en: 'Project Hoarding', icon: 'Construction' },
-    { id: 'fence', title: 'أسوار المشاريع', en: 'Construction Fence Graphics', icon: 'Fence' },
-    { id: 'outdoorSignage', title: 'اللوحات الخارجية', en: 'Outdoor Signage', icon: 'Signpost' },
-    { id: 'letterSigns', title: 'الحروف البارزة', en: '3D Letter Signs', icon: 'Type' },
-    { id: 'shopSigns', title: 'واجهات المحلات', en: 'Shop Signs', icon: 'Store' },
-    { id: 'exhibition', title: 'تجهيز المعارض والمؤتمرات', en: 'Exhibition Stands & Booths', icon: 'Presentation' }
-  ],
   categories: [
     {
-      title: 'Premium Services',
-      arTitle: 'الخدمات المميزة',
-      items: [
-        'لوحات المشاريع',
-        'أسوار المشاريع',
-        'اللوحات الخارجية',
-        'الحروف البارزة',
-        'واجهات المحلات',
-        'تجهيز المعارض والمؤتمرات'
-      ]
+      id: "digital-printing-signage",
+      slug: "digital-printing-signage",
+      arTitle: "الطباعة الرقمية واللافتات",
+      enTitle: "Digital Printing & Signage",
+      arDesc: "حلول طباعة رقمية متقدمة ولافتات عالية الجودة تضمن لعلامتك التجارية حضورًا استثنائيًا ومؤثرًا.",
+      enDesc: "Advanced digital printing and high-quality signage solutions that ensure an exceptional and impactful presence for your brand.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974204/Digital_Printing_Execution_xkx3df.png",
+      altTextAr: "الطباعة الرقمية واللافتات",
+      altTextEn: "Digital Printing & Signage",
+      internalServices: [
+        "الطباعة الرقمية",
+        "البنرات والفلكس",
+        "الاستيكرات",
+        "اللوحات الإرشادية",
+        "الرول أب والبوب أب"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 1
     },
     {
-      title: 'Branding & Interior',
-      arTitle: 'الهوية والتجهيزات الداخلية',
-      items: [
-        'الهوية البصرية للشركات',
-        'تصميم الشعارات',
-        'لوحات المكاتب',
-        'اللوحات الإرشادية',
-        'لوحات الأقسام',
-        'ديكورات الشركات',
-        'ورق الجدران',
-        'استيكرات الواجهات',
-        'اللوحات الداخلية',
-        'لوحات الأكريليك',
-        'لوحات الستانلس ستيل',
-        'صناديق الإضاءة Light Boxes'
-      ]
+      id: "billboards-displays",
+      slug: "billboards-displays",
+      arTitle: "اللوحات الإعلانية والشاشات",
+      enTitle: "Billboards & Displays",
+      arDesc: "لوحات إعلانية وشاشات عرض رقمية مصممة بأحدث التقنيات لجذب الانتباه في جميع الأوقات.",
+      enDesc: "Billboards and digital displays designed with the latest technologies to attract attention at all times.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Outdoor_Signage_kbzm4z.png",
+      altTextAr: "اللوحات الإعلانية والشاشات",
+      altTextEn: "Billboards & Displays",
+      internalServices: [
+        "اللوحات الخارجية",
+        "واجهات المحلات",
+        "الشاشات الرقمية",
+        "الحروف البارزة",
+        "صناديق الإضاءة"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 2
     },
     {
-      title: 'Printing',
-      arTitle: 'خدمات الطباعة',
-      items: [
-        'الطباعة الرقمية الداخلية والخارجية',
-        'طباعة البنرات والفلكس',
-        'الملصقات والاستيكرات',
-        'الاستيكر المرمل',
-        'الاستيكر الثلجي',
-        'الطباعة بالأشعة فوق البنفسجية UV',
-        'الرول أب',
-        'البوب أب',
-        'الأعلام',
-        'أعلام السعودية',
-        'أعلام الشركات',
-        'اللوحات المؤقتة',
-        'المطبوعات التجارية'
-      ]
+      id: "exhibitions-events",
+      slug: "exhibitions-events",
+      arTitle: "تجهيز المعارض والفعاليات",
+      enTitle: "Exhibitions & Events",
+      arDesc: "تصميم وتنفيذ متكامل لأجنحة المعارض والفعاليات لخلق تجربة فريدة لا تُنسى لزوارك.",
+      enDesc: "Complete design and execution for exhibition stands and events to create a unique and unforgettable experience for your visitors.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974204/Events_Conferences_jcex2w.webp",
+      altTextAr: "تجهيز المعارض والفعاليات",
+      altTextEn: "Exhibitions & Events",
+      internalServices: [
+        "تجهيز المعارض",
+        "تنظيم الفعاليات",
+        "أجنحة المعارض",
+        "الباك دروب",
+        "منصات الاستقبال"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 3
     },
     {
-      title: 'Vehicle Branding',
-      arTitle: 'تغليف المركبات',
-      items: [
-        'استيكر السيارات',
-        'تغليف المركبات التجارية',
-        'استيكر الشاحنات',
-        'تغليف الأساطيل',
-        'تصميم هوية المركبات',
-        'طباعة وتركيب استيكرات المركبات'
-      ]
+      id: "awards-promotional-gifts",
+      slug: "awards-promotional-gifts",
+      arTitle: "الدروع والهدايا الترويجية",
+      enTitle: "Awards & Promotional Gifts",
+      arDesc: "هدايا ودروع تذكارية مخصصة تعكس هويتك وتترك أثرًا إيجابيًا ومستدامًا لدى عملائك.",
+      enDesc: "Customized promotional gifts and awards that reflect your identity and leave a lasting positive impression on your clients.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974206/Promotional_Gifts_e61zqy.jpg",
+      altTextAr: "الدروع والهدايا الترويجية",
+      altTextEn: "Awards & Promotional Gifts",
+      internalServices: [
+        "الدروع التذكارية",
+        "الهدايا الدعائية",
+        "بوكسات الموظفين",
+        "الملابس واليونيفورم",
+        "المقتنيات النحاسية والخشبية"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 4
     },
     {
-      title: 'Promotional Items',
-      arTitle: 'الهدايا والمنتجات الدعائية',
-      items: [
-        'الهدايا الدعائية',
-        'الطباعة على الأكواب',
-        'الطباعة على الأقلام',
-        'الطباعة على الملابس',
-        'طباعة اليونيفورم',
-        'بوكسات هدايا الموظفين',
-        'علب المناديل الدعائية',
-        'الدروع التذكارية',
-        'الدروع الخشبية',
-        'الدروع النحاسية',
-        'الدروع الخاصة',
-        'المنتجات الجلدية',
-        'المنتجات النحاسية'
-      ]
+      id: "paper-prints-packaging",
+      slug: "paper-prints-packaging",
+      arTitle: "المطبوعات الورقية والعلب",
+      enTitle: "Paper Prints & Packaging",
+      arDesc: "مطبوعات ورقية وحلول تغليف مبتكرة تعزز احترافية علامتك وتقدم منتجاتك بأبهى صورة.",
+      enDesc: "Paper prints and innovative packaging solutions that enhance the professionalism of your brand and present your products perfectly.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Exhibition_Stands_Kiosks_qde6rw.jpg",
+      altTextAr: "المطبوعات الورقية والعلب",
+      altTextEn: "Paper Prints & Packaging",
+      internalServices: [
+        "علب التغليف",
+        "البروشورات والكتيبات",
+        "الكروت الشخصية",
+        "الأكياس الورقية",
+        "الفولدرات والملفات"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 5
     },
     {
-      title: 'Design Services',
-      arTitle: 'خدمات التصميم',
-      items: [
-        'التصميم الإعلاني',
-        'التصميم الجرافيكي',
-        'تصميم الشعارات',
-        'تصميم الهوية البصرية',
-        'تصميم المطبوعات',
-        'تصميم محتوى وسائل التواصل الاجتماعي',
-        'تجهيز ملفات الطباعة',
-        'تصميم الحملات والمواد الدعائية'
-      ]
-    },
-    {
-      title: 'Manufacturing & Execution',
-      arTitle: 'التصنيع والتنفيذ',
-      items: [
-        'القص والحفر بالليزر',
-        'القص والحفر باستخدام CNC',
-        'تصنيع اللوحات',
-        'التركيب',
-        'الصيانة',
-        'خدمات ما بعد البيع'
-      ]
+      id: "innovative-design-solutions",
+      slug: "innovative-design-solutions",
+      arTitle: "حلول التصميم المبتكرة",
+      enTitle: "Innovative Design Solutions",
+      arDesc: "خدمات تصميم إبداعية متكاملة تحول أفكارك إلى هوية بصرية قوية ومتميزة في السوق.",
+      enDesc: "Comprehensive creative design services that transform your ideas into a strong and distinctive visual identity in the market.",
+      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Display_Stands_Display_Solutions_btjbf6.png",
+      altTextAr: "حلول التصميم المبتكرة",
+      altTextEn: "Innovative Design Solutions",
+      internalServices: [
+        "تصميم الهوية البصرية",
+        "تصميم المطبوعات",
+        "تصميم العبوات والتغليف",
+        "التصميم الرقمي",
+        "تصميم الحملات الإعلانية"
+      ],
+      gallery: [],
+      enabled: true,
+      order: 6
     }
-  ]
+  ] as ServiceCategory[]
 };

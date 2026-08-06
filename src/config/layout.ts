@@ -39,7 +39,7 @@ export const homepageLayout: SectionConfig[] = [
   },
   {
     id: "clients",
-    enabled: true,
+    enabled: false,
     theme: "light",
     animation: "none"
   },

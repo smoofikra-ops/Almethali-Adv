@@ -43,7 +43,7 @@ export default function App() {
         <Header />
       </div>
 
-      <main className="pt-24 md:pt-[120px]">
+      <main className="pt-[120px]">
         {renderContent()}
       </main>
       

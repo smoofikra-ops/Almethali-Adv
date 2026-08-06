@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { servicesConfig } from '../../config/services';
-import { Palette, CheckCircle2, Grid, ArrowDown } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, LayoutGrid } from 'lucide-react';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Services({ id, theme, className = '' }: SectionComponentProps) {
-  const [showAll, setShowAll] = useState(false);
+  const { language, t } = useLanguage();
+  const isRtl = language === 'ar';
 
   return (
     <motion.section 
@@ -15,77 +17,103 @@ export default function Services({ id, theme, className = '' }: SectionComponent
       whileInView="visible" 
       viewport={{ once: true, margin: "-100px" }}
       variants={animationRegistry.staggerCards}
-      className={`py-24 bg-background text-text-primary ${className}`}
+      className={`py-24 bg-transparent text-white relative z-10 ${className}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div variants={animationRegistry.fadeUp} className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-4">خدماتنا الرئيسية</h2>
-          <p className="text-lg text-text-secondary">نقدم منظومة متكاملة من الخدمات الإعلانية والطباعة لتلبية كافة احتياجاتك.</p>
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6 drop-shadow-md leading-tight">
+            {t.services.title}
+          </h2>
+          <p className="text-lg md:text-xl text-white/80 leading-relaxed drop-shadow-sm">
+            {t.services.desc}
+          </p>
         </motion.div>
         
-        {/* Featured Services */}
-        <div className="mb-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {servicesConfig.featured.map((service, idx) => (
-              <motion.div key={idx} variants={animationRegistry.fadeUp} className="p-6 md:p-8 flex flex-col items-center text-center gap-3 md:gap-4 transition-colors bg-surface border border-border rounded-2xl shadow-sm hover:shadow-md hover:border-primary">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-background-alt rounded-2xl flex items-center justify-center shrink-0">
-                  <Grid className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-text-primary text-sm md:text-lg leading-tight mb-1 md:mb-2">{service.title}</h4>
-                  <span className="text-xs md:text-sm text-text-muted">{service.en}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {!showAll && (
-          <motion.div variants={animationRegistry.fadeUp} className="flex justify-center mb-10">
-            <button 
-              onClick={() => setShowAll(true)}
-              className="bg-transparent text-text-primary border border-border px-8 py-4 rounded-xl font-bold text-base hover:bg-surface transition-all flex items-center justify-center gap-2 shadow-sm"
-            >
-              استعرض جميع الخدمات
-              <ArrowDown className="w-5 h-5" />
-            </button>
-          </motion.div>
-        )}
-
-        {/* Other Service Categories */}
-        {showAll && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }} 
-            animate={{ opacity: 1, height: 'auto' }} 
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            {servicesConfig.categories.map((category, idx) => {
-              return (
-                <div key={idx} className="p-6 md:p-8 flex flex-col bg-surface border border-border rounded-2xl shadow-sm">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 bg-background-alt text-primary rounded-xl flex items-center justify-center shrink-0">
-                      <Palette className="w-6 h-6" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {servicesConfig.categories.map((category, idx) => {
+            if (!category.enabled) return null;
+            
+            const title = isRtl ? category.arTitle : category.enTitle;
+            const subtitle = isRtl ? category.enTitle : category.arTitle; // Secondary title language
+            const desc = isRtl ? category.arDesc : category.enDesc;
+            const altText = isRtl ? category.altTextAr : category.altTextEn;
+            
+            const topServices = category.internalServices.slice(0, 5);
+            const hasMoreServices = category.internalServices.length > 5;
+            
+            const moreText = t.services.moreSolutions;
+            const ctaText = t.services.exploreWork;
+            
+            return (
+              <motion.div 
+                key={category.id} 
+                variants={animationRegistry.fadeUp} 
+                className="group perspective-1000 h-[450px] w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-3xl"
+                tabIndex={0}
+              >
+                <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180 group-focus:rotate-y-180 rounded-3xl shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-black/40">
+                  
+                  {/* Card Front */}
+                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-3xl overflow-hidden border border-white/10 bg-black">
+                    <div className="absolute inset-0 overflow-hidden">
+                      <img 
+                        src={category.coverImage} 
+                        alt={altText}
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-text-primary">{category.arTitle}</h3>
-                      <p className="text-sm text-text-muted font-mono">{category.title}</p>
+                    
+                    <div className="absolute inset-0 p-8 flex flex-col justify-end text-left rtl:text-right">
+                      <div className="mb-4">
+                        <h3 className="font-display font-bold text-2xl text-white mb-1 leading-tight">{title}</h3>
+                        <h4 className="font-display font-medium text-sm text-[#10B981] mb-3 uppercase tracking-wider">{subtitle}</h4>
+                        <p className="text-white/80 text-sm leading-relaxed">{desc}</p>
+                      </div>
+                      <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 self-end rtl:self-start">
+                        <LayoutGrid className="w-5 h-5 text-white" />
+                      </div>
                     </div>
                   </div>
                   
-                  <ul className="flex flex-wrap gap-2 md:gap-3">
-                    {category.items.map((item, itemIdx) => (
-                      <li key={itemIdx} className="flex items-center gap-2 text-sm font-bold text-text-secondary bg-background-alt px-3 py-2 rounded-lg border border-border">
-                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> 
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Card Reverse */}
+                  <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-3xl overflow-hidden border border-[#10B981]/30 bg-black/90 backdrop-blur-xl p-8 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-display font-bold text-xl text-white mb-6 pb-4 border-b border-white/10">
+                        {title}
+                      </h3>
+                      
+                      <ul className="space-y-3 mb-4">
+                        {topServices.map((service, sIdx) => (
+                          <li key={sIdx} className="flex items-start gap-3 text-sm text-white/90 font-medium">
+                            <CheckCircle2 className="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" />
+                            <span>{service}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      {hasMoreServices && (
+                        <p className="text-xs font-bold text-white/50 mt-4 italic">
+                          {moreText}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <a 
+                      href={`#portfolio`}
+                      className="w-full bg-[#10B981] text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#059669] transition-colors flex items-center justify-center gap-2 mt-auto"
+                    >
+                      {ctaText}
+                      <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
+                    </a>
+                  </div>
+                  
                 </div>
-              );
-            })}
-          </motion.div>
-        )}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </motion.section>
   );

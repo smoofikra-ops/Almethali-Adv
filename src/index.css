@@ -10,6 +10,9 @@
   --color-corporate-light: #f8fafc;
   --color-corporate-accent: #2563eb;
   
+  --color-brand-primary: #0F52BA;
+  --color-brand-accent: #FFD700;
+  
   --color-background: var(--background);
   --color-background-alt: var(--background-alt);
   --color-surface: var(--surface);
@@ -107,5 +110,29 @@
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  /* Safari specific fix for 3D transforms */
+  .transform-style-3d {
+    -webkit-transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    -webkit-backface-visibility: hidden;
   }
 }

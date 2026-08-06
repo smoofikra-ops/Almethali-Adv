@@ -51,7 +51,7 @@ export default function CinematicBackground() {
           />
         </motion.div>
       </AnimatePresence>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0 bg-black/75"></div>
     </div>
   );
 }
