@@ -108,7 +108,15 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                     </div>
                     
                     <a 
-                      href={`#portfolio`}
+                      href={
+                        category.id === 'billboards-displays' ? 'https://drive.google.com/drive/folders/1AsmFYrqHyZE1NcbVAZBIjMNypMSgwRjS?usp=sharing' :
+                        category.id === 'digital-printing-signage' ? 'https://drive.google.com/drive/folders/1uWnmw4dTDJZOpxpCeF3uD0I2F0vEKPaV?usp=sharing' :
+                        category.id === 'exhibitions-events' ? 'https://drive.google.com/drive/folders/1ew2w_G32rjaRihaKk76BOIfrlhszJkAd?usp=sharing' :
+                        category.id === 'awards-promotional-gifts' ? 'https://drive.google.com/drive/folders/12qxT1XGQmsFd5ydi7RlWS6G_de_TOkC6?usp=sharing' :
+                        '#portfolio'
+                      }
+                      target={['billboards-displays', 'digital-printing-signage', 'exhibitions-events', 'awards-promotional-gifts'].includes(category.id) ? '_blank' : undefined}
+                      rel={['billboards-displays', 'digital-printing-signage', 'exhibitions-events', 'awards-promotional-gifts'].includes(category.id) ? 'noopener noreferrer' : undefined}
                       className="w-full bg-accent text-text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-accent transition-colors flex items-center justify-center gap-2 mt-auto"
                     >
                       {ctaText}
