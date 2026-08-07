@@ -31,6 +31,20 @@ const FooterAccordion = ({ title, children, isOpen, onToggle }: { title: string,
 };
 
 export default function Footer() {
+  const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'light');
+  
+  React.useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setTheme(document.documentElement.getAttribute('data-theme') || 'light');
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
   const [openAccordion, setOpenAccordion] = useState<string | null>('contact');
   const { language, t } = useLanguage();
   const isRtl = language === 'ar';
@@ -50,8 +64,8 @@ export default function Footer() {
             <div className="lg:col-span-4 md:col-span-2">
               <div className="mb-6 flex items-center justify-start">
                 {images.brand.logoFooter ? (
-                   <img src={images.brand.logoFooter} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
-                ) : (
+                 <img src={theme === 'dark' ? images.brand.logoFooterDark : images.brand.logoFooterLight} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
+              ) : (
                    <div className="flex items-center gap-2">
                      <div className="w-10 h-10 bg-surface-elevated/20 border border-border rounded-lg flex items-center justify-center font-display font-bold text-xl text-text-primary shadow-sm">
                        {isRtl ? "م" : "M"}

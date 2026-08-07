@@ -30,12 +30,14 @@ export default function Header() {
 
   const isRtl = language === 'ar';
   
-  const logoSrc = theme === 'dark' ? (images.brand.logoDark || images.brand.logoMain) : (images.brand.logoLight || images.brand.logoMain);
+  const logoSrc = theme === 'dark' ? images.brand.logoHeaderDark : images.brand.logoHeaderLight;
 
   const navItems = [
     { id: 'hero', ar: 'الرئيسية', en: 'Home' },
-    { id: 'about', ar: 'من نحن', en: 'About Us' },
+    { id: 'about', ar: 'من نحن', en: 'About' },
     { id: 'services', ar: 'خدماتنا', en: 'Services' },
+    { id: 'portfolio', ar: 'مشاريعنا', en: 'Projects' },
+    { id: 'contact', ar: 'تواصل معنا', en: 'Contact' },
   ];
 
   return (
@@ -98,7 +100,16 @@ export default function Header() {
         {/* Mobile Layout */}
         <div className="lg:hidden flex justify-between items-center relative" style={{ height: 'var(--header-height)' }}>
           
-          <div className="flex items-center justify-start gap-2">
+          <div className="flex-1 flex justify-start">
+            <button 
+              className="p-2 text-text-primary -ml-2 rtl:-mr-2 rtl:-ml-0"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+
+          <div className="flex-1 flex justify-center">
             <a href="/" className="flex items-center transition-opacity hover:opacity-80">
               {logoSrc ? (
                  <img src={logoSrc} alt={contactConfig.tradeNameAr} className="h-8 w-auto object-contain" />
@@ -108,16 +119,13 @@ export default function Header() {
             </a>
           </div>
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex-1 flex items-center justify-end gap-1">
             <button onClick={toggleLanguage} className="flex items-center gap-1 text-text-secondary hover:text-text-primary p-1">
               <Globe className="w-5 h-5" />
               <span className="text-xs font-bold uppercase">{language === 'ar' ? 'EN' : 'AR'}</span>
             </button>
-            <button 
-              className="p-2 text-text-primary"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X /> : <Menu />}
+            <button onClick={toggleTheme} className="text-text-secondary hover:text-text-primary transition-colors p-1">
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>
         </div>

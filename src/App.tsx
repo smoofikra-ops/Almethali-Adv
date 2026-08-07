@@ -17,6 +17,7 @@ export default function App() {
     const handleHashChange = () => {
       setCurrentHash(window.location.hash);
     };
+
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
@@ -38,12 +39,10 @@ export default function App() {
       </Helmet>
       
       <CinematicBackground />
-
-      <div className="sticky top-0 z-50 flex flex-col w-full">
-        <AnnouncementBar />
+      <AnnouncementBar />
+      <div className="sticky top-0 z-50 w-full">
         <Header />
       </div>
-
       <main className="relative z-10">
         {renderContent()}
       </main>

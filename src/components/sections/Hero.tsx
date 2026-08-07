@@ -132,14 +132,14 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           
           {/* Trust Indicators */}
           <motion.div variants={itemVariants} className="flex flex-wrap sm:flex-nowrap justify-center items-center gap-2 mb-12 w-full max-w-5xl mx-auto relative px-2">
-             {t.hero.trustIndicators.map((item, idx) => (
+                          {t.hero.trustIndicators.map((item, idx) => (
                <React.Fragment key={idx}>
                  <motion.div 
                    animate={{
-                     scale: [1, 1.05, 1, 1, 1],
+                     scale: [1, 1.1, 1, 1, 1],
                      boxShadow: [
                        "0px 0px 0px rgba(0,0,0,0)",
-                       "0px 4px 20px rgba(0, 180, 216, 0.2)",
+                       "0px 4px 20px rgba(0, 180, 216, 0.3)",
                        "0px 0px 0px rgba(0,0,0,0)",
                        "0px 0px 0px rgba(0,0,0,0)",
                        "0px 0px 0px rgba(0,0,0,0)"
@@ -153,11 +153,11 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
                      ]
                    }}
                    transition={{
-                     duration: 4,
+                     duration: 6,
                      repeat: Infinity,
                      repeatDelay: 0,
-                     times: [0, 0.1, 0.2, 0.25, 1],
-                     delay: idx * 1
+                     times: [0, 0.05, 0.1, 0.15, 1],
+                     delay: idx * 1.5
                    }}
                    className="flex-1 sm:flex-none flex justify-center items-center gap-1.5 bg-surface-elevated/10 backdrop-blur-sm px-2 sm:px-4 py-2 rounded-lg border border-border shadow-sm relative z-10 min-w-[140px] sm:min-w-0"
                  >
@@ -166,19 +166,21 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
                  </motion.div>
                  
                  {idx < t.hero.trustIndicators.length - 1 && (
-                   <div className="hidden sm:block w-4 md:w-12 h-[2px] bg-border relative overflow-hidden shrink-0">
+                   <div className="hidden sm:block w-4 md:w-12 h-[2px] bg-border relative shrink-0 overflow-hidden rounded-full">
                      <motion.div 
                        animate={{
-                         x: isRtl ? ['100%', '-100%', '-100%', '-100%'] : ['-100%', '100%', '100%', '100%']
+                         opacity: [0, 1, 0, 0, 0],
+                         scaleX: [0, 1, 0, 0, 0],
+                         x: isRtl ? [20, 0, -20, -20, -20] : [-20, 0, 20, 20, 20]
                        }}
                        transition={{
-                         duration: 4,
+                         duration: 6,
                          repeat: Infinity,
                          repeatDelay: 0,
-                         times: [0.2, 0.35, 1, 1],
-                         delay: idx * 1
+                         times: [0.1, 0.15, 0.25, 0.3, 1],
+                         delay: idx * 1.5
                        }}
-                       className="absolute inset-0 bg-accent"
+                       className="absolute inset-0 bg-accent rounded-full"
                      />
                    </div>
                  )}

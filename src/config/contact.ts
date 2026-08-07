@@ -15,8 +15,8 @@ export const contactConfig = {
   phoneLink: "+966509020257",
   whatsappNumber: "966509020257",
   whatsappMessages: {
-    ar: "مرحبًا فريق المثالي للدعاية والإعلان،\nتواصلت معكم من خلال الموقع الإلكتروني وأرغب في معرفة المزيد عن خدماتكم.",
-    en: "Hello Al-Mithali Advertising team,\nI contacted you through the website and would like to learn more about your services."
+    ar: "مرحبًا فريق المثالي للدعاية والإعلان،\nتواصلت معكم عبر الموقع الإلكتروني وأرغب في معرفة المزيد عن خدماتكم.",
+    en: "Hello Al-Mithali Advertising Team,\nI contacted you through your website and would like to learn more about your services."
   },
   email: "almethali.adv@gmail.com",
   socials: {
