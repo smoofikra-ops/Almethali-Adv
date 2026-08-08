@@ -72,7 +72,7 @@ export default function Header() {
               <a 
                 key={item.id}
                 href={`#${item.id}`} 
-                className="group relative text-sm font-bold text-text-secondary hover:text-accent transition-colors px-4 py-2 rounded-full hover:bg-surface-elevated/30"
+                className="group relative text-sm font-bold text-text-secondary hover:text-accent transition-colors px-4 py-2 rounded-full hover:bg-surface-elevated/30 whitespace-nowrap"
               >
                 <span className="relative z-10">{isRtl ? item.ar : item.en}</span>
                 <span className="absolute inset-0 rounded-full border border-accent/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>

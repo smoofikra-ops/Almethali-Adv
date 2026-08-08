@@ -137,9 +137,9 @@ export default function Footer() {
                 onToggle={() => toggleAccordion('services')}
               >
                 <ul className="space-y-3 pt-2 md:pt-0">
-                  {servicesConfig.categories.slice(0, 4).map((cat, idx) => (
+                  {servicesConfig.categories.filter(c => c.enabled).sort((a, b) => a.order - b.order).map((cat, idx) => (
                     <li key={idx}>
-                      <a href="#services" className="hover:text-text-primary transition-colors text-sm">
+                      <a href={`#service-${cat.id}`} className="hover:text-text-primary transition-colors text-sm block">
                         {isRtl ? cat.arTitle : cat.enTitle}
                       </a>
                     </li>

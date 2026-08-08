@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { contentConfig } from '../../config/content';
+import { images } from '../../config/images';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
 import { useLanguage } from '../../context/LanguageContext';
@@ -63,10 +64,7 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
             <div className="aspect-[4/5] md:aspect-square bg-surface rounded-3xl overflow-hidden shadow-2xl border border-border relative group">
                {/* Image Placeholder */}
                <div className="absolute inset-0 bg-background-alt opacity-50 group-hover:opacity-0 transition-opacity duration-700 z-10" />
-               <div className="w-full h-full flex flex-col items-center justify-center bg-surface text-text-muted font-bold relative z-0">
-                 <span className="text-xl tracking-widest uppercase opacity-30">Vision & Focus</span>
-                 <div className="mt-4 text-sm font-normal text-text-secondary">TODO_CLOUDINARY_ABOUT_IMAGE</div>
-               </div>
+               <img src={images.home.about} alt={isRtl ? "نقاط القوة" : "Our Strengths"} className="w-full h-full object-cover relative z-0" />
             </div>
             
             {/* Decorative block */}
