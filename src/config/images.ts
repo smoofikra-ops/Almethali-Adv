@@ -4,14 +4,14 @@ export const images = {
     logoFooter: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethal_logo_with_trans_text_ws9dmz.png",
     
     // Header logos
-    logoHeaderLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethali_logo_without_text_blue_dhwdpl.png",
+    logoHeaderLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_without_text_xfahob.png",
     logoHeaderDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982321/almithali_logo_whithout_text_trans_glltmr.png",
     
     // Footer logos
-    logoFooterLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almithali_logo_blue_with_text_chnzcf.png",
+    logoFooterLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_with_text_gf8iae.png",
     logoFooterDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethal_logo_with_trans_text_ws9dmz.png",
 
-    logoLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethali_logo_without_text_blue_dhwdpl.png",
+    logoLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_without_text_xfahob.png",
     logoDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982321/almithali_logo_whithout_text_trans_glltmr.png",
     favicon: ""
   },

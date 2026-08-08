@@ -93,133 +93,41 @@ function TypewriterText({ words, isRtl }: { words: string[], isRtl: boolean }) {
 
 
 
-function HeroBackgroundSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = images.heroSlides || [];
+
+function HeroBackgroundVideo() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const { language } = useLanguage();
-  const isRtl = language === 'ar';
-  
-  const SLIDE_DURATION = 6000;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
     const listener = (e) => setPrefersReducedMotion(e.matches);
     mediaQuery.addEventListener('change', listener);
-    
-    const mobileQuery = window.matchMedia('(max-width: 768px)');
-    setIsMobile(mobileQuery.matches);
-    const mobileListener = (e) => setIsMobile(e.matches);
-    mobileQuery.addEventListener('change', mobileListener);
-    
-    return () => {
-      mediaQuery.removeEventListener('change', listener);
-      mobileQuery.removeEventListener('change', mobileListener);
-    };
+    return () => mediaQuery.removeEventListener('change', listener);
   }, []);
-  
-  useEffect(() => {
-    if (prefersReducedMotion || slides.length <= 1 || isPaused) return;
-    
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, SLIDE_DURATION); 
-    
-    return () => clearInterval(interval);
-  }, [prefersReducedMotion, slides.length, isPaused, currentSlide]);
-
-  const paginate = (newDirection) => {
-    const nextSlide = (currentSlide + newDirection + slides.length) % slides.length;
-    setCurrentSlide(nextSlide);
-  };
-
-  const handleDragEnd = (e, { offset, velocity }) => {
-    const swipe = offset.x;
-    const threshold = 50;
-    if (swipe < -threshold) {
-      paginate(isRtl ? -1 : 1);
-    } else if (swipe > threshold) {
-      paginate(isRtl ? 1 : -1);
-    }
-  };
-
-  if (!slides || slides.length === 0) return null;
 
   return (
-    <div 
-      className="absolute inset-0 z-0 overflow-hidden bg-background"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onTouchStart={() => setIsPaused(true)}
-      onTouchEnd={() => setIsPaused(false)}
-    >
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : (isMobile ? 1.02 : 1.05) }}
-          animate={{ opacity: 1, scale: prefersReducedMotion ? 1 : 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            opacity: { duration: 1.5, ease: 'easeInOut' },
-            scale: { duration: SLIDE_DURATION / 1000 + 1, ease: 'linear' }
-          }}
-          className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.2}
-          onDragEnd={handleDragEnd}
+    <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
+        className="absolute inset-0 w-full h-full"
+      >
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="w-full h-full object-cover"
+          poster={images.heroSlides?.[0]?.src}
         >
-          <picture className="w-full h-full block pointer-events-none">
-            <source media="(max-width: 768px)" srcSet={slides[currentSlide].mobileSrc || slides[currentSlide].src} />
-            <img 
-              src={slides[currentSlide].src} 
-              alt={isRtl ? slides[currentSlide].altAr : slides[currentSlide].altEn}
-              className="w-full h-full object-cover"
-              style={{
-                objectPosition: isMobile ? slides[currentSlide].objectPositionMobile : slides[currentSlide].objectPositionDesktop
-              }}
-              fetchPriority={currentSlide === 0 ? "high" : "auto"}
-              loading={currentSlide === 0 ? "eager" : "lazy"}
-            />
-          </picture>
-        </motion.div>
-      </AnimatePresence>
+          <source src="https://res.cloudinary.com/e0zb5lw9/video/upload/v1786178072/hero-almethali-adv_buj5se.mp4" type="video/mp4" />
+        </video>
+      </motion.div>
 
-      {/* Cinematic Overlays */}
-      <div className="absolute inset-0 bg-background/30 dark:bg-background/50 transition-colors duration-1000 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/70 to-accent/20 dark:from-background/95 dark:via-background/80 dark:to-accent/20 transition-colors duration-1000 pointer-events-none"></div>
-      
-      {/* Slide Indicators & Progress */}
-      {slides.length > 1 && (
-        <div className="absolute bottom-6 left-0 right-0 px-4 md:px-12 flex justify-center items-center z-20 pointer-events-none">
-          <div className="flex gap-2 items-center pointer-events-auto">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className="relative h-1.5 rounded-full overflow-hidden bg-text-primary/20 transition-all duration-300"
-                style={{ width: currentSlide === idx ? '2rem' : '0.5rem' }}
-                aria-label={`Go to slide ${idx + 1}`}
-              >
-                {currentSlide === idx && !isPaused && !prefersReducedMotion && (
-                  <motion.div 
-                    className="absolute top-0 left-0 bottom-0 bg-accent"
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-                  />
-                )}
-                {currentSlide === idx && (isPaused || prefersReducedMotion) && (
-                  <div className="absolute top-0 left-0 bottom-0 bg-accent w-full" />
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Overlays - tuned to make video more visible but text readable */}
+      <div className="absolute inset-0 bg-background/20 dark:bg-background/40 transition-colors duration-1000 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent pointer-events-none transition-colors duration-1000"></div>
     </div>
   );
 }
@@ -237,7 +145,7 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
       className={`relative w-full overflow-hidden bg-transparent text-text-primary ${className || ''}`} 
       style={{ height: '100svh', minHeight: '620px', maxHeight: '1000px' }}
     >
-      <HeroBackgroundSlider />
+      <HeroBackgroundVideo />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col justify-center mt-10">
         <motion.div 
           initial="hidden"
