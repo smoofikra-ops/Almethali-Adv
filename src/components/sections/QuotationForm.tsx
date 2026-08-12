@@ -140,7 +140,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
   };
 
   const selectedCategory = servicesConfig.categories.find(c => c.arTitle === formData.section);
-  const availableServices = selectedCategory ? selectedCategory.internalServices : [];
+  const availableServices = selectedCategory ? selectedCategory.internalServices.map((s: any) => isRtl ? s.arName : s.enName) : [];
 
   return (
     <motion.section 
@@ -192,12 +192,12 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
               <div className={`absolute top-1/2 ${isRtl ? 'right-0' : 'left-0'} h-0.5 bg-primary -z-10 -translate-y-1/2 transition-all duration-300`} style={{ width: step === 1 ? '50%' : '100%' }}></div>
               
               <div className={`flex flex-col items-center gap-2 ${step >= 1 ? 'text-primary' : 'text-text-muted'}`}>
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 1 ? 'bg-primary text-primary-foreground' : 'bg-background-alt text-text-secondary'}`}>1</div>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 1 ? 'bg-accent text-accent-foreground' : 'bg-background-alt text-text-secondary'}`}>1</div>
                 <span className="text-xs font-bold hidden sm:block">{t.quote.step1}</span>
               </div>
               
               <div className={`flex flex-col items-center gap-2 ${step >= 2 ? 'text-primary' : 'text-text-muted'}`}>
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 2 ? 'bg-primary text-primary-foreground' : 'bg-background-alt text-text-secondary'}`}>2</div>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 2 ? 'bg-accent text-accent-foreground' : 'bg-background-alt text-text-secondary'}`}>2</div>
                 <span className="text-xs font-bold hidden sm:block">{t.quote.step2}</span>
               </div>
             </div>
@@ -208,11 +208,11 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'الاسم الكامل *' : 'Full Name *'}</label>
-                      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={isRtl ? "اكتب اسمك الكامل" : "Enter your full name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} required />
+                      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={isRtl ? "اكتب اسمك الكامل" : "Enter your full name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm text-start`} required />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'نوع العميل *' : 'Client Type *'}</label>
-                      <select name="clientType" value={formData.clientType} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm" required>
+                      <select name="clientType" value={formData.clientType} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm" required>
                         <option value="">{isRtl ? 'اختر نوع العميل' : 'Select Client Type'}</option>
                         {clientTypes.map(opt => <option key={opt.en} value={opt.ar}>{isRtl ? opt.ar : opt.en}</option>)}
                       </select>
@@ -222,24 +222,24 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   {formData.clientType && formData.clientType !== 'فرد' && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
                       <label className="block text-sm font-bold text-text-primary mb-1.5 mt-2">{isRtl ? 'اسم الجهة أو الشركة *' : 'Entity or Company Name *'}</label>
-                      <input type="text" name="entityName" value={formData.entityName} onChange={handleChange} placeholder={isRtl ? "اكتب اسم الجهة أو الشركة" : "Enter entity or company name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} required />
+                      <input type="text" name="entityName" value={formData.entityName} onChange={handleChange} placeholder={isRtl ? "اكتب اسم الجهة أو الشركة" : "Enter entity or company name"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm text-start`} required />
                     </motion.div>
                   )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'رقم الجوال *' : 'Phone Number *'}</label>
-                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-start text-sm" dir="ltr" placeholder="05xxxxxxxx" required pattern="^(05)[0-9]{8}$" title={isRtl ? "يجب أن يبدأ بـ 05 ويتكون من 10 أرقام" : "Must start with 05 and contain 10 digits"} />
+                      <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-start text-sm" dir="ltr" placeholder="05xxxxxxxx" required pattern="^(05)[0-9]{8}$" title={isRtl ? "يجب أن يبدأ بـ 05 ويتكون من 10 أرقام" : "Must start with 05 and contain 10 digits"} />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'البريد الإلكتروني' : 'Email Address'}</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-start text-sm" dir="ltr" placeholder="example@email.com" />
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-start text-sm" dir="ltr" placeholder="example@email.com" />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'المدينة *' : 'City *'}</label>
-                    <select name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm" required>
+                    <select name="city" value={formData.city} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm" required>
                       <option value="">{isRtl ? 'اختر المدينة' : 'Select City'}</option>
                       {cities.map(opt => <option key={opt.en} value={opt.ar}>{isRtl ? opt.ar : opt.en}</option>)}
                     </select>
@@ -263,7 +263,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                       setStep1Error('');
                       setStep(2);
                     }} 
-                    className="w-full bg-primary text-primary-foreground px-4 py-4 rounded-xl font-bold text-base hover:opacity-90 transition-opacity shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-6"
+                    className="w-full bg-accent text-accent-foreground px-4 py-4 rounded-xl font-bold text-base hover:bg-accent-deep transition-opacity shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-6"
                   >
                     {isRtl ? 'التالي' : 'Next'}
                     <ArrowLeft className={`w-5 h-5 ${!isRtl ? 'rotate-180' : ''}`} />
@@ -281,7 +281,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
                   <div>
                     <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'القسم المطلوب *' : 'Required Section *'}</label>
-                    <select name="section" value={formData.section} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm" required>
+                    <select name="section" value={formData.section} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm" required>
                       <option value="">{isRtl ? 'اختر القسم' : 'Select Section'}</option>
                       {servicesConfig.categories.map(opt => <option key={opt.arTitle} value={opt.arTitle}>{isRtl ? opt.arTitle : opt.enTitle}</option>)}
                       <option value="غير متأكد وأحتاج استشارة">{isRtl ? 'غير متأكد وأحتاج استشارة' : 'Not sure, I need consultation'}</option>
@@ -293,7 +293,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                       <label className="block text-sm font-bold text-text-primary mb-2.5">{isRtl ? 'الخدمة المطلوبة *' : 'Required Service *'}</label>
                       <div className="flex flex-wrap gap-2">
                         {availableServices.map(service => (
-                          <label key={service} className={`cursor-pointer px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${formData.services.includes(service) ? 'bg-primary text-primary-foreground border-primary' : 'bg-surface text-text-secondary border-border hover:border-primary/50'}`}>
+                          <label key={service} className={`cursor-pointer px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${formData.services.includes(service) ? 'bg-accent text-accent-foreground border-accent' : 'bg-surface text-text-secondary border-border hover:border-accent/50'}`}>
                             <input type="checkbox" className="hidden" checked={formData.services.includes(service)} onChange={() => handleServiceToggle(service)} />
                             {service}
                           </label>
@@ -305,11 +305,11 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'الكمية المطلوبة' : 'Required Quantity'}</label>
-                      <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder={isRtl ? "مثال: 10 قطع أو 200 متر" : "Example: 10 pieces or 200 meters"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm text-start`} />
+                      <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder={isRtl ? "مثال: 10 قطع أو 200 متر" : "Example: 10 pieces or 200 meters"} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm text-start`} />
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'موعد التنفيذ *' : 'Execution Time *'}</label>
-                      <select name="executionTime" value={formData.executionTime} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all text-sm" required>
+                      <select name="executionTime" value={formData.executionTime} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all text-sm" required>
                         <option value="">{isRtl ? 'اختر موعد التنفيذ' : 'Select Execution Time'}</option>
                         {executionTimes.map(opt => <option key={opt.en} value={opt.ar}>{isRtl ? opt.ar : opt.en}</option>)}
                       </select>
@@ -325,7 +325,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                         { ar: 'لا، أحتاج التصميم منكم', en: 'No, I need a design from you' }, 
                         { ar: 'غير متأكد', en: 'Not sure' }
                       ].map(opt => (
-                        <label key={opt.en} className={`cursor-pointer px-2 py-2 rounded-lg border text-xs font-bold text-center transition-colors ${formData.hasDesign === opt.ar ? 'bg-primary/10 border-primary text-primary' : 'bg-surface border-border text-text-secondary hover:border-border-strong'}`}>
+                        <label key={opt.en} className={`cursor-pointer px-2 py-2 rounded-lg border text-xs font-bold text-center transition-colors ${formData.hasDesign === opt.ar ? 'bg-accent/10 border-accent text-accent' : 'bg-surface border-border text-text-secondary hover:border-border-strong'}`}>
                           <input type="radio" name="hasDesign" value={opt.ar} onChange={handleChange} required className="hidden" />
                           {isRtl ? opt.ar : opt.en}
                         </label>
@@ -335,7 +335,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
 
                   <div>
                     <label className="block text-sm font-bold text-text-primary mb-1.5">{isRtl ? 'تفاصيل الطلب *' : 'Request Details *'}</label>
-                    <textarea name="details" value={formData.details} onChange={handleChange} rows={4} placeholder={isRtl ? "اكتب المقاسات، الخامات، الكمية، موقع التركيب وأي تفاصيل تساعدنا في إعداد عرض السعر." : "Write sizes, materials, quantity, installation location, and any details that help us prepare the quote."} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-primary outline-none transition-all resize-none text-sm text-start`} required></textarea>
+                    <textarea name="details" value={formData.details} onChange={handleChange} rows={4} placeholder={isRtl ? "اكتب المقاسات، الخامات، الكمية، موقع التركيب وأي تفاصيل تساعدنا في إعداد عرض السعر." : "Write sizes, materials, quantity, installation location, and any details that help us prepare the quote."} className={`w-full px-4 py-3 rounded-xl border border-border bg-surface focus:border-accent outline-none transition-all resize-none text-sm text-start`} required></textarea>
                   </div>
 
                   <div className="bg-background-alt border border-border rounded-xl p-4 flex gap-3 items-start">
@@ -356,7 +356,7 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
                     <button 
                       type="submit" 
                       disabled={isSubmitting || (formData.section && formData.section !== 'غير متأكد وأحتاج استشارة' && formData.services.length === 0)} 
-                      className="w-2/3 bg-primary text-primary-foreground px-4 py-4 rounded-xl font-bold text-base hover:opacity-90 transition-opacity shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-2/3 bg-accent text-accent-foreground px-4 py-4 rounded-xl font-bold text-base hover:bg-accent-deep transition-opacity shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (isRtl ? 'جارٍ تجهيز الطلب...' : 'Processing request...') : (isRtl ? 'إرسال طلب عرض السعر' : 'Submit Quote Request')}
                       {!isSubmitting && <ArrowLeft className={`w-5 h-5 ${!isRtl ? 'rotate-180' : ''}`} />}

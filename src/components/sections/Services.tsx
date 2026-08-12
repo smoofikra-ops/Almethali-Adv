@@ -11,6 +11,7 @@ import { useLanguage } from '../../context/LanguageContext';
 function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
   const [selectedImage, setSelectedImage] = React.useState<number | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
+  const [hintVisible, setHintVisible] = React.useState(true);
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -23,18 +24,39 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setHintVisible(true);
+      // Simulate opening the first image directly if we are in a subservice
+      if (category && category.activeSubService) {
+        setSelectedImage(0);
+      }
     } else {
       document.body.style.overflow = '';
       setSelectedImage(null);
     }
     return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
+  }, [isOpen, category]);
 
-  // Handle ESC key
+  const images = React.useMemo(() => {
+    if (!category) return [];
+    if (category.activeSubService) {
+      // Direct Drive image discovery is not supported natively without API.
+      // We return an empty array to trigger the adapter required message.
+      return [];
+    }
+    return category.gallery && category.gallery.length > 0 ? category.gallery : [category.coverImage];
+  }, [category]);
+
+  const navigateLightbox = (direction: number) => {
+    if (selectedImage === null || images.length === 0) return;
+    setHintVisible(false);
+    const nextIdx = (selectedImage + direction + images.length) % images.length;
+    setSelectedImage(nextIdx);
+  };
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        if (selectedImage !== null) setSelectedImage(null);
+        if (selectedImage !== null && !category?.activeSubService) setSelectedImage(null);
         else onClose();
       }
       if (e.key === 'ArrowLeft' && selectedImage !== null) {
@@ -46,23 +68,49 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
     };
     if (isOpen) window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, selectedImage, isRtl]);
+  }, [isOpen, selectedImage, isRtl, images.length, category]);
+
+  // Swipe handling
+  const [touchStart, setTouchStart] = React.useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe || isRightSwipe) {
+      setHintVisible(false);
+    }
+
+    if (isLeftSwipe) {
+      navigateLightbox(isRtl ? -1 : 1);
+    }
+    if (isRightSwipe) {
+      navigateLightbox(isRtl ? 1 : -1);
+    }
+  };
 
   if (!isOpen || !category) return null;
 
-  // Use cover image as fallback if gallery is empty
-  const images = category.gallery && category.gallery.length > 0 ? category.gallery : [category.coverImage];
-  const title = isRtl ? category.arTitle : category.enTitle;
-
-  const navigateLightbox = (direction: number) => {
-    if (selectedImage === null) return;
-    const nextIdx = (selectedImage + direction + images.length) % images.length;
-    setSelectedImage(nextIdx);
-  };
+  const title = category.activeSubService 
+    ? (isRtl ? category.activeSubService.arName : category.activeSubService.enName)
+    : (isRtl ? category.arTitle : category.enTitle);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
       <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
@@ -72,7 +120,6 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
         onClick={onClose} 
       />
       
-      {/* Modal Content */}
       <motion.div 
         initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20, scale: prefersReducedMotion ? 1 : 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -80,7 +127,6 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
         transition={{ duration: prefersReducedMotion ? 0 : 0.4, type: "spring", bounce: 0 }}
         className="relative z-10 w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-surface border border-border rounded-2xl shadow-2xl flex flex-col"
       >
-        {/* Header */}
         <div className="sticky top-0 bg-surface/90 backdrop-blur-md z-20 border-b border-border p-4 md:p-6 flex items-center justify-between">
           <h3 className="font-display font-bold text-2xl text-text-primary">{title}</h3>
           <button 
@@ -93,231 +139,127 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
           </button>
         </div>
         
-        {/* Grid */}
-        <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {images.map((img: string, idx: number) => (
-            <div 
-              key={idx} 
-              className="aspect-square rounded-xl overflow-hidden cursor-pointer group bg-background-alt relative"
-              onClick={() => setSelectedImage(idx)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedImage(idx); } }}
-            >
-              <img 
-                src={img} 
-                alt="" 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100 transform border border-white/40">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8M3 3l6 6M3 3v4.8M3 3h4.8"/></svg>
+        {selectedImage !== null || category.activeSubService ? (
+          <div 
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-corporate-navy/98 backdrop-blur-lg"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <div className="absolute top-4 right-4 z-20 flex gap-4">
+               {images.length > 0 && (
+                 <div className="bg-corporate-navy/50 text-white px-3 py-1.5 rounded-full text-sm font-bold border border-white/10 backdrop-blur-md flex items-center">
+                   {selectedImage !== null ? selectedImage + 1 : 1} / {images.length}
+                 </div>
+               )}
+               <button 
+                onClick={() => {
+                  if (category.activeSubService) onClose();
+                  else setSelectedImage(null);
+                }}
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+            </div>
+            
+            {images.length > 0 ? (
+              <>
+                {images.length > 1 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); navigateLightbox(isRtl ? 1 : -1); }}
+                    className="absolute left-2 md:left-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md z-10"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                )}
+                
+                <motion.img 
+                  key={selectedImage}
+                  initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                  src={images[selectedImage!]} 
+                  alt="" 
+                  className="max-w-full max-h-[85vh] object-contain drop-shadow-2xl" 
+                />
+                
+                {images.length > 1 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); navigateLightbox(isRtl ? -1 : 1); }}
+                    className="absolute right-2 md:right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md z-10"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                )}
+                
+                {hintVisible && images.length > 1 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md pointer-events-none"
+                  >
+                    {isRtl ? "اسحب يمينًا أو يسارًا لاستعراض الصور" : "Swipe left or right to browse"}
+                  </motion.div>
+                )}
+              </>
+            ) : (
+              <div className="text-center text-white px-4 max-w-lg">
+                <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-6">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                </div>
+                <h4 className="text-xl font-bold mb-4">{isRtl ? 'مطلوب إعداد ربط مع Google Drive' : 'Google Drive API Integration Required'}</h4>
+                <p className="text-white/70 mb-4 leading-relaxed">
+                  {isRtl 
+                    ? `لعرض الصور الخاصة بخدمة "${title}" مباشرة، يجب إعداد أداة ربط (Media Adapter) لقراءة الملفات من المجلد.`
+                    : `To display images for "${title}", a Media Adapter must be configured to read files from the folder.`
+                  }
+                </p>
+                <p className="text-white/50 text-xs font-mono mb-8 p-3 bg-white/5 rounded-lg border border-white/10 break-all">
+                  Folder ID: {category.activeSubService?.folderId}
+                </p>
+                <a 
+                  href={category.activeSubService?.driveUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent-deep transition-colors"
+                >
+                  {isRtl ? 'عرض المجلد في Google Drive مؤقتاً' : 'View Folder in Google Drive Temporarily'}
+                </a>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {images.map((img: string, idx: number) => (
+              <div 
+                key={idx} 
+                className="aspect-square rounded-xl overflow-hidden cursor-pointer group bg-background-alt relative"
+                onClick={() => setSelectedImage(idx)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedImage(idx); } }}
+              >
+                <img 
+                  src={img} 
+                  alt="" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-corporate-navy/20 transition-colors duration-300 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-50 group-hover:scale-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </motion.div>
-
-      {/* Lightbox */}
-      {selectedImage !== null && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/98 backdrop-blur-lg">
-          <div className="absolute top-4 right-4 md:top-6 md:right-6 z-[70] flex gap-4">
-            <div className="bg-black/50 text-white px-3 py-1.5 rounded-full text-sm font-bold border border-white/10 backdrop-blur-md flex items-center">
-              {selectedImage + 1} / {images.length}
-            </div>
-            <button 
-              onClick={() => setSelectedImage(null)}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md"
-              aria-label={isRtl ? "إغلاق" : "Close"}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
-          </div>
-          
-          <div className="relative w-full max-w-7xl px-4 md:px-16 flex items-center justify-center h-full">
-            {images.length > 1 && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); navigateLightbox(isRtl ? 1 : -1); }}
-                className="absolute left-2 md:left-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md z-10"
-              >
-                <ArrowLeft className={`w-6 h-6 ${!isRtl ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-            
-            <motion.img 
-              key={selectedImage}
-              initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-              src={images[selectedImage]} 
-              alt="" 
-              className="max-w-full max-h-[85vh] object-contain drop-shadow-2xl" 
-            />
-            
-            {images.length > 1 && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); navigateLightbox(isRtl ? -1 : 1); }}
-                className="absolute right-2 md:right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-colors border border-white/10 backdrop-blur-md z-10"
-              >
-                <ArrowLeft className={`w-6 h-6 ${isRtl ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-// Service Card Component
-function ServiceCard({ category, isRtl, t, index, onOpenGallery }: any) {
-  const [isFlipped, setIsFlipped] = React.useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', listener);
-    return () => mediaQuery.removeEventListener('change', listener);
-  }, []);
-
-  const title = isRtl ? category.arTitle : category.enTitle;
-  const desc = isRtl ? category.arDesc : category.enDesc;
-  const subtitle = isRtl ? category.arSubtitle : category.enSubtitle;
-  const altText = isRtl ? category.altTextAr : category.altTextEn;
-  const topServices = category.internalServices.slice(0, 5);
-  const hasMoreServices = category.internalServices.length > 5;
-  const moreText = t.services.moreSolutions;
-  const ctaText = t.services.exploreWork;
-  const hintText = isRtl ? "اضغط لاستكشاف الخدمات" : "Tap to Explore";
-
-  const handleCardClick = () => {
-    if (!isFlipped) setIsFlipped(true);
-    else setIsFlipped(false); // background click on back returns to front
-  };
-
-  const handleCtaClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // prevent flip back
-    onOpenGallery(category);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleCardClick();
-    }
-  };
-
-  return (
-    <motion.div 
-      id={`service-${category.id}`}
-      variants={animationRegistry.fadeUp}
-      className="perspective-1000 h-[450px] w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-3xl target:ring-4 target:ring-accent/50 target:ring-offset-8 target:ring-offset-background scroll-mt-32"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onClick={handleCardClick}
-      aria-expanded={isFlipped}
-    >
-      <div 
-        className="relative w-full h-full transition-all duration-700 rounded-3xl shadow-xl shadow-black/20 hover:shadow-2xl hover:shadow-black/40"
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: isFlipped && !prefersReducedMotion ? 'rotateY(180deg)' : 'none',
-        }}
-      >
-        {/* Card Front */}
-        <div 
-          className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden border border-border bg-slate-900"
-          style={{ 
-            backfaceVisibility: 'hidden', 
-            WebkitBackfaceVisibility: 'hidden',
-            opacity: isFlipped && prefersReducedMotion ? 0 : 1,
-            transition: prefersReducedMotion ? 'opacity 0.3s' : 'none',
-            zIndex: isFlipped ? 0 : 1
-          }}
-        >
-          <div className="absolute inset-0 overflow-hidden">
-            <img 
-              src={category.coverImage} 
-              alt={altText}
-              className="w-full h-full object-cover opacity-70"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent"></div>
-          </div>
-          
-          <div className="absolute inset-0 p-8 flex flex-col justify-end text-start rtl:text-right">
-            <div className="mb-4 relative">
-              <h3 className="font-display font-bold text-2xl text-white mb-1 leading-tight">{title}</h3>
-              {subtitle && <h4 className="font-display font-medium text-sm text-accent mb-3 uppercase tracking-wider">{subtitle}</h4>}
-              <p className="text-white/80 text-sm leading-relaxed">{desc}</p>
-            </div>
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2 text-white/90 text-xs font-bold bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-pulse"><path d="M15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path d="M12 2v8"/><path d="m15.5 4.5-3.5 3.5"/></svg>
-                {hintText}
-              </div>
-              <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20">
-                <LayoutGrid className="w-5 h-5 text-white" />
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Card Reverse */}
-        <div 
-          className="absolute inset-0 w-full h-full rounded-3xl overflow-hidden border border-accent/30 bg-background/95 backdrop-blur-xl p-8 flex flex-col justify-between"
-          style={{ 
-            backfaceVisibility: 'hidden', 
-            WebkitBackfaceVisibility: 'hidden',
-            transform: prefersReducedMotion ? 'none' : 'rotateY(180deg)',
-            opacity: !isFlipped && prefersReducedMotion ? 0 : 1,
-            transition: prefersReducedMotion ? 'opacity 0.3s' : 'none',
-            zIndex: isFlipped ? 1 : 0,
-            pointerEvents: isFlipped ? 'auto' : 'none'
-          }}
-        >
-          <div>
-            <h3 className="font-display font-bold text-xl text-text-primary mb-6 pb-4 border-b border-border flex items-center justify-between">
-              {title}
-              <div className="w-8 h-8 rounded-full bg-surface-elevated flex items-center justify-center text-text-muted hover:text-text-primary transition-colors cursor-pointer border border-border">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-              </div>
-            </h3>
-            
-            <ul className="space-y-3 mb-4">
-              {topServices.map((service: string, sIdx: number) => (
-                <li key={sIdx} className="flex items-start gap-3 text-sm text-text-primary font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                  <span>{service}</span>
-                </li>
-              ))}
-            </ul>
-            
-            {hasMoreServices && (
-              <p className="text-xs font-bold text-text-primary/50 mt-4 italic">
-                {moreText}
-              </p>
-            )}
-          </div>
-          
-          <button
-            onClick={handleCtaClick}
-            className="w-full bg-accent text-text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-accent/90 transition-colors flex items-center justify-center gap-2 mt-auto shadow-md"
-            aria-label={ctaText}
-          >
-            {ctaText}
-            <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
+// Ensure the ArrowLeft component is still imported if it was before, I'll use standard SVG for arrows above to avoid dependency issues just in case.
 export default function Services({ id, theme, className = '' }: SectionComponentProps) {
   const { language, t } = useLanguage();
   const isRtl = language === 'ar';
@@ -374,15 +316,15 @@ export default function Services({ id, theme, className = '' }: SectionComponent
               >
                 <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180 group-focus:rotate-y-180 rounded-3xl shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-black/40">
                                     {/* Card Front */}
-                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-3xl overflow-hidden border border-border bg-slate-900">
+                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-3xl overflow-hidden border border-border bg-corporate-navy">
                     <div className="absolute inset-0 overflow-hidden">
                       <img 
                         src={category.coverImage} 
                         alt={altText}
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/95 via-corporate-navy/40 to-transparent"></div>
                     </div>
                     
                     <div className="absolute inset-0 p-8 flex flex-col justify-end text-start rtl:text-right">
@@ -408,7 +350,15 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                         {topServices.map((service, sIdx) => (
                           <li key={sIdx} className="flex items-start gap-3 text-sm text-text-primary font-medium">
                             <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                            <span>{service}</span>
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCategory({ ...category, activeSubService: service });
+                              }}
+                              className="hover:text-accent transition-colors text-start"
+                            >
+                              {isRtl ? service.arName : service.enName}
+                            </button>
                           </li>
                         ))}
                       </ul>
@@ -432,7 +382,7 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                       }
                       target={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? '_blank' : undefined}
                       rel={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? 'noopener noreferrer' : undefined}
-                      className="w-full bg-accent text-text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-accent transition-colors flex items-center justify-center gap-2 mt-auto"
+                      className="w-full bg-accent text-accent-foreground px-6 py-3 rounded-xl font-bold text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-2 mt-auto"
                     >
                       {ctaText}
                       <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />

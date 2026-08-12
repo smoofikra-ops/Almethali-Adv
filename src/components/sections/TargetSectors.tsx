@@ -6,12 +6,12 @@ import { animationRegistry } from '../../lib/animations';
 import { useLanguage } from '../../context/LanguageContext';
 
 const sectors = [
-  { title: 'الأفراد', titleEn: 'Individuals', icon: User },
-  { title: 'المؤسسات', titleEn: 'Institutions', icon: Building },
-  { title: 'الشركات', titleEn: 'Companies', icon: Building2 },
   { title: 'الجهات الحكومية', titleEn: 'Government Entities', icon: Landmark },
+  { title: 'الشركات', titleEn: 'Companies', icon: Building2 },
   { title: 'المشاريع التجارية', titleEn: 'Commercial Projects', icon: Store },
+  { title: 'المؤسسات', titleEn: 'Institutions', icon: Building },
   { title: 'كافة القطاعات', titleEn: 'All Sectors', icon: Globe2 },
+  { title: 'الأفراد', titleEn: 'Individuals', icon: User },
 ];
 
 export default function TargetSectors({ id, theme, className = '' }: SectionComponentProps) {

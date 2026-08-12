@@ -83,7 +83,7 @@ export default function Header() {
           
           {/* Controls (Left in RTL, Right in LTR) */}
           <div className="flex items-center gap-2 justify-end">
-            <a href="#quote" className="text-sm font-bold bg-accent text-accent-foreground px-4 py-2 rounded-full hover:opacity-90 transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+            <a href="#quote" className="text-sm font-bold bg-accent text-accent-foreground px-4 py-2 rounded-full hover:bg-accent-deep transition-all shadow-sm hover:shadow-md flex items-center gap-2">
               {language === 'ar' ? 'اطلب عرض سعر' : 'Request a Quote'}
               <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
             </a>
@@ -138,7 +138,7 @@ export default function Header() {
               {isRtl ? item.ar : item.en}
             </a>
           ))}
-          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-4 py-3 text-center mt-6 rounded-xl text-base font-bold bg-accent text-accent-foreground hover:opacity-90">
+          <a onClick={() => setIsMobileMenuOpen(false)} href="#quote" className="block px-4 py-3 text-center mt-6 rounded-xl text-base font-bold bg-accent text-accent-foreground hover:bg-accent-deep">
             {language === 'ar' ? 'اطلب عرض سعر' : 'Request a Quote'}
           </a>
         </div>

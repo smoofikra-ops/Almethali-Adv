@@ -126,8 +126,9 @@ function HeroBackgroundVideo() {
       </motion.div>
 
       {/* Overlays - tuned to make video more visible but text readable */}
-      <div className="absolute inset-0 bg-background/20 dark:bg-background/40 transition-colors duration-1000 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent pointer-events-none transition-colors duration-1000"></div>
+      {/* Corporate Navy / Deep Teal Cinematic Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-corporate-navy/60 to-brand-teal-deep/30 pointer-events-none transition-colors duration-1000"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/90 via-corporate-navy/20 to-transparent pointer-events-none transition-colors duration-1000"></div>
     </div>
   );
 }
@@ -160,29 +161,32 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           
           <motion.h1 
             variants={titleVariants}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-black text-text-primary mb-6 leading-tight tracking-tight drop-shadow-lg"
+            className="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white mb-6 leading-tight tracking-tight"
+            style={{ textShadow: "1px 1px 0px rgba(0,0,0,0.5), 2px 2px 0px rgba(0,0,0,0.3), 3px 3px 4px rgba(0,0,0,0.5)" }}
           >
-            {t.hero.solutions} <TypewriterText words={t.hero.words} isRtl={isRtl} /> <br/>
+            {t.hero.solutions} {t.hero.words && t.hero.words.length > 0 && <TypewriterText words={t.hero.words} isRtl={isRtl} />} {t.hero.presence && <br/>}
             {t.hero.presence}
           </motion.h1>
           
-          <motion.p 
-            variants={itemVariants} 
-            className="text-lg md:text-2xl text-text-secondary leading-relaxed mx-auto mb-8 max-w-3xl drop-shadow"
-          >
-            {t.hero.desc}
-          </motion.p>
+          {t.hero.desc && (
+            <motion.p 
+              variants={itemVariants} 
+              className="text-lg md:text-2xl text-text-secondary leading-relaxed mx-auto mb-8 max-w-3xl drop-shadow"
+            >
+              {t.hero.desc}
+            </motion.p>
+          )}
           
           {/* Trust Indicators */}
           <motion.div variants={itemVariants} className="flex flex-wrap sm:flex-nowrap justify-center items-center gap-2 mb-12 w-full max-w-5xl mx-auto relative px-2">
-                          {t.hero.trustIndicators.map((item, idx) => (
+                          {t.hero.trustIndicators && t.hero.trustIndicators.length > 0 && t.hero.trustIndicators.map((item, idx) => (
                <React.Fragment key={idx}>
                  <motion.div 
                    animate={{
                      scale: [1, 1.1, 1, 1, 1],
                      boxShadow: [
                        "0px 0px 0px rgba(0,0,0,0)",
-                       "0px 4px 20px rgba(0, 180, 216, 0.3)",
+                       "0px 4px 20px rgba(2, 136, 166, 0.3)",
                        "0px 0px 0px rgba(0,0,0,0)",
                        "0px 0px 0px rgba(0,0,0,0)",
                        "0px 0px 0px rgba(0,0,0,0)"
@@ -232,15 +236,15 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">
-            <a href="#quote" className="w-full sm:w-auto bg-primary text-primary-foreground px-8 py-4 rounded-xl font-bold text-base hover:opacity-90 transition-opacity shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <a href="#quote" className="w-full sm:w-auto bg-accent text-accent-foreground px-8 py-4 rounded-xl font-bold text-base hover:bg-accent-deep transition-opacity shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
               {t.hero.quoteBtn}
               <ArrowLeft className={`w-5 h-5 ${!isRtl ? 'rotate-180' : ''}`} />
             </a>
-            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-surface-elevated/20 backdrop-blur-md text-text-primary border border-border px-8 py-4 rounded-xl font-bold text-base hover:bg-surface-elevated/30 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-surface-elevated/20 backdrop-blur-md text-text-primary border border-accent px-8 py-4 rounded-xl font-bold text-base hover:bg-accent/10 transition-colors shadow-sm flex items-center justify-center gap-2">
               <Phone className="w-5 h-5 text-accent" />
               {t.hero.whatsappBtn}
             </a>
-            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-text-primary border border-border/50 px-8 py-4 rounded-xl font-bold text-base hover:bg-surface-elevated/20 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-text-primary border border-border px-8 py-4 rounded-xl font-bold text-base hover:border-accent hover:text-accent transition-colors shadow-sm flex items-center justify-center gap-2">
               {t.hero.careersBtn}
             </a>
           </motion.div>

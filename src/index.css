@@ -5,12 +5,13 @@
   --font-sans: "Almarai", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Almarai", ui-sans-serif, system-ui, sans-serif;
   
-  --color-corporate-navy: #0a1b3f;
-  --color-corporate-turquoise: #00b4d8;
-  
-  --color-brand-primary: var(--primary);
-  --color-brand-accent: var(--accent);
-  
+  --color-brand-primary: #141438;
+  --color-corporate-navy: #141438;
+  --color-brand-cyan: #0288A6;
+  --color-brand-teal-soft: #66C2B3;
+  --color-brand-teal-deep: #00506B;
+  --color-brand-white: #FFFFFF;
+
   --color-background: var(--background);
   --color-background-alt: var(--background-alt);
   --color-surface: var(--surface);
@@ -21,47 +22,75 @@
   --color-text-inverse: var(--text-inverse);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-deep: var(--accent-deep);
+  --color-focus-ring: var(--focus-ring);
+  --color-overlay: var(--overlay);
+  --color-shadow-color: var(--shadow-color);
 }
 
 @layer base {
   :root, [data-theme="light"] {
     --announcement-height: 40px;
     --header-height: 80px;
-    --background: #ffffff;
-    --background-alt: #f8fafc;
-    --surface: #ffffff;
-    --surface-elevated: #f1f5f9;
-    --text-primary: #0f172a;
-    --text-secondary: #334155;
-    --text-muted: #64748b;
-    --text-inverse: #ffffff;
-    --border: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --primary: #0a1b3f; /* Corporate Navy */
-    --primary-foreground: #ffffff;
-    --accent: #00b4d8; /* Turquoise */
-    --accent-foreground: #ffffff;
+
+    /* Semantic Tokens (Light) */
+    --background: #FFFFFF;
+    --background-alt: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-elevated: #F1F5F9;
+    
+    --text-primary: #141438;
+    --text-secondary: rgba(20, 20, 56, 0.7);
+    --text-muted: rgba(20, 20, 56, 0.5);
+    --text-inverse: #FFFFFF;
+    
+    --border: rgba(20, 20, 56, 0.1);
+    --border-strong: rgba(20, 20, 56, 0.2);
+    
+    --primary: #141438;
+    --primary-hover: #00506B;
+    --primary-foreground: #FFFFFF;
+    
+    --accent: #0288A6;
+    --accent-soft: #66C2B3;
+    --accent-deep: #00506B;
+    
+    --focus-ring: #0288A6;
+    --overlay: rgba(20, 20, 56, 0.8);
+    --shadow-color: rgba(20, 20, 56, 0.1);
   }
   
   [data-theme="dark"] {
-    --background: #020617;
-    --background-alt: #0a0f1c;
-    --surface: rgba(255, 255, 255, 0.03);
-    --surface-elevated: rgba(255, 255, 255, 0.08);
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
+    --background: #141438;
+    --background-alt: rgba(20, 20, 56, 0.95);
+    --surface: #00506B;
+    --surface-elevated: rgba(0, 80, 107, 0.4);
+    
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.75);
     --text-muted: rgba(255, 255, 255, 0.5);
-    --text-inverse: #020617;
-    --border: rgba(255, 255, 255, 0.1);
-    --border-strong: rgba(255, 255, 255, 0.2);
-    --primary: #00b4d8;
-    --primary-foreground: #ffffff;
-    --accent: #00b4d8;
-    --accent-foreground: #ffffff;
+    --text-inverse: #141438;
+    
+    --border: rgba(255, 255, 255, 0.15);
+    --border-strong: rgba(255, 255, 255, 0.3);
+    
+    --primary: #141438;
+    --primary-hover: #00506B;
+    --primary-foreground: #FFFFFF;
+    
+    --accent: #0288A6;
+    --accent-soft: #66C2B3;
+    --accent-deep: #00506B;
+
+    --focus-ring: #66C2B3;
+    --overlay: rgba(20, 20, 56, 0.85);
+    --shadow-color: rgba(0, 0, 0, 0.3);
   }
   
   body {

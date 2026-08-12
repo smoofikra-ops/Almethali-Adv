@@ -63,7 +63,7 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
           >
             <div className="aspect-[4/5] md:aspect-square bg-surface rounded-3xl overflow-hidden shadow-2xl border border-border relative group">
                {/* Image Placeholder */}
-               <div className="absolute inset-0 bg-background-alt opacity-50 group-hover:opacity-0 transition-opacity duration-700 z-10" />
+               <div className="absolute inset-0 bg-background-alt opacity-20 group-hover:opacity-0 transition-opacity duration-700 z-10" />
                <img src={images.home.about} alt={isRtl ? "نقاط القوة" : "Our Strengths"} className="w-full h-full object-cover relative z-0" />
             </div>
             

@@ -2,8 +2,8 @@ export const contentConfig = {
   about: {
     title: "من نحن",
     titleEn: "About Us",
-    description: "مؤسسة عالم الحروف المثالي للدعاية والإعلان، تأسست عام 2018، ومقرها الرئيسي في الرياض. نقدم حلولاً متكاملة ومبتكرة في مجال الدعاية والإعلان لتلبية احتياجات عملائنا بأعلى معايير الجودة والاحترافية.",
-    descriptionEn: "Al-Mithali World of Letters for Advertising, founded in 2018 and headquartered in Riyadh. We provide integrated and innovative advertising solutions to meet our clients' needs with the highest standards of quality and professionalism.",
+    description: "مؤسسة عالم الحروف المثالي للدعاية والإعلان، مؤسسة متخصصة في تقديم الحلول الدعائية والإعلانية المتكاملة بخبرة امتدت لأكثر من عشرين عامًا، تُلبي احتياجات عملائنا بأعلى معايير الجودة والاحترافية.",
+    descriptionEn: "Al-Mithali World of Letters for Advertising is an agency specialized in providing integrated advertising and promotional solutions with over twenty years of experience, meeting our clients' needs with the highest standards of quality and professionalism.",
     vision: "أن نكون الخيار الأول والوجهة الموثوقة محليًا وإقليميًا في تقديم حلول الدعاية والإعلان، عبر الابتكار المستمر والجودة العالية التي تسهم في بناء هويات قوية ومؤثرة لعملائنا.",
     visionEn: "To be the first choice and trusted destination locally and regionally in providing advertising solutions, through continuous innovation and high quality that contribute to building strong and impactful identities for our clients.",
     mission: "تقديم حلول متكاملة ومبتكرة في مجال الدعاية والإعلان تتجاوز توقعات عملائنا، من خلال فريق عمل محترف، واستخدام أحدث التقنيات، والالتزام بأعلى معايير الجودة، لنسهم في تعزيز نجاح ونمو أعمال شركائنا.",

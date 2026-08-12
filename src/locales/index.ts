@@ -9,14 +9,14 @@ export const translations = {
     },
     hero: {
       trustLabel: "نحن شريكك الموثوق",
-      solutions: "حلول إعلانية",
-      words: ['تصنع', 'تبرز', 'تعزز', 'تلهم', 'ترتقي بـ', 'تحول', 'تقود'],
-      presence: "حضورًا يسبقك إلى جمهورك",
-      desc: "من التصميم والطباعة إلى التصنيع والتركيب، نقدم حلولًا متكاملة تمنح علامتك حضورًا واضحًا ومؤثرًا.",
+      solutions: "20 عام",
+      words: [],
+      presence: "الخبرات تختصر المسافات",
+      desc: "",
       quoteBtn: "طلب عرض سعر",
       whatsappBtn: "تواصل عبر واتساب",
       careersBtn: "انضم إلينا الآن",
-      trustIndicators: ['منذ 2018', 'تصميم', 'تصنيع وتركيب', 'حلول مخصصة']
+      trustIndicators: []
     },
     about: {
       title: "من نحن",
@@ -24,8 +24,8 @@ export const translations = {
       mission: "رسالتنا",
     },
     services: {
-      title: "كل ما يحتاجه مشروعك… في مكان واحد",
-      desc: "اختر الحل الأقرب لاحتياجك، ودع فريق المثالي يتولى التصميم، التصنيع، التنفيذ والتركيب باحترافية متكاملة.",
+      title: "خدماتنا",
+      desc: "كل ما يحتاجه مشروعك",
       moreSolutions: "+ المزيد من الحلول المتخصصة",
       exploreWork: "استعرض الأعمال",
     },
@@ -90,14 +90,14 @@ export const translations = {
     },
     hero: {
       trustLabel: "Your Trusted Partner",
-      solutions: "Advertising Solutions",
-      words: ['Create', 'Highlight', 'Enhance', 'Inspire', 'Elevate', 'Transform', 'Lead'],
-      presence: "A presence that precedes you",
-      desc: "From design and printing to manufacturing and installation, we provide integrated solutions that give your brand a clear and impactful presence.",
+      solutions: "20 Years",
+      words: [],
+      presence: "Experience Shortens Distances",
+      desc: "",
       quoteBtn: "Get a Quote",
       whatsappBtn: "Contact via WhatsApp",
       careersBtn: "Join Us Now",
-      trustIndicators: ['Since 2018', 'Design, Produce & Install', 'Custom Solutions', 'After-Sales Service']
+      trustIndicators: []
     },
     about: {
       title: "About Us",
@@ -105,8 +105,8 @@ export const translations = {
       mission: "Our Mission",
     },
     services: {
-      title: "Everything Your Project Needs, In One Place",
-      desc: "Choose the solution that fits your project, and let Al-Mithali handle the design, production, execution and installation professionally.",
+      title: "Our Services",
+      desc: "Everything your project needs",
       moreSolutions: "+ More specialized solutions",
       exploreWork: "Explore Our Work",
     },
