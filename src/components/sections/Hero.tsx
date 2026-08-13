@@ -161,8 +161,7 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           
           <motion.h1 
             variants={titleVariants}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white mb-6 leading-tight tracking-tight"
-            style={{ textShadow: "1px 1px 0px rgba(0,0,0,0.5), 2px 2px 0px rgba(0,0,0,0.3), 3px 3px 4px rgba(0,0,0,0.5)" }}
+            className="text-4xl md:text-5xl lg:text-7xl font-display font-black hero-animated-text mb-6 leading-tight tracking-tight"
           >
             {t.hero.solutions} {t.hero.words && t.hero.words.length > 0 && <TypewriterText words={t.hero.words} isRtl={isRtl} />} {t.hero.presence && <br/>}
             {t.hero.presence}

@@ -60,16 +60,29 @@ export default function AboutUs({ id, theme, className }: SectionComponentProps)
 
         {/* Row 2: الإبداع والابتكار */}
         <motion.div variants={itemVariants} className="mb-3 md:mb-8">
-          <div className="bg-surface-elevated/10 backdrop-blur-md p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-border flex flex-col items-center text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-surface-elevated/20 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 border border-border text-accent">
-              <Sparkles className="w-6 h-6 md:w-8 md:h-8" />
+          <div className="relative rounded-2xl md:rounded-3xl shadow-sm border border-border overflow-hidden flex flex-col items-center text-center min-h-[300px] md:min-h-[400px] justify-center group">
+            <div className="absolute inset-0 w-full h-full z-0">
+              <img 
+                src="https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%A7%D9%84%D8%A7%D8%A8%D8%AF%D8%A7%D8%B9%20%D9%88%D8%A7%D9%84%D8%A7%D8%A8%D8%AA%D9%83%D8%A7%D8%B1.jpg.jpeg" 
+                alt={isRtl ? creativityValue?.title : creativityValue?.titleEn} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-corporate-navy/60 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
             </div>
-            <h3 className="text-base md:text-2xl font-bold text-text-primary mb-2 md:mb-4">
-              {isRtl ? creativityValue?.title : creativityValue?.titleEn}
-            </h3>
-            <p className="text-xs md:text-lg text-text-secondary leading-relaxed max-w-2xl">
-              {isRtl ? creativityValue?.desc : creativityValue?.descEn}
-            </p>
+            
+            <div className="relative z-10 w-full p-6 md:p-12 flex flex-col justify-center items-center text-center">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 border border-white/20 text-white shadow-lg">
+                <Sparkles className="w-6 h-6 md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-xl md:text-3xl font-display font-bold text-white mb-2 md:mb-4 drop-shadow-md">
+                {isRtl ? creativityValue?.title : creativityValue?.titleEn}
+              </h3>
+              <p className="text-sm md:text-lg text-white/90 leading-relaxed max-w-2xl drop-shadow">
+                {isRtl ? creativityValue?.desc : creativityValue?.descEn}
+              </p>
+            </div>
           </div>
         </motion.div>
 

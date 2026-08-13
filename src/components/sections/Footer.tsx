@@ -183,9 +183,9 @@ export default function Footer() {
                     <Phone className="w-5 h-5 text-brand-teal-soft shrink-0" />
                     <a href={`tel:${contactConfig.phone}`} className="text-sm text-white/80 hover:text-brand-cyan" dir="ltr">{contactConfig.phone}</a>
                   </li>
-                  <li className="flex items-center gap-3">
+                  <li className="flex items-center gap-3" style={{ marginBottom: '10px', marginRight: '-29px', marginLeft: '0px', marginTop: '-1px', paddingBottom: '2px', paddingRight: '0px', paddingLeft: '-2px', fontSize: '13px', lineHeight: '23px' }}>
                     <Mail className="w-5 h-5 text-brand-teal-soft shrink-0" />
-                    <a href={`mailto:${contactConfig.email}`} className="text-sm text-white/80 hover:text-brand-cyan">{contactConfig.email}</a>
+                    <a href={`mailto:${contactConfig.email}`} className="text-[13px] text-white/80 hover:text-brand-cyan">{contactConfig.email}</a>
                   </li>
                   <li className="pt-2">
                     <a 

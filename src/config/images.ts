@@ -83,7 +83,7 @@ export const images = {
   home: {
     heroDesktop: "",
     heroMobile: "",
-    about: "https://drive.google.com/uc?export=view&id=1X_FKmdx7pVlqc2ccki07W2RjajXlkFh1",
+    about: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D9%84%D9%85%D8%A7%D8%B0%D8%A7%20%D9%86%D8%AD%D9%86.jpg.jpeg",
     ctaBackground: ""
   },
 

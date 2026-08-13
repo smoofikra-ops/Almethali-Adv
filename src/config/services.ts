@@ -106,7 +106,7 @@ export const servicesConfig = {
       ],
       gallery: [],
       enabled: true,
-      order: 4
+      order: 5
     },
     {
       id: "display-stands",
@@ -128,7 +128,7 @@ export const servicesConfig = {
       ],
       gallery: [],
       enabled: true,
-      order: 5
+      order: 6
     },
     {
       id: "promotional-gifts",
@@ -150,7 +150,7 @@ export const servicesConfig = {
       ],
       gallery: [],
       enabled: true,
-      order: 6
+      order: 4
     }
   ] as ServiceCategory[]
 };

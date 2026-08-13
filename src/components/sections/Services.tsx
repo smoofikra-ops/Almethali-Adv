@@ -307,11 +307,28 @@ export default function Services({ id, theme, className = '' }: SectionComponent
             const moreText = t.services.moreSolutions;
             const ctaText = t.services.exploreWork;
             
+            // Explicit desktop grid placement to guarantee visual order for the second row
+            let gridPlacementClass = "";
+            if (category.id === "display-stands") {
+              // LEFT explicitly in Row 2
+              gridPlacementClass = isRtl 
+                ? "lg:col-start-3 lg:col-end-4 lg:row-start-2" 
+                : "lg:col-start-1 lg:col-end-2 lg:row-start-2";
+            } else if (category.id === "digital-printing-production") {
+              // CENTER explicitly in Row 2
+              gridPlacementClass = "lg:col-start-2 lg:col-end-3 lg:row-start-2";
+            } else if (category.id === "promotional-gifts") {
+              // RIGHT explicitly in Row 2
+              gridPlacementClass = isRtl 
+                ? "lg:col-start-1 lg:col-end-2 lg:row-start-2" 
+                : "lg:col-start-3 lg:col-end-4 lg:row-start-2";
+            }
+            
             return (
               <motion.div 
                 key={category.id} 
                 variants={animationRegistry.fadeUp} 
-                className="group perspective-1000 h-[450px] w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-3xl"
+                className={`group perspective-1000 h-[450px] w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-3xl ${gridPlacementClass}`}
                 tabIndex={0}
               >
                 <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180 group-focus:rotate-y-180 rounded-3xl shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-black/40">

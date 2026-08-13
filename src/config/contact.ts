@@ -18,7 +18,7 @@ export const contactConfig = {
     ar: "مرحبًا فريق المثالي للدعاية والإعلان،\nتواصلت معكم عبر الموقع الإلكتروني وأرغب في معرفة المزيد عن خدماتكم.",
     en: "Hello Al-Mithali Advertising Team,\nI contacted you through your website and would like to learn more about your services."
   },
-  email: "almethali.adv@gmail.com",
+  email: "Info@almethaliadv.com",
   socials: {
     facebook: "#",
     instagram: "#",
