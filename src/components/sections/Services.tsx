@@ -301,8 +301,8 @@ export default function Services({ id, theme, className = '' }: SectionComponent
             const desc = isRtl ? category.arDesc : category.enDesc;
             const altText = isRtl ? category.altTextAr : category.altTextEn;
             
-            const topServices = category.internalServices.slice(0, 5);
-            const hasMoreServices = category.internalServices.length > 5;
+            const topServices = category.internalServices;
+            const hasMoreServices = false;
             
             const moreText = t.services.moreSolutions;
             const ctaText = t.services.exploreWork;
@@ -341,46 +341,46 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/95 via-corporate-navy/40 to-black/10"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/90 via-corporate-navy/40 to-corporate-navy/10"></div>
                     </div>
                     
-                    <div className="absolute inset-0 p-3 pb-4 sm:p-5 md:p-8 flex flex-col justify-end text-start rtl:text-right">
-                      <div className="mb-2 md:mb-4">
-                        <h3 className="font-display font-bold text-base sm:text-lg md:text-2xl text-white mb-1 leading-tight drop-shadow-md">{title}</h3>
-                        <h4 className="hidden md:block font-display font-medium text-sm text-accent mb-3 uppercase tracking-wider">{subtitle}</h4>
-                        <p className="hidden md:block text-white/80 text-sm leading-relaxed line-clamp-3">{desc}</p>
+                    <div className="absolute inset-0 p-3 pb-4 sm:p-5 md:p-8 flex flex-col items-center justify-center text-center">
+                      <div className="mb-2 md:mb-4 px-2">
+                        <h3 className="font-display font-bold text-base sm:text-lg md:text-3xl text-white mb-1 md:mb-2 leading-tight drop-shadow-md">{title}</h3>
+                        <h4 className="hidden md:block font-display font-medium text-sm lg:text-base text-accent mb-3 uppercase tracking-wider">{subtitle}</h4>
+                        <p className="hidden md:block text-white/90 text-sm lg:text-base leading-relaxed line-clamp-3 max-w-sm mx-auto">{desc}</p>
                       </div>
                       
                       {/* Mobile Interaction Cue */}
-                      <div className="md:hidden flex items-center gap-1.5 self-start rtl:self-end bg-white/10 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/20">
-                        <span className="text-white text-[10px] sm:text-xs font-bold leading-none">{isRtl ? 'استعرض المزيد' : 'Explore'}</span>
-                        <Pointer className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-accent animate-pulse" />
+                      <div className="md:hidden absolute bottom-4 flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                        <span className="text-white text-[10px] font-bold leading-none">{isRtl ? 'استعرض المزيد' : 'Explore'}</span>
+                        <Pointer className="w-3 h-3 text-accent animate-pulse" />
                       </div>
 
                       {/* Desktop Interaction Cue */}
-                      <div className="hidden md:flex w-10 h-10 rounded-full bg-white/20 backdrop-blur-md items-center justify-center border border-white/20 self-end rtl:self-start">
-                        <LayoutGrid className="w-5 h-5 text-white" />
+                      <div className="hidden md:flex absolute bottom-8 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md items-center justify-center border border-white/20 hover:bg-white/30 transition-colors">
+                        <LayoutGrid className="w-6 h-6 text-white" />
                       </div>
                     </div>
                   </div>
                   
                   {/* Card Reverse */}
-                  <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-3xl overflow-hidden border border-accent/30 bg-background/90 backdrop-blur-xl p-8 flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-display font-bold text-xl text-text-primary mb-6 pb-4 border-b border-border">
+                  <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl md:rounded-3xl overflow-hidden border border-accent/30 bg-background/95 backdrop-blur-xl p-3 sm:p-4 md:p-8 flex flex-col justify-between">
+                    <div className="overflow-hidden">
+                      <h3 className="font-display font-bold text-xs sm:text-sm md:text-xl text-text-primary mb-1.5 sm:mb-2 md:mb-6 pb-1.5 sm:pb-2 md:pb-4 border-b border-border text-center md:text-start">
                         {title}
                       </h3>
                       
-                      <ul className="space-y-3 mb-4">
+                      <ul className="space-y-0.5 sm:space-y-1 md:space-y-3 mb-1.5 sm:mb-2 md:mb-4">
                         {topServices.map((service, sIdx) => (
-                          <li key={sIdx} className="flex items-start gap-3 text-sm text-text-primary font-medium">
-                            <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                          <li key={sIdx} className="flex items-start gap-1 sm:gap-1.5 md:gap-3 text-[9px] sm:text-[10px] md:text-sm text-text-primary font-medium leading-[1.15] md:leading-normal">
+                            <CheckCircle2 className="w-2.5 h-2.5 md:w-4 md:h-4 text-accent shrink-0 mt-[1px] md:mt-0.5" />
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setSelectedCategory({ ...category, activeSubService: service });
                               }}
-                              className="hover:text-accent transition-colors text-start"
+                              className="hover:text-accent transition-colors text-start line-clamp-2 md:line-clamp-none"
                             >
                               {isRtl ? service.arName : service.enName}
                             </button>
@@ -389,7 +389,7 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                       </ul>
                       
                       {hasMoreServices && (
-                        <p className="text-xs font-bold text-text-primary/50 mt-4 italic">
+                        <p className="text-[8px] md:text-xs font-bold text-text-primary/50 mt-1 md:mt-4 italic">
                           {moreText}
                         </p>
                       )}
@@ -407,10 +407,10 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                       }
                       target={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? '_blank' : undefined}
                       rel={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? 'noopener noreferrer' : undefined}
-                      className="w-full bg-accent text-accent-foreground px-2 py-1.5 sm:px-3 sm:py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-xs md:text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-1.5 lg:gap-2 mt-auto shrink-0 shadow-sm hover:shadow-md"
+                      className="w-full bg-accent text-accent-foreground px-1.5 py-1.5 sm:px-2 sm:py-2 md:px-6 md:py-3 rounded-md md:rounded-xl font-bold text-[9px] sm:text-[10px] md:text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-1 lg:gap-2 mt-auto shrink-0 shadow-sm hover:shadow-md"
                     >
                       {ctaText}
-                      <ArrowLeft className={`w-3 h-3 lg:w-4 lg:h-4 ${!isRtl ? 'rotate-180' : ''}`} />
+                      <ArrowLeft className={`w-2.5 h-2.5 sm:w-3 sm:h-3 lg:w-4 lg:h-4 ${!isRtl ? 'rotate-180' : ''}`} />
                     </a>
                   </div>
                   
