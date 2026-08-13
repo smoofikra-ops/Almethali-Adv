@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { images } from '../../config/images';
 import { contactConfig } from '../../config/contact';
-import { Phone, ArrowLeft, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Phone, ArrowLeft, ShieldCheck, CheckCircle2, BookOpen } from 'lucide-react';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
 import { useLanguage } from '../../context/LanguageContext';
@@ -243,8 +243,9 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
               <Phone className="w-5 h-5 text-accent" />
               {t.hero.whatsappBtn}
             </a>
-            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-white border border-border px-8 py-4 rounded-xl font-bold text-base hover:border-accent hover:bg-accent/20 hover:text-white focus:text-white active:text-white transition-all shadow-sm flex items-center justify-center gap-2">
-              {t.hero.careersBtn}
+            <a href="#/catalog" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-white border border-border px-8 py-4 rounded-xl font-bold text-base hover:border-accent hover:bg-accent/20 hover:text-white focus:text-white active:text-white transition-all shadow-sm flex items-center justify-center gap-2">
+              <BookOpen className="w-5 h-5 text-current" />
+              {t.hero.catalogBtn}
             </a>
           </motion.div>
         </motion.div>

@@ -15,7 +15,7 @@ export const translations = {
       desc: "",
       quoteBtn: "طلب عرض سعر",
       whatsappBtn: "تواصل عبر واتساب",
-      careersBtn: "انضم إلينا الآن",
+      catalogBtn: "استعرض الكتالوج",
       trustIndicators: []
     },
     about: {
@@ -96,7 +96,7 @@ export const translations = {
       desc: "",
       quoteBtn: "Get a Quote",
       whatsappBtn: "Contact via WhatsApp",
-      careersBtn: "Join Us Now",
+      catalogBtn: "View Catalog",
       trustIndicators: []
     },
     about: {

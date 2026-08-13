@@ -7,6 +7,7 @@ import Header from './components/layout/Header';
 import AnnouncementBar from './components/layout/AnnouncementBar';
 import Footer from './components/sections/Footer';
 import PolicyPage from './pages/PolicyPage';
+import CatalogPage from './pages/CatalogPage';
 import CinematicBackground from './components/layout/CinematicBackground';
 import FloatingContact from './components/ui/FloatingContact';
 
@@ -16,13 +17,35 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentHash(window.location.hash);
+      
+      // Scroll to top when navigating to standalone pages
+      if (
+        window.location.hash === '#/catalog' || 
+        window.location.hash === '#/en/catalog' || 
+        window.location.hash.startsWith('#/policies/')
+      ) {
+        window.scrollTo(0, 0);
+      }
     };
 
     window.addEventListener('hashchange', handleHashChange);
+    
+    // Initial scroll check for standalone pages on direct load
+    if (
+      window.location.hash === '#/catalog' || 
+      window.location.hash === '#/en/catalog' || 
+      window.location.hash.startsWith('#/policies/')
+    ) {
+      window.scrollTo(0, 0);
+    }
+    
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const renderContent = () => {
+    if (currentHash === '#/catalog' || currentHash === '#/en/catalog') {
+      return <CatalogPage />;
+    }
     if (currentHash.startsWith('#/policies/')) {
       const policyId = currentHash.replace('#/policies/', '');
       return <PolicyPage policyId={policyId} />;
