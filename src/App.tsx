@@ -39,8 +39,8 @@ export default function App() {
       </Helmet>
       
       <CinematicBackground />
-      <AnnouncementBar />
-      <div className="sticky top-0 z-50 w-full">
+      <div className="sticky top-0 z-50 w-full flex flex-col">
+        <AnnouncementBar />
         <Header />
       </div>
       <main className="relative z-10">

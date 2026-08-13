@@ -37,24 +37,50 @@ export default function AboutUs({ id, theme, className }: SectionComponentProps)
         
         {/* Row 1: Vision & Mission */}
         <div className="grid grid-cols-2 gap-3 md:gap-8 mb-3 md:mb-8">
-          <motion.div variants={itemVariants} className="bg-surface-elevated/10 backdrop-blur-md p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-border flex flex-col justify-center text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-surface-elevated/20 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-border">
-              <Target className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+          <motion.div variants={itemVariants} className="relative rounded-2xl md:rounded-3xl shadow-sm border border-border overflow-hidden flex flex-col justify-center text-center min-h-[300px] md:min-h-[400px] group">
+            <div className="absolute inset-0 w-full h-full z-0">
+              <img 
+                src="https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%B1%D8%A4%D9%8A%D8%AA%D9%86%D8%A7.jpg.jpeg" 
+                alt={t.about.vision} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-corporate-navy/60 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
             </div>
-            <h3 className="text-sm md:text-2xl font-bold text-text-primary mb-2 md:mb-4">{t.about.vision}</h3>
-            <p className="text-[11px] md:text-lg text-text-secondary leading-relaxed">
-              {isRtl ? contentConfig.about.vision : contentConfig.about.visionEn}
-            </p>
+            
+            <div className="relative z-10 w-full p-5 md:p-10 lg:p-12 flex flex-col justify-center items-center text-center h-full">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-white/20 text-white shadow-lg">
+                <Target className="w-6 h-6 md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-xl md:text-3xl font-display font-bold text-white mb-2 md:mb-4 drop-shadow-md">{t.about.vision}</h3>
+              <p className="text-sm md:text-lg text-white/90 leading-relaxed drop-shadow">
+                {isRtl ? contentConfig.about.vision : contentConfig.about.visionEn}
+              </p>
+            </div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="bg-surface-elevated/10 backdrop-blur-md p-5 md:p-10 lg:p-12 rounded-2xl md:rounded-3xl shadow-sm border border-border flex flex-col justify-center text-center">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-surface-elevated/20 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-border">
-              <Lightbulb className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+          <motion.div variants={itemVariants} className="relative rounded-2xl md:rounded-3xl shadow-sm border border-border overflow-hidden flex flex-col justify-center text-center min-h-[300px] md:min-h-[400px] group">
+            <div className="absolute inset-0 w-full h-full z-0">
+              <img 
+                src="https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%B1%D8%B3%D8%A7%D9%84%D8%AA%D9%86%D8%A7.jpg.jpeg" 
+                alt={t.about.mission} 
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-corporate-navy/60 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
             </div>
-            <h3 className="text-sm md:text-2xl font-bold text-text-primary mb-2 md:mb-4">{t.about.mission}</h3>
-            <p className="text-[11px] md:text-lg text-text-secondary leading-relaxed">
-              {isRtl ? contentConfig.about.mission : contentConfig.about.missionEn}
-            </p>
+            
+            <div className="relative z-10 w-full p-5 md:p-10 lg:p-12 flex flex-col justify-center items-center text-center h-full">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-8 mx-auto border border-white/20 text-white shadow-lg">
+                <Lightbulb className="w-6 h-6 md:w-8 md:h-8" />
+              </div>
+              <h3 className="text-xl md:text-3xl font-display font-bold text-white mb-2 md:mb-4 drop-shadow-md">{t.about.mission}</h3>
+              <p className="text-sm md:text-lg text-white/90 leading-relaxed drop-shadow">
+                {isRtl ? contentConfig.about.mission : contentConfig.about.missionEn}
+              </p>
+            </div>
           </motion.div>
         </div>
 
