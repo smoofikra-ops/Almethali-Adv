@@ -1,5 +1,7 @@
 import React from 'react';
 import { SectionConfig, SectionId, SectionComponentProps } from '../../types';
+import { SectionTransition } from './SectionTransition';
+
 import Hero from '../sections/Hero';
 import Services from '../sections/Services';
 import AboutUs from '../sections/AboutUs';
@@ -37,10 +39,12 @@ interface SectionRendererProps {
   layout: SectionConfig[];
 }
 
+
+
 export function SectionRenderer({ layout }: SectionRendererProps) {
-  return (
+    return (
     <>
-      {layout.map((config) => {
+      {layout.map((config, index) => {
         if (!config.enabled) return null;
         
         const Component = sectionRegistry[config.id];
@@ -52,10 +56,22 @@ export function SectionRenderer({ layout }: SectionRendererProps) {
           return null;
         }
 
+        // Find next enabled section theme
+        let nextTheme = null;
+        for (let i = index + 1; i < layout.length; i++) {
+          if (layout[i].enabled) {
+            nextTheme = layout[i].theme;
+            break;
+          }
+        }
+
         return (
-          <div key={config.id} data-section={config.id}>
-            <Component id={config.id} theme={config.theme} />
-          </div>
+          <React.Fragment key={config.id}>
+            <div data-section={config.id}>
+              <Component id={config.id} theme={config.theme} />
+            </div>
+            {nextTheme && <SectionTransition fromTheme={config.theme} toTheme={nextTheme} index={index} />}
+          </React.Fragment>
         );
       })}
     </>

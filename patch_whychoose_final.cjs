@@ -1,4 +1,5 @@
-import React from 'react';
+const fs = require('fs');
+const content = `import React from 'react';
 import { motion } from 'motion/react';
 import { Target, Award, Lightbulb, Users, MessageSquare, Eye, Truck, ShieldCheck } from 'lucide-react';
 import { contentConfig } from '../../config/content';
@@ -18,10 +19,10 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
   const points = isRtl ? contentConfig.strengths.points : contentConfig.strengths.pointsEn;
 
   return (
-    <section id={id} className={`py-16 md:py-24 bg-background text-text-primary overflow-hidden relative ${className}`}>
+    <section id={id} className={\`py-16 md:py-24 bg-background text-text-primary overflow-hidden relative \${className}\`}>
       
       {/* CSS Block for Sequential Animation */}
-      <style>{`
+      <style>{\`
         .sequential-card-anim {
           --shadow-resting: 0 4px 12px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02);
           --shadow-active: 0 12px 30px rgba(2, 136, 166, 0.15), 0 4px 10px rgba(2, 136, 166, 0.08);
@@ -92,7 +93,7 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
             }
           }
         }
-      `}</style>
+      \`}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -164,7 +165,7 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
               >
                 <div 
                   className="sequential-card-anim relative h-full rounded-2xl sm:rounded-3xl bg-surface-elevated/80 dark:bg-surface-elevated/40 backdrop-blur-md p-4 sm:p-5 lg:p-8 flex flex-col items-center text-center transition-all duration-300 group cursor-default"
-                  style={{ animationDelay: `${idx * 1.2}s` }}
+                  style={{ animationDelay: \`\${idx * 1.2}s\` }}
                 >
                   {/* Inner subtle highlight mimicking 3D sculpted edge */}
                   <div className="absolute inset-0 rounded-2xl sm:rounded-3xl border border-white/60 dark:border-white/10 pointer-events-none"></div>
@@ -187,3 +188,6 @@ export default function WhyChooseUs({ id, theme, className = '' }: SectionCompon
     </section>
   );
 }
+`;
+fs.writeFileSync('src/components/sections/WhyChooseUs.tsx', content);
+console.log("Written successfully");

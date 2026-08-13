@@ -31,7 +31,7 @@ export default function App() {
   };
 
   return (
-    <div className="text-text-primary min-h-screen font-sans overflow-x-hidden transition-colors duration-300">
+    <div className="text-text-primary min-h-screen font-sans transition-colors duration-300 flex flex-col">
       <Helmet>
         <title>{contactConfig.tradeNameAr} | شريكك الإستراتيجي</title>
         <meta name="description" content={contactConfig.description} />

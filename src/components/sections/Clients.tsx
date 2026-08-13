@@ -29,21 +29,21 @@ export default function Clients({ id, theme, className = '' }: SectionComponentP
          <div className="flex flex-col gap-8 md:gap-12 items-center justify-center max-w-4xl mx-auto">
            {/* Row 1 */}
            <motion.div variants={animationRegistry.fadeUp} className="w-full md:w-1/2 flex justify-center">
-             <div className="w-full bg-surface-elevated/10 backdrop-blur-md border border-border rounded-2xl p-10 flex items-center justify-center hover:bg-surface-elevated/20 transition-colors shadow-2xl">
-               <span className="text-2xl md:text-3xl font-display font-bold text-text-primary">{isRtl ? brands[0].name : brands[0].nameEn}</span>
+             <div className="w-full bg-gradient-to-br from-surface to-surface-elevated dark:from-surface-elevated dark:to-corporate-navy/30 backdrop-blur-md border border-border/80 rounded-3xl p-10 flex items-center justify-center transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:border-accent/40 hover:-translate-y-1 group">
+               <span className="text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent transition-colors">{isRtl ? brands[0].name : brands[0].nameEn}</span>
              </div>
            </motion.div>
            
            {/* Row 2 */}
            <div className="w-full flex flex-col md:flex-row gap-8 md:gap-12 justify-center">
              <motion.div variants={animationRegistry.fadeUp} className="w-full md:w-1/2 flex justify-center">
-               <div className="w-full bg-surface-elevated/10 backdrop-blur-md border border-border rounded-2xl p-10 flex items-center justify-center hover:bg-surface-elevated/20 transition-colors shadow-2xl">
-                 <span className="text-2xl md:text-3xl font-display font-bold text-text-primary">{isRtl ? brands[1].name : brands[1].nameEn}</span>
+               <div className="w-full bg-gradient-to-br from-surface to-surface-elevated dark:from-surface-elevated dark:to-corporate-navy/30 backdrop-blur-md border border-border/80 rounded-3xl p-10 flex items-center justify-center transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:border-accent/40 hover:-translate-y-1 group">
+                 <span className="text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent transition-colors">{isRtl ? brands[1].name : brands[1].nameEn}</span>
                </div>
              </motion.div>
              <motion.div variants={animationRegistry.fadeUp} className="w-full md:w-1/2 flex justify-center">
-               <div className="w-full bg-surface-elevated/10 backdrop-blur-md border border-border rounded-2xl p-10 flex items-center justify-center hover:bg-surface-elevated/20 transition-colors shadow-2xl">
-                 <span className="text-2xl md:text-3xl font-display font-bold text-text-primary">{isRtl ? brands[2].name : brands[2].nameEn}</span>
+               <div className="w-full bg-gradient-to-br from-surface to-surface-elevated dark:from-surface-elevated dark:to-corporate-navy/30 backdrop-blur-md border border-border/80 rounded-3xl p-10 flex items-center justify-center transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:border-accent/40 hover:-translate-y-1 group">
+                 <span className="text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent transition-colors">{isRtl ? brands[2].name : brands[2].nameEn}</span>
                </div>
              </motion.div>
            </div>

@@ -38,12 +38,15 @@ export default function TargetSectors({ id, theme, className = '' }: SectionComp
               <motion.div 
                 key={idx} 
                 variants={animationRegistry.fadeUp} 
-                className="flex flex-col items-center gap-4 bg-surface-elevated/10 backdrop-blur-md p-6 rounded-3xl border border-border shadow-lg shadow-black/20 hover:shadow-2xl hover:shadow-black/40 hover:bg-surface-elevated/20 hover:-translate-y-1 transition-all duration-300 group"
+                className="flex flex-col items-center gap-4 audience-gradient-anim bg-gradient-to-br from-surface to-surface-elevated dark:from-surface-elevated dark:to-corporate-navy/30 backdrop-blur-md p-6 rounded-3xl border border-border/80 shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:border-accent/40 hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative"
               >
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-transparent flex items-center justify-center text-accent group-hover:scale-110 group-hover:text-text-primary transition-all duration-300 border border-border/20 shadow-inner">
+                {/* Extra overlay so text is readable if the gradient gets intense */}
+                <div className="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-transparent flex items-center justify-center text-accent group-hover:scale-110 group-hover:bg-accent/30 group-hover:text-text-primary transition-all duration-300 border border-accent/10 shadow-inner relative z-10">
                   <Icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
-                <span className="font-display font-bold text-sm md:text-base text-text-primary text-center drop-shadow-sm">
+                <span className="font-display font-bold text-sm md:text-base text-text-primary text-center drop-shadow-sm group-hover:text-text-primary relative z-10 transition-colors duration-300">
                   {isRtl ? sector.title : sector.titleEn}
                 </span>
               </motion.div>

@@ -36,7 +36,7 @@ export default function Testimonials({ id, theme, className = '' }: SectionCompo
             <motion.div 
               key={idx} 
               variants={animationRegistry.fadeUp}
-              className="bg-surface p-8 rounded-3xl shadow-sm border border-border relative group"
+              className="bg-surface p-8 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] border border-border/60 hover:border-accent/40 relative group transition-all duration-300 hover:-translate-y-1"
             >
               <Quote className={`w-10 h-10 text-primary opacity-20 absolute top-6 start-6 group-hover:scale-110 transition-transform`} />
               <p className="text-text-secondary mb-8 relative z-10 leading-relaxed text-lg">

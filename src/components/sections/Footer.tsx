@@ -64,7 +64,7 @@ export default function Footer() {
             <div className="lg:col-span-4 md:col-span-2">
               <div className="mb-6 flex items-center justify-start">
                 {images.brand.logoFooter ? (
-                 <img src={images.brand.logoFooterLight} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
+                 <img src={images.brand.logoFooter} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
               ) : (
                    <div className="flex items-center gap-2">
                      <div className="w-10 h-10 bg-brand-teal-deep/30 border border-brand-teal-deep/50 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">

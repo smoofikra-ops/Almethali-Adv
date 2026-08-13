@@ -1,18 +1,17 @@
 export const images = {
   brand: {
-    logoMain: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982321/almithali_logo_whithout_text_trans_glltmr.png",
-    logoFooter: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethal_logo_with_trans_text_ws9dmz.png",
+    logoMain: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/d%20without%20n.png?utm_source=chatgpt.com",
+    logoFooter: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/w%20w%20n.png?utm_source=chatgpt.com",
     
     // Header logos
-    logoHeaderLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_without_text_xfahob.png",
-    logoHeaderDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982321/almithali_logo_whithout_text_trans_glltmr.png",
+    logoHeaderLight: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/d%20without%20n.png?utm_source=chatgpt.com",
+    logoHeaderDark: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/w%20without%20n.png?utm_source=chatgpt.com",
     
     // Footer logos
-    logoFooterLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_with_text_gf8iae.png",
-    logoFooterDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982320/almethal_logo_with_trans_text_ws9dmz.png",
-
-    logoLight: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1786189975/almethali_logo_light_mood_without_text_xfahob.png",
-    logoDark: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785982321/almithali_logo_whithout_text_trans_glltmr.png",
+    logoFooterLight: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/w%20w%20n.png?utm_source=chatgpt.com",
+    logoFooterDark: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/w%20w%20n.png?utm_source=chatgpt.com",
+    logoLight: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/d%20without%20n.png?utm_source=chatgpt.com",
+    logoDark: "https://nmolabs-cdn.b-cdn.net/almithali-assets/01-brand/01-logos/w%20without%20n.png?utm_source=chatgpt.com",
     favicon: ""
   },
 
@@ -80,6 +79,13 @@ export const images = {
       priority: false
     }
   ],
+  aboutCovers: {
+    vision: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%B1%D8%A4%D9%8A%D8%AA%D9%86%D8%A7.jpg.jpeg",
+    mission: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%B1%D8%B3%D8%A7%D9%84%D8%AA%D9%86%D8%A7.jpg.jpeg",
+    creativityInnovation: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%A7%D9%84%D8%A7%D8%A8%D8%AF%D8%A7%D8%B9%20%D9%88%D8%A7%D9%84%D8%A7%D8%A8%D8%AA%D9%83%D8%A7%D8%B1.jpg.jpeg",
+    commitmentCredibility: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%A7%D9%84%D8%A7%D9%84%D8%AA%D8%B2%D8%A7%D9%85%20%D9%88%D8%A7%D9%84%D9%85%D8%B5%D8%AF%D8%A7%D9%82%D9%8A%D8%A9.jpg.jpeg",
+    customerSatisfaction: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/06-card-covers/%D8%B1%D8%B6%D8%A7%D8%A1%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1.jpg.jpeg"
+  },
   home: {
     heroDesktop: "",
     heroMobile: "",

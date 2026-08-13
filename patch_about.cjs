@@ -1,42 +1,7 @@
-import { motion } from 'motion/react';
-import { contentConfig } from '../../config/content';
-import { images } from '../../config/images';
-import { Target, Lightbulb, HeartHandshake, Star, Sparkles } from 'lucide-react';
-import { SectionComponentProps } from '../../types';
-import { animationRegistry } from '../../lib/animations';
-import { useLanguage } from '../../context/LanguageContext';
+const fs = require('fs');
+let code = fs.readFileSync('src/components/sections/AboutUs.tsx', 'utf8');
 
-export default function AboutUs({ id, theme, className }: SectionComponentProps) {
-  const containerVariants = animationRegistry.staggerCards;
-  const itemVariants = animationRegistry.fadeUp;
-  const { language, t } = useLanguage();
-  const isRtl = language === 'ar';
-  
-  const values = contentConfig.about.values;
-  const creativityValue = values.find(v => v.title.includes('الإبداع')) || values[1];
-  const commitmentValue = values.find(v => v.title.includes('الالتزام')) || values[2];
-  const satisfactionValue = values.find(v => v.title.includes('رضا')) || values[3];
-
-  return (
-    <motion.section 
-      id={id}
-      initial="hidden" 
-      whileInView="visible" 
-      viewport={{ once: true, margin: "-100px" }}
-      variants={containerVariants}
-      className={`py-24 bg-transparent text-text-primary ${className || ''}`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div variants={itemVariants} className="max-w-3xl mb-16 text-center mx-auto">
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6 drop-shadow-md">
-            {isRtl ? contentConfig.about.title : contentConfig.about.titleEn || t.about.title}
-          </h2>
-          <p className="text-lg md:text-xl text-text-secondary leading-relaxed drop-shadow-sm">
-            {isRtl ? contentConfig.about.description : contentConfig.about.descriptionEn}
-          </p>
-        </motion.div>
-        
-        
+const newRows = `
         {/* Row 1: Vision & Mission (2 Cards) */}
         <div className="grid grid-cols-2 gap-2 md:gap-8 mb-2 md:mb-8">
           <motion.div variants={itemVariants} className="relative rounded-2xl md:rounded-3xl shadow-[0_2px_10px_rgb(0,0,0,0.05)] hover:shadow-[0_10px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)] dark:hover:shadow-[0_10px_30px_rgb(0,0,0,0.3)] border border-border/40 overflow-hidden flex flex-col justify-center text-center min-h-[200px] md:min-h-[400px] group transition-transform duration-500 hover:-translate-y-1 bg-surface">
@@ -162,8 +127,15 @@ export default function AboutUs({ id, theme, className }: SectionComponentProps)
               </p>
             </div>
           </motion.div>
-        </div>
-      </div>
-    </motion.section>
-  );
+        </div>`;
+
+const startIdx = code.indexOf('{/* Row 1: Vision & Mission */}');
+const endIdx = code.indexOf('</motion.section>');
+
+if (startIdx !== -1 && endIdx !== -1) {
+    code = code.substring(0, startIdx) + newRows + '\n      ' + code.substring(endIdx);
+    fs.writeFileSync('src/components/sections/AboutUs.tsx', code);
+    console.log("Success");
+} else {
+    console.log("Failed to find indices");
 }

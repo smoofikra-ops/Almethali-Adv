@@ -21,28 +21,24 @@ export const contentConfig = {
     description: "لا نقدم مجرد خدمة، بل نصنع حلولًا إعلانية تعكس هوية عملائنا وتدعم نجاحهم، نعمل بشغف ونلتزم بالجودة، وننفذ بدقة، ونسلم في الوقت المحدد، لنكون شريكًا يعتمد عليه في كل مشروع.",
     descriptionEn: "We don't just provide a service; we create advertising solutions that reflect our clients' identity and support their success. We work with passion, commit to quality, execute with precision, and deliver on time, to be a reliable partner in every project.",
     points: [
-      "سرعة التنفيذ",
-      "جودة عالية",
-      "أسعار منافسة",
-      "خدمة عملاء ممتازة",
-      "خبرة طويلة",
-      "فريق متخصص",
-      "ضمان",
-      "خدمة ما بعد البيع",
-      "حلول مخصصة",
-      "الالتزام بالمواعيد"
+      "تنفيذ يطابق توقعاتك",
+      "جودة تليق بعلامتك",
+      "حلول تناسب احتياجك",
+      "فريق قريب منك",
+      "تواصل واضح وسريع",
+      "اهتمام بالتفاصيل",
+      "متابعة حتى التسليم",
+      "التزام حتى اكتمال التنفيذ"
     ],
     pointsEn: [
-      "Fast Execution",
-      "High Quality",
-      "Competitive Prices",
-      "Excellent Customer Service",
-      "Long Experience",
-      "Specialized Team",
-      "Warranty",
-      "After-Sales Service",
-      "Custom Solutions",
-      "Commitment to Deadlines"
+      "Execution matching your expectations",
+      "Quality worthy of your brand",
+      "Solutions tailored to your needs",
+      "A dedicated team close to you",
+      "Clear and fast communication",
+      "Meticulous attention to detail",
+      "Consistent follow-up until delivery",
+      "Commitment until project completion"
     ]
   }
 };

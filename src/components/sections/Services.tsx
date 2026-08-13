@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { servicesConfig } from '../../config/services';
-import { ArrowLeft, CheckCircle2, LayoutGrid } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, LayoutGrid, Pointer} from 'lucide-react';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
 import { useLanguage } from '../../context/LanguageContext';
@@ -292,7 +292,7 @@ export default function Services({ id, theme, className = '' }: SectionComponent
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
           {servicesConfig.categories.map((category, idx) => {
             if (!category.enabled) return null;
             
@@ -328,12 +328,12 @@ export default function Services({ id, theme, className = '' }: SectionComponent
               <motion.div 
                 key={category.id} 
                 variants={animationRegistry.fadeUp} 
-                className={`group perspective-1000 h-[450px] w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-3xl ${gridPlacementClass}`}
+                className={`group perspective-[2000px] aspect-[4/5] md:aspect-auto md:h-[350px] lg:h-[450px] transition-transform duration-500 hover:-translate-y-2 w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-2xl md:rounded-3xl ${gridPlacementClass}`}
                 tabIndex={0}
               >
-                <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180 group-focus:rotate-y-180 rounded-3xl shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-black/40">
+                <div className="relative w-full h-full transition-all duration-700 transform-style-3d group-hover:rotate-y-180 group-focus:rotate-y-180 rounded-2xl md:rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.25)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.3)] dark:hover:shadow-[0_20px_40px_rgb(0,0,0,0.5)]">
                                     {/* Card Front */}
-                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-3xl overflow-hidden border border-border bg-corporate-navy">
+                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-corporate-navy relative z-10 before:absolute before:inset-0 before:rounded-2xl md:before:rounded-3xl before:border before:border-white/10 before:z-20">
                     <div className="absolute inset-0 overflow-hidden">
                       <img 
                         src={category.coverImage} 
@@ -341,16 +341,24 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-100"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/95 via-corporate-navy/40 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-corporate-navy/95 via-corporate-navy/40 to-black/10"></div>
                     </div>
                     
-                    <div className="absolute inset-0 p-8 flex flex-col justify-end text-start rtl:text-right">
-                      <div className="mb-4">
-                        <h3 className="font-display font-bold text-2xl text-white mb-1 leading-tight">{title}</h3>
-                        <h4 className="font-display font-medium text-sm text-accent mb-3 uppercase tracking-wider">{subtitle}</h4>
-                        <p className="text-white/80 text-sm leading-relaxed">{desc}</p>
+                    <div className="absolute inset-0 p-3 pb-4 sm:p-5 md:p-8 flex flex-col justify-end text-start rtl:text-right">
+                      <div className="mb-2 md:mb-4">
+                        <h3 className="font-display font-bold text-base sm:text-lg md:text-2xl text-white mb-1 leading-tight drop-shadow-md">{title}</h3>
+                        <h4 className="hidden md:block font-display font-medium text-sm text-accent mb-3 uppercase tracking-wider">{subtitle}</h4>
+                        <p className="hidden md:block text-white/80 text-sm leading-relaxed line-clamp-3">{desc}</p>
                       </div>
-                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20 self-end rtl:self-start">
+                      
+                      {/* Mobile Interaction Cue */}
+                      <div className="md:hidden flex items-center gap-1.5 self-start rtl:self-end bg-white/10 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/20">
+                        <span className="text-white text-[10px] sm:text-xs font-bold leading-none">{isRtl ? 'استعرض المزيد' : 'Explore'}</span>
+                        <Pointer className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-accent animate-pulse" />
+                      </div>
+
+                      {/* Desktop Interaction Cue */}
+                      <div className="hidden md:flex w-10 h-10 rounded-full bg-white/20 backdrop-blur-md items-center justify-center border border-white/20 self-end rtl:self-start">
                         <LayoutGrid className="w-5 h-5 text-white" />
                       </div>
                     </div>
@@ -399,10 +407,10 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                       }
                       target={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? '_blank' : undefined}
                       rel={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? 'noopener noreferrer' : undefined}
-                      className="w-full bg-accent text-accent-foreground px-6 py-3 rounded-xl font-bold text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-2 mt-auto"
+                      className="w-full bg-accent text-accent-foreground px-2 py-1.5 sm:px-3 sm:py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-xs md:text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-1.5 lg:gap-2 mt-auto shrink-0 shadow-sm hover:shadow-md"
                     >
                       {ctaText}
-                      <ArrowLeft className={`w-4 h-4 ${!isRtl ? 'rotate-180' : ''}`} />
+                      <ArrowLeft className={`w-3 h-3 lg:w-4 lg:h-4 ${!isRtl ? 'rotate-180' : ''}`} />
                     </a>
                   </div>
                   

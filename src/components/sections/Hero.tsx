@@ -235,15 +235,15 @@ export default function Hero({ id, theme, className }: SectionComponentProps) {
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">
-            <a href="#quote" className="w-full sm:w-auto bg-accent text-accent-foreground px-8 py-4 rounded-xl font-bold text-base hover:bg-accent-deep transition-opacity shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <a href="#quote" className="w-full sm:w-auto bg-accent text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-accent-deep hover:text-white focus:text-white active:text-white transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
               {t.hero.quoteBtn}
               <ArrowLeft className={`w-5 h-5 ${!isRtl ? 'rotate-180' : ''}`} />
             </a>
-            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-surface-elevated/20 backdrop-blur-md text-text-primary border border-accent px-8 py-4 rounded-xl font-bold text-base hover:bg-accent/10 transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href={`https://wa.me/${contactConfig.whatsappNumber}`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-surface-elevated/20 backdrop-blur-md text-white border border-accent px-8 py-4 rounded-xl font-bold text-base hover:bg-accent/30 hover:text-white focus:text-white active:text-white transition-all shadow-sm flex items-center justify-center gap-2">
               <Phone className="w-5 h-5 text-accent" />
               {t.hero.whatsappBtn}
             </a>
-            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-text-primary border border-border px-8 py-4 rounded-xl font-bold text-base hover:border-accent hover:text-accent transition-colors shadow-sm flex items-center justify-center gap-2">
+            <a href="#careers" className="w-full sm:w-auto bg-surface-elevated/10 backdrop-blur-md text-white border border-border px-8 py-4 rounded-xl font-bold text-base hover:border-accent hover:bg-accent/20 hover:text-white focus:text-white active:text-white transition-all shadow-sm flex items-center justify-center gap-2">
               {t.hero.careersBtn}
             </a>
           </motion.div>

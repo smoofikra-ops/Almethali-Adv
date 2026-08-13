@@ -152,15 +152,19 @@ export default function QuotationForm({ id, theme, className }: SectionComponent
       className={`pt-24 pb-8 md:pb-16 bg-surface text-text-primary relative overflow-hidden ${className || ''}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Centered Heading */}
+        <motion.div variants={itemVariants} className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6 leading-tight">{t.quote.title}</h2>
+          <p className="text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
+            {t.quote.desc}
+          </p>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Text Side */}
+          {/* Info Side */}
           <motion.div variants={itemVariants} className="lg:col-span-5 lg:sticky top-32">
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-text-primary mb-6 leading-tight">{t.quote.title}</h2>
-            <p className="text-lg text-text-secondary mb-10 leading-relaxed text-start">
-              {t.quote.desc}
-            </p>
-            
             <div className="space-y-8 hidden md:block">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-background-alt flex items-center justify-center shrink-0">
