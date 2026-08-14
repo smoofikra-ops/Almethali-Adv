@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import { motion, AnimatePresence, useAnimation, PanInfo } from 'motion/react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -30,12 +32,14 @@ export default function ServiceGalleryStudio({
   const controls = useAnimation();
 
   // Reset state on open
+  useScrollLock(isOpen);
+
   useEffect(() => {
     if (isOpen) {
       setCurrentIndex(0);
       setDirection(0);
       setHintVisible(true);
-      document.body.style.overflow = 'hidden';
+
       // Basic event hook
       if (typeof window !== 'undefined' && (window as any).dataLayer) {
         (window as any).dataLayer.push({ 
@@ -45,7 +49,7 @@ export default function ServiceGalleryStudio({
         });
       }
     } else {
-      document.body.style.overflow = '';
+
       if (typeof window !== 'undefined' && (window as any).dataLayer) {
         (window as any).dataLayer.push({ 
           event: 'service_gallery_close',
@@ -54,7 +58,7 @@ export default function ServiceGalleryStudio({
         });
       }
     }
-    return () => { document.body.style.overflow = ''; };
+
   }, [isOpen, mainTitle, subTitle]);
 
   // Reduced motion
@@ -165,15 +169,16 @@ export default function ServiceGalleryStudio({
     })
   };
 
-  if (!isOpen) return null;
+  if (typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
+      {isOpen && (
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-[#141438]/98 backdrop-blur-xl"
+        className="fixed inset-0 z-[9020] flex items-center justify-center bg-[#141438]/98 backdrop-blur-xl pointer-events-auto"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -315,6 +320,8 @@ export default function ServiceGalleryStudio({
           )}
         </div>
       </motion.div>
-    </AnimatePresence>
+      )}
+    </AnimatePresence>,
+    document.body
   );
 }

@@ -1,119 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { useScrollLock } from '../../hooks/useScrollLock';
-import { motion, AnimatePresence } from 'motion/react';
-import { X, RefreshCcw, Loader2 } from 'lucide-react';
-import ServiceGalleryStudio from './ServiceGalleryStudio';
+const fs = require('fs');
+let code = fs.readFileSync('src/components/gallery/PortfolioGrid.tsx', 'utf8');
 
-interface ImageAsset {
-  name: string;
-  url: string;
-  extension: string;
-}
+// Find the start of the return statement
+const returnStart = code.indexOf('  if (typeof document === \'undefined\') return null;\n\n  return createPortal(');
+const beforeReturn = code.substring(0, returnStart);
 
-interface PortfolioGridProps {
-  isOpen: boolean;
-  onClose: () => void;
-  categoryTitle: string;
-  subService?: {
-    id?: string;
-    arName: string;
-    enName: string;
-    gallery?: string[];
-    storagePath?: string;
-  };
-  isRtl: boolean;
-}
-
-export default function PortfolioGrid({
-  isOpen,
-  onClose,
-  categoryTitle,
-  subService,
-  isRtl,
-}: PortfolioGridProps) {
-  const [images, setImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  
-  const subTitle = subService ? (isRtl ? subService.arName : subService.enName) : "";
-
-  const fetchImages = async () => {
-    if (!subService) return;
-    if (!subService.id && !subService.storagePath) {
-      if (subService.gallery && subService.gallery.length > 0) {
-        setImages(subService.gallery);
-        setLoading(false);
-        setError(false);
-      } else {
-        setImages([]);
-        setError(false);
-        setLoading(false);
-      }
-      return;
-    }
-
-    setLoading(true);
-    setError(false);
-
-    try {
-      // Prioritize the known IDs for fetching, else fall back to gallery array
-      const response = await fetch(`/api/service-gallery?id=${subService.id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch gallery metadata');
-      }
-      const data = await response.json();
-      if (data && data.images && Array.isArray(data.images) && data.images.length > 0) {
-        setImages(data.images.map((img: ImageAsset) => img.url));
-      } else if (subService.gallery && subService.gallery.length > 0) {
-        // Fallback to static gallery
-        setImages(subService.gallery);
-      } else {
-        setImages([]); // Empty
-      }
-    } catch (err) {
-      console.error('PortfolioGrid fetch error:', err);
-      // Fallback
-      if (subService.gallery && subService.gallery.length > 0) {
-        setImages(subService.gallery);
-      } else {
-        setError(true);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      onClose();
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [onClose]);
-
-  useScrollLock(isOpen);
-
-  useEffect(() => {
-    if (isOpen) {
-      fetchImages();
-    } else {
-      setSelectedImageIndex(null);
-    }
-  }, [isOpen, subService]);
-
-  const handleReturnToServices = () => {
-    onClose();
-    window.location.hash = '#services';
-  };
-
-  const handleReturnHome = () => {
-    onClose();
-    window.location.hash = '#home';
-  };
-
-  if (typeof document === 'undefined') return null;
+const newReturn = `  if (typeof document === 'undefined') return null;
 
   return createPortal(
     <>
@@ -124,7 +16,7 @@ export default function PortfolioGrid({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9000] bg-[#f8fafc] dark:bg-background overflow-y-auto overscroll-contain" role="dialog" aria-modal="true"
+            className="fixed inset-0 z-[9000] bg-[#f8fafc] dark:bg-background overflow-y-auto overscroll-contain"
           >
             <div className="min-h-screen p-4 sm:p-6 md:p-12 relative max-w-[1600px] mx-auto">
               {/* Header */}
@@ -244,7 +136,7 @@ export default function PortfolioGrid({
                     >
                       <img
                         src={url}
-                        alt={`${subTitle} - ${idx + 1}`}
+                        alt={\`\${subTitle} - \${idx + 1}\`}
                         loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -271,3 +163,7 @@ export default function PortfolioGrid({
     document.body
   );
 }
+`;
+
+fs.writeFileSync('src/components/gallery/PortfolioGrid.tsx', beforeReturn + newReturn);
+console.log("Written PortfolioGrid");

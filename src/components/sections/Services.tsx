@@ -1,4 +1,6 @@
 import React from 'react';
+import { useScrollLock } from '../../hooks/useScrollLock';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { servicesConfig } from '../../config/services';
 import { ArrowLeft, CheckCircle2, LayoutGrid, Pointer} from 'lucide-react';
@@ -22,19 +24,16 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
     return () => mediaQuery.removeEventListener('change', listener);
   }, []);
 
+  useScrollLock(isOpen);
   React.useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
       setHintVisible(true);
-      // Simulate opening the first image directly if we are in a subservice
       if (category && category.activeSubService) {
         setSelectedImage(0);
       }
     } else {
-      document.body.style.overflow = '';
       setSelectedImage(null);
     }
-    return () => { document.body.style.overflow = ''; };
   }, [isOpen, category]);
 
   const images = React.useMemo(() => {
@@ -110,9 +109,13 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
     ? (isRtl ? category.activeSubService.arName : category.activeSubService.enName)
     : (isRtl ? category.arTitle : category.enTitle);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <motion.div 
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[9000] flex items-center justify-center pointer-events-auto" role="dialog" aria-modal="true">
+          <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
         exit={{ opacity: 0 }} 
@@ -255,8 +258,11 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
             ))}
           </div>
         )}
-      </motion.div>
-    </div>
+        </motion.div>
+        </div>
+      )}
+    </AnimatePresence>,
+    document.body
   );
 }
 
@@ -432,15 +438,13 @@ export default function Services({ id, theme, className = '' }: SectionComponent
       </div>
     
       <AnimatePresence>
-        {selectedCategory && selectedCategory.activeSubService && (
-          <PortfolioGrid
-            isOpen={true}
-            onClose={() => setSelectedCategory(null)}
-            categoryTitle={isRtl ? selectedCategory.arTitle : selectedCategory.enTitle}
-            subService={selectedCategory.activeSubService}
-            isRtl={isRtl}
-          />
-        )}
+        <PortfolioGrid
+          isOpen={!!(selectedCategory && selectedCategory.activeSubService)}
+          onClose={() => setSelectedCategory(null)}
+          categoryTitle={isRtl ? selectedCategory?.arTitle : selectedCategory?.enTitle}
+          subService={selectedCategory?.activeSubService}
+          isRtl={isRtl}
+        />
         {selectedCategory && !selectedCategory.activeSubService && (
           <GalleryModal 
             isOpen={!!selectedCategory} 
