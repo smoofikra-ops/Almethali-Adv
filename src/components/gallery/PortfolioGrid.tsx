@@ -55,7 +55,7 @@ export default function PortfolioGrid({
 
     try {
       // Prioritize the known IDs for fetching, else fall back to gallery array
-      const response = await fetch(`/api/service-gallery?subcategory=${subService.id}`);
+      const response = await fetch(`/api/service-gallery?id=${subService.id}`);
       if (!response.ok) {
         throw new Error('Failed to fetch gallery metadata');
       }

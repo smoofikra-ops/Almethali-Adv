@@ -1,6 +1,4 @@
-import { Router } from 'express';
-
-export const serviceGalleryRouter = Router();
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const ALLOWED_GALLERIES: Record<string, string> = {
   "project-site-fences-signage": "almithali-assets/05-services/1-advertising-signage/project-site-fences-signage",
@@ -12,39 +10,34 @@ const ALLOWED_GALLERIES: Record<string, string> = {
 
 const CDN_BASE_URL = "https://nmolabs-cdn.b-cdn.net";
 
-// Simple in-memory cache
-interface CacheEntry {
-  data: any;
-  timestamp: number;
-}
-const cache = new Map<string, CacheEntry>();
-const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Add CORS headers for testing/preview environments if needed
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-serviceGalleryRouter.get('/', async (req, res) => {
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   try {
-    const subcategory = req.query.subcategory as string;
+    const galleryId = req.query.id as string;
     
-    if (!subcategory || !ALLOWED_GALLERIES[subcategory]) {
-      return res.status(400).json({ error: "Invalid or missing subcategory ID" });
+    if (!galleryId || !ALLOWED_GALLERIES[galleryId]) {
+      return res.status(400).json({ error: "Invalid or missing gallery ID" });
     }
 
-    const storagePath = ALLOWED_GALLERIES[subcategory];
-
-    // Check cache
-    const cached = cache.get(subcategory);
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-      return res.json(cached.data);
-    }
-
+    const storagePath = ALLOWED_GALLERIES[galleryId];
     const API_KEY = process.env.BUNNY_STORAGE_API_KEY;
-    const ZONE = process.env.BUNNY_STORAGE_ZONE || "nmolabs-assets"; // Fallback to assumed zone if not set
-    let REGION = process.env.BUNNY_STORAGE_REGION || "";
+    const ZONE = process.env.BUNNY_STORAGE_ZONE || "nmolabs-assets";
+    const REGION = process.env.BUNNY_STORAGE_REGION || "";
     
     if (!API_KEY) {
       console.error("Missing BUNNY_STORAGE_API_KEY");
       return res.status(500).json({
         error: "Storage configuration error",
-        galleryId: subcategory,
+        galleryId: galleryId,
         storagePath: storagePath,
         env: {
           zone: process.env.BUNNY_STORAGE_ZONE ? "present" : "missing",
@@ -76,7 +69,7 @@ serviceGalleryRouter.get('/', async (req, res) => {
       return res.status(response.status).json({
         error: "Bunny Storage request failed",
         status: response.status,
-        galleryId: subcategory,
+        galleryId: galleryId,
         storagePath: storagePath,
         env: {
           zone: process.env.BUNNY_STORAGE_ZONE ? "present" : "missing",
@@ -107,10 +100,6 @@ serviceGalleryRouter.get('/', async (req, res) => {
       })
       .map((file: any) => {
         const ext = file.ObjectName.split('.').pop()?.toLowerCase();
-        // Construct the public CDN URL properly
-        // Encode each path segment correctly, or just use encodeURIComponent on the filename
-        const encodedName = encodeURIComponent(file.ObjectName).replace(/%20/g, '+');
-        // Actually, bunny prefers standard url encoding. We'll use encodeURI on the whole path or encodeURIComponent on the filename
         const url = `${CDN_BASE_URL}/${storagePath}/${encodeURIComponent(file.ObjectName).replace(/%20/g, '%20')}`;
         
         return {
@@ -119,27 +108,22 @@ serviceGalleryRouter.get('/', async (req, res) => {
           extension: ext
         };
       })
-      // Natural sort by filename
       .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
 
     if (heicCount > 0) {
       console.debug(`Skipped ${heicCount} HEIC/HEIF files in ${storagePath}`);
     }
 
-    const result = {
-      id: subcategory,
+    // Set Cache-Control header for Vercel edge/CDN cache (e.g. 15 minutes)
+    res.setHeader('Cache-Control', 's-maxage=900, stale-while-revalidate=300');
+
+    res.status(200).json({
+      id: galleryId,
       count: images.length,
       images: images
-    };
-
-    cache.set(subcategory, {
-      data: result,
-      timestamp: Date.now()
     });
-
-    res.json(result);
   } catch (err) {
-    console.error("Error in service-gallery API:", err);
+    console.error("Error in service-gallery Vercel API:", err);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+}
