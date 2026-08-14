@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2, LayoutGrid, Pointer} from 'lucide-react';
 import { SectionComponentProps } from '../../types';
 import { animationRegistry } from '../../lib/animations';
 import { useLanguage } from '../../context/LanguageContext';
+import PortfolioGrid from '../gallery/PortfolioGrid';
 
 
 // Gallery Modal Component
@@ -422,7 +423,16 @@ export default function Services({ id, theme, className = '' }: SectionComponent
       </div>
     
       <AnimatePresence>
-        {selectedCategory && (
+        {selectedCategory && selectedCategory.activeSubService && (
+          <PortfolioGrid
+            isOpen={true}
+            onClose={() => setSelectedCategory(null)}
+            categoryTitle={isRtl ? selectedCategory.arTitle : selectedCategory.enTitle}
+            subService={selectedCategory.activeSubService}
+            isRtl={isRtl}
+          />
+        )}
+        {selectedCategory && !selectedCategory.activeSubService && (
           <GalleryModal 
             isOpen={!!selectedCategory} 
             onClose={() => setSelectedCategory(null)} 
