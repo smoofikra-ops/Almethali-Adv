@@ -44,7 +44,8 @@ export default function PortfolioGrid({
         setLoading(false);
         setError(false);
       } else {
-        setError(true);
+        setImages([]);
+        setError(false);
         setLoading(false);
       }
       return;
@@ -82,6 +83,14 @@ export default function PortfolioGrid({
   };
 
   useEffect(() => {
+    const handleHashChange = () => {
+      onClose();
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [onClose]);
+
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       fetchImages();
@@ -93,6 +102,16 @@ export default function PortfolioGrid({
       document.body.style.overflow = '';
     };
   }, [isOpen, subService]);
+
+  const handleReturnToServices = () => {
+    onClose();
+    window.location.hash = '#services';
+  };
+
+  const handleReturnHome = () => {
+    onClose();
+    window.location.hash = '#home';
+  };
 
   if (!isOpen) return null;
 
@@ -143,23 +162,58 @@ export default function PortfolioGrid({
                 <h3 className="text-xl font-bold text-text-primary mb-2">
                   {isRtl ? "عذرًا" : "Oops"}
                 </h3>
-                <p className="text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed mb-6">
                   {isRtl 
                     ? "تعذر تحميل معرض الأعمال حاليًا. حاول مرة أخرى بعد قليل." 
                     : "The gallery could not be loaded right now. Please try again shortly."}
                 </p>
               </div>
-              <button
-                onClick={fetchImages}
-                className="flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-deep transition-colors"
-              >
-                <RefreshCcw className="w-4 h-4" />
-                {isRtl ? "إعادة المحاولة" : "Try Again"}
-              </button>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <button
+                  onClick={fetchImages}
+                  className="flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-deep transition-colors"
+                >
+                  <RefreshCcw className="w-4 h-4" />
+                  {isRtl ? "إعادة المحاولة" : "Try Again"}
+                </button>
+                <button
+                  onClick={handleReturnToServices}
+                  className="px-6 py-3 bg-surface text-text-primary rounded-xl font-medium hover:bg-surface-elevated transition-colors border border-border"
+                >
+                  {isRtl ? "العودة إلى الخدمات" : "Back to Services"}
+                </button>
+                <button
+                  onClick={handleReturnHome}
+                  className="px-6 py-3 text-text-secondary hover:text-text-primary transition-colors font-medium"
+                >
+                  {isRtl ? "الرئيسية" : "Home"}
+                </button>
+              </div>
             </div>
           ) : images.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[50vh] text-text-secondary">
-              <p>{isRtl ? "لا توجد أعمال لعرضها حاليًا." : "No portfolio items to display right now."}</p>
+            <div className="flex flex-col items-center justify-center h-[50vh] text-text-secondary gap-6 text-center max-w-md mx-auto">
+              <div className="w-16 h-16 rounded-full bg-surface-elevated flex items-center justify-center text-text-secondary">
+                <X className="w-8 h-8 opacity-50" />
+              </div>
+              <div>
+                <p className="text-lg leading-relaxed mb-6 font-medium text-text-primary">
+                  {isRtl ? "سيتم إضافة نماذج من أعمال هذا القسم قريبًا." : "Portfolio examples for this service will be added soon."}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <button
+                  onClick={handleReturnToServices}
+                  className="px-6 py-3 bg-accent text-white rounded-xl font-medium hover:bg-accent-deep transition-colors"
+                >
+                  {isRtl ? "العودة إلى الخدمات" : "Back to Services"}
+                </button>
+                <button
+                  onClick={handleReturnHome}
+                  className="px-6 py-3 text-text-secondary hover:text-text-primary transition-colors font-medium border border-transparent hover:border-border rounded-xl"
+                >
+                  {isRtl ? "الرئيسية" : "Home"}
+                </button>
+              </div>
             </div>
           ) : (
             <motion.div 

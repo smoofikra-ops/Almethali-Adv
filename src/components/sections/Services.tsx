@@ -269,6 +269,15 @@ export default function Services({ id, theme, className = '' }: SectionComponent
   const bgClass = isCorporate ? 'bg-primary text-primary-foreground' : 'bg-transparent text-text-primary';
   const titleClass = isCorporate ? 'text-white' : 'text-primary';
   const [selectedCategory, setSelectedCategory] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      setSelectedCategory(null);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const descClass = isCorporate ? 'text-primary-foreground/80' : 'text-text-secondary';
 
   return (
