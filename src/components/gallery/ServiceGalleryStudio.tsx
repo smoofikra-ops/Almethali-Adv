@@ -224,7 +224,7 @@ export default function ServiceGalleryStudio({
               <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                 <X className="w-8 h-8 opacity-50" />
               </div>
-              <p>{isRtl ? "لا توجد صور لعرضها" : "No images to display"}</p>
+              <p>{isRtl ? "سيتم إضافة نماذج من أعمال هذا القسم قريبًا." : "Samples of this section's work will be added soon."}</p>
             </div>
           ) : (
             <div className="relative w-full h-full flex items-center justify-center">
