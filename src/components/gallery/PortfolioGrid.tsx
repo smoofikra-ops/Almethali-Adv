@@ -61,6 +61,17 @@ export default function PortfolioGrid({
       // Prioritize the known IDs for fetching, else fall back to gallery array
       const response = await fetch(`/api/service-gallery?id=${subService.id}`);
       if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        if (errData.error === "Storage configuration error") {
+          // Graceful fallback for local dev without API key
+          console.warn('Storage API key missing, falling back to static gallery or empty state');
+          if (subService.gallery && subService.gallery.length > 0) {
+            setImages(subService.gallery);
+          } else {
+            setImages([]);
+          }
+          return;
+        }
         throw new Error('Failed to fetch gallery metadata');
       }
       const data = await response.json();
@@ -73,7 +84,7 @@ export default function PortfolioGrid({
         setImages([]); // Empty
       }
     } catch (err) {
-      console.error('PortfolioGrid fetch error:', err);
+      console.warn('PortfolioGrid fetch warning:', err);
       // Fallback
       if (subService.gallery && subService.gallery.length > 0) {
         setImages(subService.gallery);

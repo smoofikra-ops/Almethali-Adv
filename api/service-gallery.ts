@@ -120,7 +120,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const REGION = process.env.BUNNY_STORAGE_REGION || "";
     
     if (!API_KEY) {
-      console.error("Missing BUNNY_STORAGE_API_KEY");
+      console.warn("Missing BUNNY_STORAGE_API_KEY");
       return res.status(500).json({
         error: "Storage configuration error",
         galleryId: galleryId,

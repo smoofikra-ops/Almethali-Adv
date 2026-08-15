@@ -33,7 +33,7 @@ export const servicesConfig = {
       enTitle: "Advertising Signage",
       arDesc: "لوحات إعلانية وشاشات عرض رقمية مصممة بأحدث التقنيات لجذب الانتباه في جميع الأوقات.",
       enDesc: "Billboards and digital displays designed with the latest technologies to attract attention at all times.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Outdoor_Signage_kbzm4z.png",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Outdoor%20Signage.png",
       altTextAr: "اللوحات الإعلانية",
       altTextEn: "Advertising Signage",
       internalServices: [
@@ -150,7 +150,7 @@ export const servicesConfig = {
       enTitle: "Events & Conferences",
       arDesc: "تصميم وتنفيذ متكامل للفعاليات والمؤتمرات لخلق تجربة فريدة لا تُنسى لزوارك.",
       enDesc: "Complete design and execution for events and conferences to create a unique and unforgettable experience for your visitors.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974204/Events_Conferences_jcex2w.webp",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Events%20%26%20Conferences.webp",
       altTextAr: "الفعاليات والمؤتمرات",
       altTextEn: "Events & Conferences",
       internalServices: [
@@ -169,7 +169,7 @@ export const servicesConfig = {
       enTitle: "Exhibitions & Booths",
       arDesc: "تصميم وتنفيذ متكامل لأجنحة المعارض والأكشاك لخلق تجربة فريدة.",
       enDesc: "Complete design and execution for exhibition stands and booths to create a unique experience.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Exhibition_Stands_Kiosks_qde6rw.jpg",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Exhibition%20Stands%20%26%20Kiosks.jpg",
       altTextAr: "المعارض والأكشاك",
       altTextEn: "Exhibitions & Booths",
       internalServices: [
@@ -188,7 +188,7 @@ export const servicesConfig = {
       enTitle: "Digital Printing & Production",
       arDesc: "حلول طباعة رقمية متقدمة وتصنيع عالي الجودة.",
       enDesc: "Advanced digital printing and high-quality production solutions.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974204/Digital_Printing_Execution_xkx3df.png",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Digital%20Printing%20%26%20Execution.png",
       altTextAr: "الطباعة الرقمية والتنفيذ",
       altTextEn: "Digital Printing & Production",
       internalServices: [
@@ -214,7 +214,7 @@ export const servicesConfig = {
       enTitle: "Display Stands",
       arDesc: "استندات عرض مبتكرة تعزز احترافية علامتك وتقدم منتجاتك بأبهى صورة.",
       enDesc: "Innovative display stands that enhance the professionalism of your brand and present your products perfectly.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974205/Display_Stands_Display_Solutions_btjbf6.png",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Display%20Stands%20%26%20Display%20Solutions.png",
       altTextAr: "الاستاندات ووسائل العرض",
       altTextEn: "Display Stands",
       internalServices: [
@@ -236,7 +236,7 @@ export const servicesConfig = {
       enTitle: "Promotional Gifts",
       arDesc: "هدايا ودروع تذكارية مخصصة تعكس هويتك وتترك أثرًا إيجابيًا ومستدامًا لدى عملائك.",
       enDesc: "Customized promotional gifts and awards that reflect your identity and leave a lasting positive impression on your clients.",
-      coverImage: "https://res.cloudinary.com/e0zb5lw9/image/upload/v1785974206/Promotional_Gifts_e61zqy.jpg",
+      coverImage: "https://nmolabs-cdn.b-cdn.net/almithali-assets/02-website/Service-cardcovers/Promotional%20Gifts.jpeg",
       altTextAr: "الهدايا الدعائية",
       altTextEn: "Promotional Gifts",
       internalServices: [
