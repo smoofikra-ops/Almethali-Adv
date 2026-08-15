@@ -213,24 +213,10 @@ function GalleryModal({ isOpen, onClose, category, isRtl, t }: any) {
                 <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-6">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                 </div>
-                <h4 className="text-xl font-bold mb-4">{isRtl ? 'مطلوب إعداد ربط مع Google Drive' : 'Google Drive API Integration Required'}</h4>
-                <p className="text-white/70 mb-4 leading-relaxed">
-                  {isRtl 
-                    ? `لعرض الصور الخاصة بخدمة "${title}" مباشرة، يجب إعداد أداة ربط (Media Adapter) لقراءة الملفات من المجلد.`
-                    : `To display images for "${title}", a Media Adapter must be configured to read files from the folder.`
-                  }
-                </p>
-                <p className="text-white/50 text-xs font-mono mb-8 p-3 bg-white/5 rounded-lg border border-white/10 break-all">
-                  Folder ID: {category.activeSubService?.folderId}
-                </p>
-                <a 
-                  href={category.activeSubService?.driveUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent-deep transition-colors"
-                >
-                  {isRtl ? 'عرض المجلد في Google Drive مؤقتاً' : 'View Folder in Google Drive Temporarily'}
-                </a>
+
+
+
+                
               </div>
             )}
           </div>
@@ -411,23 +397,17 @@ export default function Services({ id, theme, className = '' }: SectionComponent
                       )}
                     </div>
                     
-                    <a 
-                                                                  href={
-                        category.id === 'advertising-signage' ? 'https://drive.google.com/drive/folders/1AsmFYrqHyZE1NcbVAZBIjMNypMSgwRjS?usp=sharing' :
-                        category.id === 'digital-printing-production' ? 'https://drive.google.com/drive/folders/1uWnmw4dTDJZOpxpCeF3uD0I2F0vEKPaV?usp=sharing' :
-                        category.id === 'events-conferences' ? 'https://drive.google.com/drive/folders/1ew2w_G32rjaRihaKk76BOIfrlhszJkAd?usp=sharing' :
-                        category.id === 'exhibitions-booths' ? 'https://drive.google.com/drive/folders/1XOJeMosCeQjr42ruTLGKPPe24Km9A0E5?usp=sharing' :
-                        category.id === 'display-stands' ? 'https://drive.google.com/drive/folders/1dW9H6DK_pA0qMGOW3xVSgvufD92rURUH?usp=sharing' :
-                        category.id === 'promotional-gifts' ? 'https://drive.google.com/drive/folders/12qxT1XGQmsFd5ydi7RlWS6G_de_TOkC6?usp=sharing' :
-                        '#portfolio'
-                      }
-                      target={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? '_blank' : undefined}
-                      rel={['advertising-signage', 'digital-printing-production', 'events-conferences', 'exhibitions-booths', 'display-stands', 'promotional-gifts'].includes(category.id) ? 'noopener noreferrer' : undefined}
-                      className="w-full bg-accent text-accent-foreground px-1.5 py-1.5 sm:px-2 sm:py-2 md:px-6 md:py-3 rounded-md md:rounded-xl font-bold text-[9px] sm:text-[10px] md:text-sm hover:bg-accent-deep transition-colors flex items-center justify-center gap-1 lg:gap-2 mt-auto shrink-0 shadow-sm hover:shadow-md"
-                    >
-                      {ctaText}
-                      <ArrowLeft className={`w-2.5 h-2.5 sm:w-3 sm:h-3 lg:w-4 lg:h-4 ${!isRtl ? 'rotate-180' : ''}`} />
-                    </a>
+                    <div className="w-full bg-surface-elevated/50 border border-border text-text-secondary px-1.5 py-2 sm:px-2 sm:py-2 md:px-4 md:py-3 rounded-md md:rounded-xl font-medium text-[9px] sm:text-[10px] md:text-sm flex items-center justify-center gap-2 mt-auto shrink-0 pointer-events-none">
+                      <motion.div
+                        animate={{ y: [0, -3, 0] }}
+                        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                        className="text-accent"
+                        aria-hidden="true"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 sm:w-4 sm:h-4"><path d="m18 15-6-6-6 6"/></svg>
+                      </motion.div>
+                      <span>{isRtl ? 'الرجاء اختيار القسم المطلوب' : 'Please select a service above'}</span>
+                    </div>
                   </div>
                   
                 </div>
