@@ -252,14 +252,24 @@ export default function PortfolioGrid({
                       }}
                       className="group relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden bg-surface-dark cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300"
                       onClick={() => setSelectedImageIndex(idx)}
+                      onContextMenu={(e) => e.preventDefault()}
                     >
                       <img
                         src={url}
                         alt={`${subTitle} - ${idx + 1}`}
                         loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none"
+                        style={{ WebkitUserSelect: 'none', userSelect: 'none' }}
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-20 overflow-hidden opacity-[0.35]">
+                        <div className="flex flex-col items-center justify-center -rotate-12 scale-110">
+                          <span className="text-white font-display font-bold text-sm sm:text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] whitespace-nowrap select-none">المثالي للدعاية والإعلان</span>
+                          <span className="text-white/90 font-display font-medium text-[10px] sm:text-[11px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-widest whitespace-nowrap mt-1 select-none" dir="ltr">almethaliadv.com</span>
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-30 pointer-events-none" />
                     </motion.div>
                   ))}
                 </motion.div>

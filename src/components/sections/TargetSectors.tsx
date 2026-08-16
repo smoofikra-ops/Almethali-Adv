@@ -43,10 +43,10 @@ export default function TargetSectors({ id, theme, className = '' }: SectionComp
                 {/* Extra overlay so text is readable if the gradient gets intense */}
                 <div className="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-transparent flex items-center justify-center text-accent group-hover:scale-110 group-hover:bg-accent/30 group-hover:text-text-primary transition-all duration-300 border border-accent/10 shadow-inner relative z-10">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-transparent flex items-center justify-center group-hover:scale-110 group-hover:bg-accent/30 transition-all duration-300 border border-accent/10 shadow-inner relative z-10" style={{ color: '#ffffff' }}>
                   <Icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
-                <span className="font-display font-bold text-sm md:text-base text-text-primary text-center drop-shadow-sm group-hover:text-text-primary relative z-10 transition-colors duration-300">
+                <span className="font-display font-bold text-sm md:text-base text-center drop-shadow-sm relative z-10 transition-colors duration-300" style={{ color: '#ffffff' }}>
                   {isRtl ? sector.title : sector.titleEn}
                 </span>
               </motion.div>

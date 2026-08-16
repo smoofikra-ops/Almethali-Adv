@@ -262,9 +262,17 @@ export default function ServiceGalleryStudio({
                   <img 
                     src={images[currentIndex]}
                     alt={`${subTitle} - Image ${currentIndex + 1}`}
-                    className={`max-w-full max-h-full object-contain drop-shadow-2xl rounded-lg border border-white/10 transition-opacity duration-300 ${loadedImages.has(currentIndex) ? 'opacity-100' : 'opacity-0'}`}
-                    draggable="false"
+                    className={`max-w-full max-h-full object-contain drop-shadow-2xl rounded-lg border border-white/10 transition-opacity duration-300 select-none ${loadedImages.has(currentIndex) ? 'opacity-100' : 'opacity-0'}`}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{ WebkitUserSelect: 'none', userSelect: 'none' }}
                   />
+                  <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-20 overflow-hidden opacity-[0.4]">
+                    <div className="flex flex-col items-center justify-center -rotate-[15deg] scale-150">
+                      <span className="text-white font-display font-bold text-2xl sm:text-3xl md:text-4xl drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] whitespace-nowrap select-none">المثالي للدعاية والإعلان</span>
+                      <span className="text-white/90 font-display font-medium text-sm sm:text-base md:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] tracking-[0.2em] whitespace-nowrap mt-2 select-none" dir="ltr">almethaliadv.com</span>
+                    </div>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
