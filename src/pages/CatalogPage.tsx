@@ -126,7 +126,7 @@ export default function CatalogPage() {
         <meta property="og:description" content={content.subtitle} />
         <meta property="og:type" content="website" />
         <meta property="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={`https://almthali.com${isRtl ? '/#/catalog' : '/#/en/catalog'}`} />
+        <link rel="canonical" href={`https://almethaliadv.com${isRtl ? '/#/catalog' : '/#/en/catalog'}`} />
       </Helmet>
 
       {/* Decorative Background Elements */}

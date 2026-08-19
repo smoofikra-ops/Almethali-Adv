@@ -1,18 +1,11 @@
-<!doctype html>
-<html lang="ar" dir="rtl" data-theme="light">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YNJPN7CCM5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-YNJPN7CCM5');
-    </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="6W1NUlfqcIArG2sz1kpFrTC_6Rw_LlmsvV_ShK34A7o" />
-    
+const fs = require('fs');
+
+// Patch index.html
+let html = fs.readFileSync('index.html', 'utf8');
+
+const headEndIndex = html.indexOf('</head>');
+
+const seoTags = `
     <title>المثالي للدعاية والإعلان | لوحات، طباعة، معارض وفعاليات</title>
     <meta name="description" content="المثالي للدعاية والإعلان يقدم حلول اللوحات الإعلانية، الطباعة الرقمية، تجهيز المعارض والأكشاك، الفعاليات والمؤتمرات، الاستاندات والهدايا الدعائية باحترافية وجودة عالية." />
     <link rel="canonical" href="https://almethaliadv.com/" />
@@ -50,9 +43,36 @@
       ]
     }
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+`;
+
+html = html.replace('<title>My Google AI Studio App</title>', '');
+html = html.slice(0, headEndIndex) + seoTags + html.slice(headEndIndex);
+fs.writeFileSync('index.html', html);
+console.log('index.html patched');
+
+// Patch App.tsx
+let appCode = fs.readFileSync('src/App.tsx', 'utf8');
+appCode = appCode.replace(
+  '<link rel="canonical" href="https://almthali.com" />',
+  '<link rel="canonical" href="https://almethaliadv.com/" />'
+);
+appCode = appCode.replace(
+  '<title>{contactConfig.tradeNameAr} | شريكك الإستراتيجي</title>',
+  '<title>المثالي للدعاية والإعلان | لوحات، طباعة، معارض وفعاليات</title>'
+);
+appCode = appCode.replace(
+  '<meta name="description" content={contactConfig.description} />',
+  '<meta name="description" content="المثالي للدعاية والإعلان يقدم حلول اللوحات الإعلانية، الطباعة الرقمية، تجهيز المعارض والأكشاك، الفعاليات والمؤتمرات، الاستاندات والهدايا الدعائية باحترافية وجودة عالية." />'
+);
+fs.writeFileSync('src/App.tsx', appCode);
+console.log('App.tsx patched');
+
+// Patch CatalogPage.tsx
+let catalogCode = fs.readFileSync('src/pages/CatalogPage.tsx', 'utf8');
+catalogCode = catalogCode.replace(
+  '<link rel="canonical" href={`https://almthali.com${isRtl ? \'/#/catalog\' : \'/#/en/catalog\'}`} />',
+  '<link rel="canonical" href={`https://almethaliadv.com${isRtl ? \'/#/catalog\' : \'/#/en/catalog\'}`} />'
+);
+fs.writeFileSync('src/pages/CatalogPage.tsx', catalogCode);
+console.log('CatalogPage.tsx patched');
+

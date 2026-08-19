@@ -56,9 +56,9 @@ export default function App() {
   return (
     <div className="text-text-primary min-h-screen font-sans transition-colors duration-300 flex flex-col">
       <Helmet>
-        <title>{contactConfig.tradeNameAr} | شريكك الإستراتيجي</title>
-        <meta name="description" content={contactConfig.description} />
-        <link rel="canonical" href="https://almthali.com" />
+        <title>المثالي للدعاية والإعلان | لوحات، طباعة، معارض وفعاليات</title>
+        <meta name="description" content="المثالي للدعاية والإعلان يقدم حلول اللوحات الإعلانية، الطباعة الرقمية، تجهيز المعارض والأكشاك، الفعاليات والمؤتمرات، الاستاندات والهدايا الدعائية باحترافية وجودة عالية." />
+        <link rel="canonical" href="https://almethaliadv.com/" />
       </Helmet>
       
       <CinematicBackground />
