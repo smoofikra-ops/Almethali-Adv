@@ -56,7 +56,7 @@ export default function Header() {
           <div className="flex items-center justify-start">
             <a href="/" className="flex items-center transition-opacity hover:opacity-80">
               {logoSrc ? (
-                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="h-10 w-auto object-contain" />
+                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="object-contain" style={{ width: "108.8906px", height: "58px", paddingRight: "-1px", paddingLeft: "0px", paddingBottom: "0px", paddingTop: "0px", marginRight: "1px", marginLeft: "-2px", marginBottom: "0px", borderRadius: "7px", borderWidth: "-6px" }} />
               ) : (
                  <div className="flex items-center gap-2">
                    <div className="w-8 h-8 bg-surface-elevated/20 border border-border rounded-lg flex items-center justify-center font-display font-bold text-lg text-text-primary shadow-sm">م</div>
@@ -112,7 +112,7 @@ export default function Header() {
           <div className="flex-1 flex justify-center">
             <a href="/" className="flex items-center transition-opacity hover:opacity-80">
               {logoSrc ? (
-                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="h-8 w-auto object-contain" />
+                 <img src={logoSrc} alt={contactConfig.tradeNameAr} className="object-contain" style={{ width: "108.8906px", height: "58px", paddingRight: "-1px", paddingLeft: "0px", paddingBottom: "0px", paddingTop: "0px", marginRight: "1px", marginLeft: "-2px", marginBottom: "0px", borderRadius: "7px", borderWidth: "-6px" }} />
               ) : (
                  <div className="w-8 h-8 bg-surface-elevated/20 border border-border rounded-md flex items-center justify-center font-display font-bold text-lg text-text-primary shadow-sm">م</div>
               )}
