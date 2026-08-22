@@ -28,7 +28,10 @@ export default function TargetSectors({ id, theme, className = '' }: SectionComp
       className={`py-16 bg-transparent border-y border-border/20 ${className}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <motion.p variants={animationRegistry.fadeUp} className="text-sm font-bold text-text-primary/50 uppercase tracking-widest mb-12">
+        <motion.p 
+          variants={animationRegistry.fadeUp} 
+          className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-text-primary mb-10 md:mb-12 tracking-normal drop-shadow-sm"
+        >
           {isRtl ? 'نخدم الجميع بلا استثناء' : 'WE SERVE EVERYONE WITHOUT EXCEPTION'}
         </motion.p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
