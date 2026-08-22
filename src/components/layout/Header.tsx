@@ -33,11 +33,11 @@ export default function Header() {
   const logoSrc = theme === 'dark' ? images.brand.logoHeaderDark : images.brand.logoHeaderLight;
 
   const navItems = [
-    { id: 'hero', ar: 'الرئيسية', en: 'Home' },
-    { id: 'about', ar: 'من نحن', en: 'About' },
-    { id: 'services', ar: 'خدماتنا', en: 'Services' },
-    { id: 'portfolio', ar: 'مشاريعنا', en: 'Projects' },
-    { id: 'contact', ar: 'تواصل معنا', en: 'Contact' },
+    { id: 'hero', href: '#hero', ar: 'الرئيسية', en: 'Home' },
+    { id: 'about', href: '#about', ar: 'من نحن', en: 'About' },
+    { id: 'services', href: '#services', ar: 'خدماتنا', en: 'Services' },
+    { id: 'portfolio', href: '#services', ar: 'مشاريعنا', en: 'Projects' },
+    { id: 'contact', href: '#contact', ar: 'تواصل معنا', en: 'Contact' },
   ];
 
   return (
@@ -71,7 +71,7 @@ export default function Header() {
             {navItems.map((item) => (
               <a 
                 key={item.id}
-                href={`#${item.id}`} 
+                href={item.href} 
                 className="group relative text-sm font-bold text-text-secondary hover:text-accent transition-colors px-4 py-2 rounded-full hover:bg-surface-elevated/30 whitespace-nowrap"
               >
                 <span className="relative z-10">{isRtl ? item.ar : item.en}</span>
@@ -134,7 +134,7 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border px-4 pt-2 pb-6 space-y-2 absolute w-full left-0 top-full shadow-2xl">
           {navItems.map((item) => (
-            <a key={item.id} onClick={() => setIsMobileMenuOpen(false)} href={`#${item.id}`} className="block px-4 py-3 rounded-xl text-base font-bold text-text-secondary hover:bg-surface-elevated/20 hover:text-text-primary">
+            <a key={item.id} onClick={() => setIsMobileMenuOpen(false)} href={item.href} className="block px-4 py-3 rounded-xl text-base font-bold text-text-secondary hover:bg-surface-elevated/20 hover:text-text-primary">
               {isRtl ? item.ar : item.en}
             </a>
           ))}

@@ -54,7 +54,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative z-10 text-white/80 bg-corporate-navy border-t border-brand-teal-deep">
+    <footer id="contact" className="relative z-10 text-white/80 bg-corporate-navy border-t border-brand-teal-deep">
       <div className="absolute inset-0 bg-corporate-navy/90 backdrop-blur-lg z-0"></div>
       <div className="pt-16 pb-10 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -63,18 +63,20 @@ export default function Footer() {
             {/* Brand Col */}
             <div className="lg:col-span-4 md:col-span-2">
               <div className="mb-6 flex items-center justify-start">
-                {images.brand.logoFooter ? (
-                 <img src={images.brand.logoFooter} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
-              ) : (
-                   <div className="flex items-center gap-2">
-                     <div className="w-10 h-10 bg-brand-teal-deep/30 border border-brand-teal-deep/50 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">
-                       {isRtl ? "م" : "M"}
+                <a href="/#hero" className="inline-block transition-opacity hover:opacity-80">
+                  {images.brand.logoFooter ? (
+                   <img src={images.brand.logoFooter} alt={contactConfig.tradeNameAr} className="w-[180px] md:w-[220px] h-auto object-contain" />
+                ) : (
+                     <div className="flex items-center gap-2">
+                       <div className="w-10 h-10 bg-brand-teal-deep/30 border border-brand-teal-deep/50 rounded-lg flex items-center justify-center font-display font-bold text-xl text-white shadow-sm">
+                         {isRtl ? "م" : "M"}
+                       </div>
+                       <span className="text-2xl font-display font-bold text-white">
+                         {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}
+                       </span>
                      </div>
-                     <span className="text-2xl font-display font-bold text-white">
-                       {isRtl ? contactConfig.tradeNameAr : contactConfig.tradeNameEn}
-                     </span>
-                   </div>
-                )}
+                  )}
+                </a>
               </div>
               <p className="text-sm leading-relaxed mb-6 text-white/80">
                 {isRtl ? contactConfig.description : contactConfig.descriptionEn || "Integrated advertising solutions."}
@@ -122,9 +124,9 @@ export default function Footer() {
                 <ul className="space-y-3 pt-2 md:pt-0">
                   <li><a href="#about" className="hover:text-brand-cyan transition-colors text-sm">{t.nav.about}</a></li>
                   <li><a href="#services" className="hover:text-brand-cyan transition-colors text-sm">{t.nav.services}</a></li>
-                  <li><a href="#portfolio" className="hover:text-brand-cyan transition-colors text-sm">{t.nav.portfolio}</a></li>
+                  <li><a href="#services" className="hover:text-brand-cyan transition-colors text-sm">{t.nav.portfolio}</a></li>
                   <li><a href="#quote" className="hover:text-brand-cyan transition-colors text-sm">{t.nav.quote}</a></li>
-                  <li><a href="#careers" className="hover:text-brand-teal-soft transition-colors text-sm font-bold">{t.nav.careers}</a></li>
+                  <li><a href="#/catalog" className="hover:text-brand-cyan transition-colors text-sm">{isRtl ? 'كتالوج المثالي' : 'Catalog'}</a></li>
                 </ul>
               </FooterAccordion>
             </div>
@@ -165,7 +167,7 @@ export default function Footer() {
             </div>
 
             {/* Contact Col */}
-            <div className="lg:col-span-2">
+            <div id="footer-contact" className="lg:col-span-2">
               <FooterAccordion 
                 title={t.footer.contact} 
                 isOpen={openAccordion === 'contact'}

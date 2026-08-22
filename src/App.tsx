@@ -16,15 +16,26 @@ export default function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setCurrentHash(window.location.hash);
+      const hash = window.location.hash;
+      setCurrentHash(hash);
       
       // Scroll to top when navigating to standalone pages
       if (
-        window.location.hash === '#/catalog' || 
-        window.location.hash === '#/en/catalog' || 
-        window.location.hash.startsWith('#/policies/')
+        hash === '#/catalog' || 
+        hash === '#/en/catalog' || 
+        hash.startsWith('#/policies/')
       ) {
         window.scrollTo(0, 0);
+      } else if (hash && hash.startsWith('#') && !hash.startsWith('#/')) {
+        const targetId = hash.replace('#', '');
+        if (targetId) {
+          setTimeout(() => {
+            const el = document.getElementById(targetId);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 80);
+        }
       }
     };
 

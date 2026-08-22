@@ -329,6 +329,7 @@ export default function Services({ id, theme, className = '' }: SectionComponent
             return (
               <motion.div 
                 key={category.id} 
+                id={`service-${category.id}`}
                 variants={animationRegistry.fadeUp} 
                 className={`group perspective-[2000px] aspect-[4/5] md:aspect-auto md:h-[350px] lg:h-[450px] transition-transform duration-500 hover:-translate-y-2 w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-black rounded-2xl md:rounded-3xl ${gridPlacementClass}`}
                 tabIndex={0}
